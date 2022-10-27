@@ -58,7 +58,7 @@ public class CreateResourceSubmodel {
 		// set coordinates as a static Property
 		resource1.location = Arrays.asList((float) 10, (float) 10);
 		Property coordinateProperty = new Property("coordinates", resource1.location.toString());
-		coordinateProperty.setKind(ModelingKind.TEMPLATE);
+		coordinateProperty.setModelingKind(ModelingKind.TEMPLATE);
 		resource1Submodel.addSubmodelElement(coordinateProperty);
 
 		// set a reference property to show dependencies
@@ -120,7 +120,7 @@ public class CreateResourceSubmodel {
 		Operation perform_processOperation = new Operation(perform_processFunction);
 		perform_processOperation.setIdShort("perform_process");
 		Property start = new Property("start_input", 0);
-		start.setKind(ModelingKind.TEMPLATE);
+		start.setModelingKind(ModelingKind.TEMPLATE);
 		perform_processOperation.setInputVariables(Collections.singletonList(new OperationVariable(start)));
 		resource1Submodel.addSubmodelElement(perform_processOperation);
 
@@ -149,7 +149,7 @@ public class CreateResourceSubmodel {
 		Operation stop_processOperation = new Operation(stop_processFunction);
 		stop_processOperation.setIdShort("stop_process");
 		Property stop = new Property("stop_input", 1);
-		stop.setKind(ModelingKind.TEMPLATE);
+		stop.setModelingKind(ModelingKind.TEMPLATE);
 		stop_processOperation.setInputVariables(Collections.singletonList(new OperationVariable(stop)));
 		resource1Submodel.addSubmodelElement(stop_processOperation);
 
@@ -169,7 +169,7 @@ public class CreateResourceSubmodel {
 		Operation get_available_processOperation = new Operation(get_available_processFunction);
 		get_available_processOperation.setIdShort("get_available_processes");
 		Property av_input = new Property("available_input", 1);
-		av_input.setKind(ModelingKind.TEMPLATE);
+		av_input.setModelingKind(ModelingKind.TEMPLATE);
 		get_available_processOperation.setInputVariables(Collections.singletonList(new OperationVariable(av_input)));
 		resource1Submodel.addSubmodelElement(get_available_processOperation);
 
@@ -196,7 +196,7 @@ public class CreateResourceSubmodel {
 		resource2.location = Arrays.asList((float) 20, (float) 10);
 		Property coordinateProperty = new Property("coordinates", resource2.location.toString());
 		resource2Submodel.addSubmodelElement(coordinateProperty);
-		coordinateProperty.setKind(ModelingKind.TEMPLATE);
+		coordinateProperty.setModelingKind(ModelingKind.TEMPLATE);
 
 		// set the capacity as a static Property
 		resource2.capacity = 4;
@@ -248,7 +248,7 @@ public class CreateResourceSubmodel {
 		Operation perform_processOperation = new Operation(perform_processFunction);
 		perform_processOperation.setIdShort("perform_process");
 		Property start_input = new Property("start_input", 0);
-		start_input.setKind(ModelingKind.TEMPLATE);
+		start_input.setModelingKind(ModelingKind.TEMPLATE);
 		perform_processOperation.setInputVariables(Collections.singletonList(new OperationVariable(start_input)));
 		resource2Submodel.addSubmodelElement(perform_processOperation);
 
@@ -277,7 +277,7 @@ public class CreateResourceSubmodel {
 		Operation stop_processOperation = new Operation(stop_processFunction);
 		stop_processOperation.setIdShort("stop_process");
 		Property stop = new Property("stop_input", 1);
-		stop.setKind(ModelingKind.TEMPLATE);
+		stop.setModelingKind(ModelingKind.TEMPLATE);
 		stop_processOperation.setInputVariables(Collections.singletonList(new OperationVariable(stop)));
 		resource2Submodel.addSubmodelElement(stop_processOperation);
 
@@ -296,7 +296,7 @@ public class CreateResourceSubmodel {
 		Operation get_available_processOperation = new Operation(get_available_processFunction);
 		get_available_processOperation.setIdShort("get_available_processes");
 		Property av_input = new Property("available_input", 1);
-		av_input.setKind(ModelingKind.TEMPLATE);
+		av_input.setModelingKind(ModelingKind.TEMPLATE);
 		get_available_processOperation.setInputVariables(Collections.singletonList(new OperationVariable(av_input)));
 		resource2Submodel.addSubmodelElement(get_available_processOperation);
 
@@ -331,7 +331,7 @@ public class CreateResourceSubmodel {
 		Operation get_data_for_resourceOperation = new Operation(get_data_for_resourceFunction);
 		get_data_for_resourceOperation.setIdShort("get_resource_data");
 		Property data_input = new Property("data_input", 1);
-		data_input.setKind(ModelingKind.TEMPLATE);
+		data_input.setModelingKind(ModelingKind.TEMPLATE);
 		get_data_for_resourceOperation.setInputVariables(Collections.singletonList(new OperationVariable(data_input)));
 		availabilitySubmodel.addSubmodelElement(get_data_for_resourceOperation);
 
@@ -353,7 +353,7 @@ public class CreateResourceSubmodel {
 		Operation get_MTTROperation = new Operation(get_MTTRFunction);
 		get_MTTROperation.setIdShort("get_MTTR");
 		Property MTTR_input = new Property("MTTR_input", 1);
-		MTTR_input.setKind(ModelingKind.TEMPLATE);
+		MTTR_input.setModelingKind(ModelingKind.TEMPLATE);
 		get_MTTROperation.setInputVariables(Collections.singletonList(new OperationVariable(MTTR_input)));
 		availabilitySubmodel.addSubmodelElement(get_MTTROperation);
 
@@ -375,7 +375,7 @@ public class CreateResourceSubmodel {
 		Operation get_MTTFOperation = new Operation(get_MTTFFunction);
 		get_MTTFOperation.setIdShort("get_MTTF");
 		Property MTTF_input = new Property("MTTF_input", 1);
-		MTTF_input.setKind(ModelingKind.TEMPLATE);
+		MTTF_input.setModelingKind(ModelingKind.TEMPLATE);
 		get_MTTFOperation.setInputVariables(Collections.singletonList(new OperationVariable(MTTF_input)));
 		availabilitySubmodel.addSubmodelElement(get_MTTFOperation);
 

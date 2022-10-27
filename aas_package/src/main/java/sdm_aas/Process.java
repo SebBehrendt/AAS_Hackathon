@@ -1,7 +1,7 @@
-package sdm_aas;import java.sql.SQLException;
+package sdm_aas;
+
 import java.util.List;
 
-import org.apache.tomcat.jni.Time;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.qualifier.LangStrings;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
