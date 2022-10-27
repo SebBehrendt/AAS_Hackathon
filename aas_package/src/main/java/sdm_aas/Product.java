@@ -1,4 +1,5 @@
 package sdm_aas;import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServlet;
@@ -25,6 +26,7 @@ import org.eclipse.basyx.vab.protocol.http.server.BaSyxHTTPServer;
 import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 public class Product {
 // required objects for a property
@@ -132,28 +134,38 @@ public class Product {
 		productShell.addSubmodel(product1Submodel);
 		productShell.addSubmodel(order1Submodel);
 
-		// Register the VAB model at the directory
-		AASDescriptor aasDescriptor = new AASDescriptor(productShell, "http://localhost:4001/handson/product/aas");
-
-		// Explicitly create and add submodel descriptors
+		// // Explicitly create and add submodel descriptors
 		SubmodelDescriptor product1SMDescriptor = new SubmodelDescriptor(product1Submodel,
 				"http://localhost:4001/handson/product/aas/submodels/Product1");
 		SubmodelDescriptor order1SMDescriptor = new SubmodelDescriptor(order1Submodel,
 				"http://localhost:4001/handson/product/aas/submodels/Order1");
 
+		// Register the VAB model at the directory
+		AASDescriptor aasDescriptor = new AASDescriptor(productShell, "http://localhost:4001/handson/product/aas");
+
 		aasDescriptor.addSubmodelDescriptor(product1SMDescriptor);
 		aasDescriptor.addSubmodelDescriptor(order1SMDescriptor);
 
+		List<Submodel> listofSubmodels = new ArrayList<>(); 
+		listofSubmodels.add(product1Submodel); 
+		listofSubmodels.add(order1Submodel);
+
 		registry.register(aasDescriptor);
 
-		// Deploy the AAS on a HTTP server
-		BaSyxContext context = new BaSyxContext("/handson", "", "localhost", 4001);
-		context.addServletMapping("/product/*", aasServlet);
-		context.addServletMapping("/registry/*", registryServlet);
-		BaSyxHTTPServer httpServer = new BaSyxHTTPServer(context);
+		PushAAStoServer.pushAAS(productShell, "http://193.196.37.23:4001/aasServer", "http://193.196.37.23:4000/registry/api/v1/registry",listofSubmodels);
 
-		httpServer.start();
-		logger.info("HTTP server started");
+
+
+
+
+		// // Deploy the AAS on a HTTP server
+		// BaSyxContext context = new BaSyxContext("/handson", "", "localhost", 4001);
+		// context.addServletMapping("/product/*", aasServlet);
+		// context.addServletMapping("/registry/*", registryServlet);
+		// BaSyxHTTPServer httpServer = new BaSyxHTTPServer(context);
+
+		// httpServer.start();
+		// logger.info("HTTP server started");
 
 	}
 
