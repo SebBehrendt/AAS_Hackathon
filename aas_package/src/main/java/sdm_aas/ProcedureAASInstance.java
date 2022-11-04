@@ -60,11 +60,18 @@ class ProcedureInstance extends Process{
     }
 }
 
+class ProcessInstance extends Process{
 
-// public void checkProcedureContainsProcess(Process process, ProcedureInstance procedure){
+}
+
+
+// public boolean checkProcedureContainsProcess(Process process, ProcedureInstance procedure){
     
 // }
 
+public ProcedureInstance selectProcedureForProcess(Process process, List<ProcedureInstance> procedure){
+
+}
 
 
 public class ProcedureAASInstance {
