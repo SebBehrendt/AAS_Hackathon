@@ -1,4 +1,5 @@
-package sdm_aas;import java.util.Arrays;
+package sdm_aas;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -78,7 +79,7 @@ public class Entity {
 		entitySubmodel.addSubmodelElement(resources);
 
 		// creates a static property for the produced products
-		Submodel productSubmodel = Product.createProductSubmodel();
+		Submodel productSubmodel = sdm_aas.Product.createProductSubmodel();
 		String idp1 = productSubmodel.getIdShort();
 		entity.produced_products = Arrays.asList(idp1);
 		Property productList = new Property("produced_products", (entity.produced_products).toString());
@@ -86,7 +87,7 @@ public class Entity {
 
 		// creates a static property for the costs of the production which refers to the
 		// costs of the produced products
-		Product product1 = new Product();
+		sdm_aas.Product product1 = new sdm_aas.Product();
 		entity.production_costs = product1.value;
 		Property production_costs = new Property("production_costs", entity.production_costs);
 		entitySubmodel.addSubmodelElement(production_costs);
@@ -105,7 +106,7 @@ public class Entity {
 		Operation create_datajosnOperation = new Operation(createData_json);
 		create_datajosnOperation.setIdShort("create_data.json");
 		Property data_input = new Property("data_input", 0);
-		data_input.setKind(ModelingKind.TEMPLATE);
+		data_input.setModelingKind(ModelingKind.TEMPLATE);
 		create_datajosnOperation.setInputVariables(Collections.singletonList(new OperationVariable(data_input)));
 		entitySubmodel.addSubmodelElement(create_datajosnOperation);
 

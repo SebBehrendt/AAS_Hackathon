@@ -1,4 +1,5 @@
 package sdm_aas;
+import java.sql.SQLException;
 import java.util.List;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.qualifier.LangStrings;

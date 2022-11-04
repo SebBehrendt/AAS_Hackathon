@@ -5,6 +5,7 @@ import org.eclipse.basyx.aas.metamodel.map.descriptor.ModelUrn;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
 
+
 /**
  * framework for order shell
  * 
@@ -45,6 +46,7 @@ public class Order implements ITimeFrame, IProcessModel {
 		Date date = new Date(202, 10, 07);
 		return date;
 	}
+
 
 	public List<Process> get_next_possible_processes(List<Product> productlist) {
 		for (int i = 0; i < productlist.size(); i++) {
