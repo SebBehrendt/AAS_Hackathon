@@ -7,7 +7,8 @@ enum AttributeType{
     MINIMUM,
     MAXIMUM
 }
-Add
+
+
 class ProcessAttribute{
     String ID;
     String description;
