@@ -28,8 +28,12 @@ import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.prop
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+abstract class AbstractProcedure{
+    
+}
 
-public class Product {
+
+public class Procedure {
 // required objects for a property
 	public double value;
 	public double raw_material_cost;

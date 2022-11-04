@@ -5,7 +5,6 @@ import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.aas.registration.proxy.AASRegistryProxy;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import java.util.List;
-import java.util.ArrayList;
 
 public class PushAAStoServer {
 	
