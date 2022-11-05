@@ -1,5 +1,25 @@
 package sdm_aas;
 
+import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
+import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
+import org.eclipse.basyx.aas.metamodel.map.descriptor.AASDescriptor;
+import org.eclipse.basyx.aas.metamodel.map.descriptor.CustomId;
+import org.eclipse.basyx.aas.metamodel.map.descriptor.ModelUrn;
+import org.eclipse.basyx.aas.metamodel.map.descriptor.SubmodelDescriptor;
+import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
+import org.eclipse.basyx.aas.registration.api.IAASRegistry;
+import org.eclipse.basyx.aas.registration.memory.InMemoryRegistry;
+import org.eclipse.basyx.aas.registration.restapi.AASRegistryModelProvider;
+import org.eclipse.basyx.aas.restapi.AASModelProvider;
+import org.eclipse.basyx.aas.restapi.MultiSubmodelProvider;
+import org.eclipse.basyx.submodel.metamodel.map.Submodel;
+import org.eclipse.basyx.submodel.metamodel.map.qualifier.LangStrings;
+import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
+import org.eclipse.basyx.submodel.restapi.SubmodelProvider;
+import org.eclipse.basyx.vab.modelprovider.api.IModelProvider;
+import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
+import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.AASLambdaPropertyHelper;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -167,6 +187,29 @@ public class ProcedureAASInstance {
             }
         }
         return validProcedures;
+    }
+
+    public static AssetAdministrationShell createAASfromProcedure(ProcedureInstance procedure, String idShort, String description){
+        Asset procedureAsset = new Asset(idShort, new ModelUrn(idShort), AssetKind.INSTANCE);
+		AssetAdministrationShell procedureAAS = new AssetAdministrationShell(idShort + "AAS", new ModelUrn(idShort + "AAS"), procedureAsset);
+		// create description for product shell
+		LangStrings description_test_aas = new LangStrings("english", description);
+		procedureAAS.setDescription(description_test_aas);
+
+
+
+        Submodel Simple_SM = new Submodel();
+		Simple_SM.setIdShort("Simple_SM");
+
+        Property dummyProperty = new Property();
+		dummyProperty.setIdShort("dummy");
+		
+        Simple_SM.addSubmodelElement(dummyProperty);
+		Simple_SM.setIdShort("Simple_SM");
+		Simple_SM.setIdentification(new ModelUrn("Simple_SM"));
+        procedureAAS.addSubmodel(Simple_SM);
+
+        return procedureAAS;
     }
 
     public static void main(String[] args) {
