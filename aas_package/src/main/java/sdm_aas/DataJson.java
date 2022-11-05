@@ -6,6 +6,8 @@ import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import com.nimbusds.jose.shaded.json.JSONArray;
 import com.nimbusds.jose.shaded.json.JSONObject;
 
+import New_ProcessModel.Process;
+
 /**
  * DataJson creates a JSON file accordingly to data.json from ProdSim can be
  * invoked via

@@ -21,6 +21,7 @@ import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.prop
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import New_ProcessModel.Process;
 import camundajar.impl.scala.sys.Prop;
 
 import org.eclipse.basyx.vab.modelprovider.lambda.VABLambdaProviderHelper;

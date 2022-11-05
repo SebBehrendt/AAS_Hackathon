@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.StringJoiner;
 
+import New_ProcessModel.Process;
+
 public class Resource implements IController {
 // required objects for a resource
 	public ResourceType type;

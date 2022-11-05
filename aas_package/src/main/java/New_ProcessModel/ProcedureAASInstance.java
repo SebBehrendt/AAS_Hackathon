@@ -1,4 +1,4 @@
-package sdm_aas;
+package New_ProcessModel;
 
 import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
@@ -12,16 +12,31 @@ import org.eclipse.basyx.aas.registration.memory.InMemoryRegistry;
 import org.eclipse.basyx.aas.registration.restapi.AASRegistryModelProvider;
 import org.eclipse.basyx.aas.restapi.AASModelProvider;
 import org.eclipse.basyx.aas.restapi.MultiSubmodelProvider;
+import org.eclipse.basyx.submodel.metamodel.api.ISubmodel;
+import org.eclipse.basyx.submodel.metamodel.api.submodelelement.ISubmodelElement;
+import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
+import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
+import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyElements;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.qualifier.LangStrings;
+import org.eclipse.basyx.submodel.metamodel.map.reference.Reference;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
+import org.eclipse.basyx.submodel.metamodel.map.submodelelement.SubmodelElementCollection;
 import org.eclipse.basyx.submodel.restapi.SubmodelProvider;
 import org.eclipse.basyx.vab.modelprovider.api.IModelProvider;
 import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
+
+import camundajar.impl.scala.sys.Prop;
+import sdm_aas.PushAAStoServer;
+
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.AASLambdaPropertyHelper;
+import org.eclipse.basyx.vab.protocol.api.IConnectorFactory;
 
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 enum AttributeType {
     MATCHING,
@@ -74,6 +89,7 @@ class ProcessAttribute {
 
 abstract class Process {
     List<ProcessAttribute> processAttributes;
+    // TODO: add process model
 }
 
 class ProcessInstance extends Process {
@@ -179,37 +195,77 @@ public class ProcedureAASInstance {
         return false;
     }
 
-    public static List<ProcedureInstance> findValidProcedures(Process process, List<ProcedureInstance> procedures){
+    public static List<ProcedureInstance> findValidProcedures(Process process, List<ProcedureInstance> procedures) {
         List<ProcedureInstance> validProcedures = new ArrayList<ProcedureInstance>();
-        for (ProcedureInstance procedure: procedures){
-            if (checkProcedureContainsProcess(process, procedure)){
+        for (ProcedureInstance procedure : procedures) {
+            if (checkProcedureContainsProcess(process, procedure)) {
                 validProcedures.add(procedure);
             }
         }
         return validProcedures;
     }
 
-    public static AssetAdministrationShell createAASfromProcedure(ProcedureInstance procedure, String idShort, String description){
+    public static void addProcessAttributesToSubmodel(ISubmodel submodel, List<ProcessAttribute> processAttributes) {
+        for (ProcessAttribute processAttribute : processAttributes) {
+            SubmodelElementCollection processAttributesCollection = new SubmodelElementCollection(
+                    processAttribute.description.replaceAll("\\s+", ""));
+            Property semanticsProperty = new Property("semantics", processAttribute.semantics.toString());
+            processAttributesCollection.addSubmodelElement(semanticsProperty);
+
+            Property descriptionProperty = new Property("description", processAttribute.description);
+            processAttributesCollection.addSubmodelElement(descriptionProperty);
+
+            // Property attributeTypeProperty = new Property("attributeType",
+            // processAttribute.attributeType.toString());
+            // processAttributesCollection.addSubmodelElement(attributeTypeProperty);
+            String value;
+            if (processAttribute.stringAttributeValue != null) {
+                value = processAttribute.stringAttributeValue.toString();
+            } else if (processAttribute.numericAttributeValue != null) {
+                value = processAttribute.numericAttributeValue.toString();
+            } else {
+                value = processAttribute.dimensionalAttributeValue.toString();
+            }
+            Property processAttributeProperty = new Property("attribute_value", value);
+            processAttributesCollection.addSubmodelElement(processAttributeProperty);
+            submodel.addSubmodelElement(processAttributesCollection);
+        }
+    }
+
+    public static Map<AssetAdministrationShell, List<Submodel>> createAASfromProcedure(ProcedureInstance procedure,
+            String idShort,
+            String description) {
         Asset procedureAsset = new Asset(idShort, new ModelUrn(idShort), AssetKind.INSTANCE);
-		AssetAdministrationShell procedureAAS = new AssetAdministrationShell(idShort + "AAS", new ModelUrn(idShort + "AAS"), procedureAsset);
-		// create description for product shell
-		LangStrings description_test_aas = new LangStrings("english", description);
-		procedureAAS.setDescription(description_test_aas);
+        AssetAdministrationShell procedureAAS = new AssetAdministrationShell(idShort + "AAS",
+                new ModelUrn(idShort + "AAS"), procedureAsset);
+        // create description for product shell
+        LangStrings descriptionProcedureAAS = new LangStrings("english", description);
+        procedureAAS.setDescription(descriptionProcedureAAS);
+
+        Submodel processAttributesSubmodel = new Submodel(idShort + "ProcessAttributes",
+                new ModelUrn(idShort + "Submodel"));
+        addProcessAttributesToSubmodel(processAttributesSubmodel, procedure.processAttributes);
+        procedureAAS.addSubmodel(processAttributesSubmodel);
+
+        // Submodel procedureReferencSubmodel = new Submodel(idShort + "References", new ModelUrn(idShort + "References"));
+        // Identifier resourceIdentifier = new Identifier(IdentifierType.IRI, procedure.resourceURI);
+        // Reference resourceReference = new Reference(resourceIdentifier, KeyElements.ASSETADMINISTRATIONSHELL, false);
+        // procedureReferencSubmodel.setParent(resourceReference);
+
+        // Identifier processIdentifier = new Identifier(IdentifierType.IRI, procedure.processURI);
+        // Reference processReference = new Reference(processIdentifier, KeyElements.ASSETADMINISTRATIONSHELL, false);
+        // procedureReferencSubmodel.setParent(processReference);
+
+        // procedureAAS.addSubmodel(procedureReferencSubmodel);
 
 
+        Map<AssetAdministrationShell, List<Submodel>> procedureAASMap = new HashMap<AssetAdministrationShell, List<Submodel>>();
+        List<Submodel> submodels = new ArrayList<Submodel>();
+        submodels.add(processAttributesSubmodel);
+        // submodels.add(procedureReferencSubmodel);
+        procedureAASMap.put(procedureAAS, submodels);
 
-        Submodel Simple_SM = new Submodel();
-		Simple_SM.setIdShort("Simple_SM");
-
-        Property dummyProperty = new Property();
-		dummyProperty.setIdShort("dummy");
-		
-        Simple_SM.addSubmodelElement(dummyProperty);
-		Simple_SM.setIdShort("Simple_SM");
-		Simple_SM.setIdentification(new ModelUrn("Simple_SM"));
-        procedureAAS.addSubmodel(Simple_SM);
-
-        return procedureAAS;
+        return procedureAASMap;
     }
 
     public static void main(String[] args) {
@@ -217,20 +273,20 @@ public class ProcedureAASInstance {
         millingSemantics.add("Milling");
 
         List<String> millingTechnologySemantics = new ArrayList<String>(millingSemantics);
-        millingSemantics.add("Milling Technology");
+        millingTechnologySemantics.add("Technology");
 
         List<String> rotationSemantics = new ArrayList<String>(millingSemantics);
-        millingSemantics.add("Rotation speed");
+        rotationSemantics.add("Rotation speed");
 
         List<String> dimensionSemantics = new ArrayList<String>(millingSemantics);
-        millingSemantics.add("Dimensions");
+        dimensionSemantics.add("Dimensions");
 
         ProcessAttribute requiredMillingTechnology = new ProcessAttribute(millingTechnologySemantics,
                 "Milling technology", "3 Axes");
         ProcessAttribute requiredMillRotationSpeed = new ProcessAttribute(rotationSemantics,
                 "Milling roation speed attribute in rpm", 30.0, "Minimum");
         ProcessAttribute requiredDimensions = new ProcessAttribute(dimensionSemantics,
-                "Milling dimensions [x, y, z] in mm", List.of(350.0, 50.0, 40.0), "Minimum");
+                "Milling dimensions for x y z in mm", List.of(350.0, 50.0, 40.0), "Minimum");
 
         ProcessInstance millingProcess = new ProcessInstance(
                 List.of(requiredMillingTechnology, requiredMillRotationSpeed, requiredDimensions));
@@ -238,11 +294,11 @@ public class ProcedureAASInstance {
         ProcessAttribute actualMillingTechnology3 = new ProcessAttribute(millingTechnologySemantics,
                 "Milling technology", "3 Axes");
         ProcessAttribute actualMillingTechnology5 = new ProcessAttribute(millingTechnologySemantics,
-                "Milling technology", "5 Axes");
+                "Milling technology 2", "5 Axes");
         ProcessAttribute acutalMillRotationSpeed = new ProcessAttribute(rotationSemantics,
                 "Milling roation speed attribute in rpm", 12000.0, "Minimum");
         ProcessAttribute actualDimensions = new ProcessAttribute(dimensionSemantics,
-                "Milling dimensions [x, y, z] in mm", List.of(600.0, 600.0, 150.0), "Minimum");
+                "Milling dimensions for x y z in mm", List.of(600.0, 600.0, 150.0), "Minimum");
 
         String EXAMPLE_RESOURCE_URI = "http://193.196.37.23:4001/aasServer/shells/ResourceID/aas/";
         ProcedureInstance millingProcedure = new ProcedureInstance(
@@ -254,7 +310,7 @@ public class ProcedureAASInstance {
         ProcessAttribute acutalMillRotationSpeed2 = new ProcessAttribute(rotationSemantics,
                 "Milling roation speed attribute in rpm", 19000.0, "Minimum");
         ProcessAttribute actualDimensions2 = new ProcessAttribute(dimensionSemantics,
-                "Milling dimensions [x, y, z] in mm", List.of(1200.0, 1200.0, 150.0), "Minimum");
+                "Milling dimensions for x y z in mm", List.of(1200.0, 1200.0, 150.0), "Minimum");
 
         String EXAMPLE_RESOURCE_URI2 = "http://193.196.37.23:4001/aasServer/shells/ResourceID2/aas/";
         ProcedureInstance millingProcedure2 = new ProcedureInstance(
@@ -264,7 +320,7 @@ public class ProcedureAASInstance {
         ProcessAttribute acutalMillRotationSpeed3 = new ProcessAttribute(rotationSemantics,
                 "Milling roation speed attribute in rpm", 20000.0, "Minimum");
         ProcessAttribute actualDimensions3 = new ProcessAttribute(dimensionSemantics,
-                "Milling dimensions [x, y, z] in mm", List.of(15.0, 10.0, 15.0), "Minimum");
+                "Milling dimensions for x y z in mm", List.of(15.0, 10.0, 15.0), "Minimum");
 
         String EXAMPLE_RESOURCE_URI3 = "http://193.196.37.23:4001/aasServer/shells/ResourceID3/aas/";
         ProcedureInstance millingProcedure3 = new ProcedureInstance(
@@ -274,10 +330,16 @@ public class ProcedureAASInstance {
         boolean validProcedure = checkProcedureContainsProcess(millingProcess, millingProcedure);
         System.out.println("Procedure is valid for process: " + validProcedure);
 
-
         List<ProcedureInstance> allProcedures = List.of(millingProcedure, millingProcedure2, millingProcedure3);
         List<ProcedureInstance> possibleProcedure = findValidProcedures(millingProcess, allProcedures);
         System.out.println("From " + allProcedures.size() + " are " + possibleProcedure.size() + " possible.");
+
+        Map<AssetAdministrationShell, List<Submodel>> aas = createAASfromProcedure(millingProcedure, "MillingProcedure",
+                "Milling procedure");
+        String SERVER_URL = "http://193.196.37.23:4001/aasServer";
+        String REGISTRY_URL = "http://193.196.37.23:4000/registry/api/v1/registry";
+
+        PushAAStoServer.pushAAS(aas, SERVER_URL, REGISTRY_URL);
 
     }
 }

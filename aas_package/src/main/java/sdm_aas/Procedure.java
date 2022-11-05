@@ -28,6 +28,8 @@ import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.prop
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import New_ProcessModel.Process;
+
 abstract class AbstractProcedure{
     
 }

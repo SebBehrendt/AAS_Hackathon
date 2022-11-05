@@ -1,4 +1,8 @@
-package sdm_aas;/**
+package sdm_aas;
+
+import New_ProcessModel.Process;
+
+/**
  * creates basic framework for the controller
  * 
  * @author marieke
