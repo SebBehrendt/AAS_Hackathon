@@ -29,6 +29,7 @@ import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
 import camundajar.impl.scala.sys.Prop;
 import sdm_aas.PushAAStoServer;
 
+import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.ReferenceElement;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.AASLambdaPropertyHelper;
 import org.eclipse.basyx.vab.protocol.api.IConnectorFactory;
 
@@ -247,22 +248,24 @@ public class ProcedureAASInstance {
         addProcessAttributesToSubmodel(processAttributesSubmodel, procedure.processAttributes);
         procedureAAS.addSubmodel(processAttributesSubmodel);
 
-        // Submodel procedureReferencSubmodel = new Submodel(idShort + "References", new ModelUrn(idShort + "References"));
-        // Identifier resourceIdentifier = new Identifier(IdentifierType.IRI, procedure.resourceURI);
-        // Reference resourceReference = new Reference(resourceIdentifier, KeyElements.ASSETADMINISTRATIONSHELL, false);
-        // procedureReferencSubmodel.setParent(resourceReference);
+        Submodel procedureReferencSubmodel = new Submodel(idShort + "References", new ModelUrn(idShort + "References"));
+        Identifier resourceIdentifier = new Identifier(IdentifierType.IRI, procedure.resourceURI);
+        Reference resourceReference = new Reference(resourceIdentifier, KeyElements.ASSETADMINISTRATIONSHELL, false);
+        ReferenceElement resourceReferenceElement = new ReferenceElement("Resource_reference", resourceReference);
+        procedureReferencSubmodel.addSubmodelElement(resourceReferenceElement);
 
-        // Identifier processIdentifier = new Identifier(IdentifierType.IRI, procedure.processURI);
-        // Reference processReference = new Reference(processIdentifier, KeyElements.ASSETADMINISTRATIONSHELL, false);
-        // procedureReferencSubmodel.setParent(processReference);
+        Identifier processIdentifier = new Identifier(IdentifierType.IRI, procedure.processURI);
+        Reference processReference = new Reference(processIdentifier, KeyElements.ASSETADMINISTRATIONSHELL, false);
+        ReferenceElement processReferenceElement = new ReferenceElement("Process_reference", processReference);
+        procedureReferencSubmodel.addSubmodelElement(processReferenceElement);
 
-        // procedureAAS.addSubmodel(procedureReferencSubmodel);
+        procedureAAS.addSubmodel(procedureReferencSubmodel);
 
 
         Map<AssetAdministrationShell, List<Submodel>> procedureAASMap = new HashMap<AssetAdministrationShell, List<Submodel>>();
         List<Submodel> submodels = new ArrayList<Submodel>();
         submodels.add(processAttributesSubmodel);
-        // submodels.add(procedureReferencSubmodel);
+        submodels.add(procedureReferencSubmodel);
         procedureAASMap.put(procedureAAS, submodels);
 
         return procedureAASMap;
