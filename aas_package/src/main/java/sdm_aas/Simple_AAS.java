@@ -1,12 +1,9 @@
-package sdm_aas;import java.util.Arrays;
+package sdm_aas;
 import java.util.ArrayList;
 import java.util.List;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.eclipse.basyx.vab.modelprovider.api.IModelProvider;
-import org.eclipse.basyx.vab.modelprovider.lambda.VABLambdaProvider;
 import org.eclipse.basyx.vab.modelprovider.lambda.VABLambdaProviderHelper;
 
 
@@ -18,13 +15,6 @@ import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.qualifier.LangStrings;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import New_ProcessModel.Process;
-import camundajar.impl.scala.sys.Prop;
-
-import org.eclipse.basyx.vab.modelprovider.lambda.VABLambdaProviderHelper;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.valuetype.ValueType;
 
 
@@ -61,8 +51,6 @@ public class Simple_AAS {
     public static String return_simple_string(){
         return (Math.random() * (20 - 10) + 10) + "";
     }
-
-	private static final Logger logger = LoggerFactory.getLogger(SubModelProviderResource.class);
 
 	/**
 	 * creates shell for product asset on a own server GET request:
@@ -115,9 +103,11 @@ public class Simple_AAS {
 
 		List<Submodel> listofSubmodels = new ArrayList<>(); 
 		listofSubmodels.add(test_sm); 
+		Map<AssetAdministrationShell, List<Submodel>> aasMap = new HashMap<>();
+		aasMap.put(test_aas, listofSubmodels);
 
 
-		PushAAStoServer.pushAAS(test_aas, "http://193.196.37.23:4001/aasServer", "http://193.196.37.23:4000/registry/api/v1/registry",listofSubmodels);
+		PushAAStoServer.pushAAS(aasMap, "http://193.196.37.23:4001/aasServer", "http://193.196.37.23:4000/registry/api/v1/registry");
 
 
 

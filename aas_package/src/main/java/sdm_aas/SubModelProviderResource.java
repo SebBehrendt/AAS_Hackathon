@@ -1,7 +1,9 @@
 package sdm_aas;
 import javax.servlet.http.HttpServlet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
@@ -133,7 +135,10 @@ public class SubModelProviderResource {
 		listofSubmodels.add(availabilitySubmodel);
 		listofSubmodels.add(resourceComplexSubmodel);
 
-		PushAAStoServer.pushAAS(productionlineShell, "http://193.196.37.23:4001/aasServer", "http://193.196.37.23:4000/registry/api/v1/registry",listofSubmodels);
+		Map<AssetAdministrationShell, List<Submodel>> map = new HashMap<>();
+		map.put(productionlineShell, listofSubmodels);
+
+		PushAAStoServer.pushAAS(map, "http://193.196.37.23:4001/aasServer", "http://193.196.37.23:4000/registry/api/v1/registry");
 
 		
 		// Deploy the AAS on a HTTP server

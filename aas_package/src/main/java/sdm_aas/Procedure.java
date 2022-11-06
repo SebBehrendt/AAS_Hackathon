@@ -1,4 +1,6 @@
 package sdm_aas;import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +29,6 @@ import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.AASLambdaPropertyHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import New_ProcessModel.Process;
 
 abstract class AbstractProcedure{
     
@@ -179,8 +179,11 @@ public class Procedure {
 		listofSubmodels.add(product1Submodel); 
 		listofSubmodels.add(order1Submodel);
 
+		Map<AssetAdministrationShell, List<Submodel>> map = new HashMap<>();
+		map.put(productShell, listofSubmodels);
 
-		PushAAStoServer.pushAAS(productShell, "http://193.196.37.23:4001/aasServer", "http://193.196.37.23:4000/registry/api/v1/registry",listofSubmodels);
+
+		PushAAStoServer.pushAAS(map, "http://193.196.37.23:4001/aasServer", "http://193.196.37.23:4000/registry/api/v1/registry");
 
 
 

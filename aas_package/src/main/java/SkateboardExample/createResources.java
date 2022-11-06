@@ -10,7 +10,7 @@ public class createResources {
 
     class createMachineFiveX
     {
-        protected static Machine createFiveX()
+        protected Machine createFiveX()
         {
             Machine fiveX = new Machine("FiveX");
             fiveX.setTechnicalData(createTechnicalDataFiveX());
@@ -19,7 +19,7 @@ public class createResources {
 
             return fiveX;
         }
-        private static ProcessHeader createCapabilitiesFiveX() {
+        private ProcessHeader createCapabilitiesFiveX() {
             ProcessHeader capa = new ProcessHeader();
 
             ProcessTypeCategory category = new ProcessTypeCategory(ProcessTypeCategory.TopLevelProcess.PRODUCTION_PROCESS);
@@ -32,7 +32,7 @@ public class createResources {
             return capa;
         }
 
-        private static TechnicalData createTechnicalDataFiveX()
+        private TechnicalData createTechnicalDataFiveX()
         {
             TechnicalData technicalData5X = new TechnicalData();
             technicalData5X.addTechnicalParameters("max. Rotationspeed", "15000 rpm");
@@ -40,11 +40,11 @@ public class createResources {
 
             return technicalData5X;
         }
-        private static void addToolsToFiveX (Machine fiveX)
+        private void addToolsToFiveX (Machine fiveX)
         {
 
         }
-        private static Tool createEndMill()
+        private Tool createEndMill()
         {
             Tool endMill = new Tool("Endmill_7mm_HSC");
 

@@ -81,7 +81,7 @@ public class createSkateboardObject {
 
     class createWheelComponents{
 
-        protected static void  createAllWheelComponentInstances(Map<String, IProduct> listSubComponents)
+        protected void  createAllWheelComponentInstances(Map<String, IProduct> listSubComponents)
         {
             Component wheelType = createWheelTypeComponent();
 
@@ -95,7 +95,7 @@ public class createSkateboardObject {
             listSubComponents.put(AASHelper.nameToIdShort(wheelInstance.getName()),wheelInstance4);
         }
 
-        protected static List<Component> createWheelComponentInstances(int count, Component typeToMultiply)
+        protected List<Component> createWheelComponentInstances(int count, Component typeToMultiply)
         {
             List<Component> instanceComponents = new ArrayList<>();
             int counter = 1;
@@ -119,7 +119,7 @@ public class createSkateboardObject {
              return instanceComponents;
 
         }
-        protected static Component createWheelTypeComponent()
+        protected Component createWheelTypeComponent()
         {
             Component wheelComponentType = new Component("Wheel_skateboard", "Wheel_764_8cm_Rubber_White_..");
             wheelComponentType.setComponentKind(ProductKind.TYPE);
@@ -128,7 +128,7 @@ public class createSkateboardObject {
 
             return wheelComponentType;
         }
-        protected static Component createWheelInstanceComponent(String Name)
+        public static Component createWheelInstanceComponent(String Name)
         {
             Component wheelComponentType = new Component(Name, "Wheel_764_8cm_Rubber_White_..");
             wheelComponentType.setComponentKind(ProductKind.INSTANCE);
@@ -140,7 +140,7 @@ public class createSkateboardObject {
 
     }
     class createAxisComponents{
-        protected static Component createAxisComponentInstance(String Name)
+        protected Component createAxisComponentInstance(String Name)
         {
             Component axisComponentInstance = new Component(Name, "axis_22_12cm_3954665");
             axisComponentInstance.setStateOfComponent(ComponentState.SELECTED);
@@ -154,7 +154,7 @@ public class createSkateboardObject {
     class createBoardProduct{
 
 
-        protected static Product createBoardProductInstance()
+        protected Product createBoardProductInstance()
         {
             Product boardOfSkateBoard = new Product("Skateboard_Board", "B_12894777_xd7");
             boardOfSkateBoard.setProductLifecycleState(ProductLifecycleState.DESIGN);
@@ -168,7 +168,7 @@ public class createSkateboardObject {
 
             return boardOfSkateBoard;
         }
-        private static ConstructionData createDesignDataOfBoard()
+        private ConstructionData createDesignDataOfBoard()
         {
             ConstructionData boardDesignData = new ConstructionData();
             boardDesignData.addConstructionFile("Board.stp", "S:../..");

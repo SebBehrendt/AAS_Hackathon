@@ -104,90 +104,6 @@ class ProcedureInstance extends Process {
 
 public class ProcedureAASInstance {
 
-    public static boolean checkMatchingStringList(List<String> processSemantics, List<String> procedureSemantics) {
-        for (String semantic : processSemantics) {
-            if (!procedureSemantics.contains(semantic)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean checkMatchingObjectList(List<Object> processValue, List<Object> procedureValue) {
-        for (Object semantic : processValue) {
-            if (!procedureValue.contains(semantic)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean checkMinimumObjectList(List<Object> processValue, List<Object> procedureValue) {
-        if (processValue.size() != procedureValue.size()) {
-            return false;
-        }
-        for (int i = 0; i < processValue.size(); i++) {
-            if ((Double) processValue.get(i) > (Double) procedureValue.get(i)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean checkMaximumObjectList(List<Object> processValue, List<Object> procedureValue) {
-        if (processValue.size() != procedureValue.size()) {
-            return false;
-        }
-        for (int i = 0; i < processValue.size(); i++) {
-            if ((Double) processValue.get(i) < (Double) procedureValue.get(i)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean checkProcedureContainsProcess(Process process, Process procedure) {
-        for (ProcessAttribute processAttribute : process.processAttributes) {
-            for (ProcessAttribute procedureAttribute : procedure.processAttributes) {
-                if (!checkMatchingStringList(processAttribute.semantics, procedureAttribute.semantics)) {
-                    return false;
-                }
-                if (processAttribute.attributeType == AttributeType.MATCHING) {
-                    if (processAttribute.stringAttributeValue != null) {
-                        return processAttribute.stringAttributeValue == procedureAttribute.stringAttributeValue;
-                    }
-                    return checkMatchingObjectList(processAttribute.dimensionalAttributeValue,
-                            procedureAttribute.dimensionalAttributeValue);
-
-                } else if (processAttribute.attributeType == AttributeType.MINIMUM) {
-                    if (processAttribute.numericAttributeValue != null) {
-                        return processAttribute.numericAttributeValue <= procedureAttribute.numericAttributeValue;
-                    }
-                    return checkMinimumObjectList(processAttribute.dimensionalAttributeValue,
-                            procedureAttribute.dimensionalAttributeValue);
-                } else if (processAttribute.attributeType == AttributeType.MAXIMUM) {
-                    if (processAttribute.numericAttributeValue != null) {
-                        return processAttribute.numericAttributeValue >= procedureAttribute.numericAttributeValue;
-                    }
-                    return checkMaximumObjectList(processAttribute.dimensionalAttributeValue,
-                            procedureAttribute.dimensionalAttributeValue);
-                }
-            }
-        }
-
-        return false;
-    }
-
-    public static List<ProcedureInstance> findValidProcedures(Process process, List<ProcedureInstance> procedures) {
-        List<ProcedureInstance> validProcedures = new ArrayList<ProcedureInstance>();
-        for (ProcedureInstance procedure : procedures) {
-            if (checkProcedureContainsProcess(process, procedure)) {
-                validProcedures.add(procedure);
-            }
-        }
-        return validProcedures;
-    }
-
     public static void addProcessAttributesToSubmodel(ISubmodel submodel, List<ProcessAttribute> processAttributes) {
         for (ProcessAttribute processAttribute : processAttributes) {
             SubmodelElementCollection processAttributesCollection = new SubmodelElementCollection(
@@ -311,11 +227,11 @@ public class ProcedureAASInstance {
                 List.of(actualMillingTechnology3, acutalMillRotationSpeed3, actualDimensions3),
                 EXAMPLE_RESOURCE_URI3);
 
-        boolean validProcedure = checkProcedureContainsProcess(millingProcess, millingProcedure);
+        boolean validProcedure = MatchProcessProcedure.checkProcedureContainsProcess(millingProcess, millingProcedure);
         System.out.println("Procedure is valid for process: " + validProcedure);
 
         List<ProcedureInstance> allProcedures = List.of(millingProcedure, millingProcedure2, millingProcedure3);
-        List<ProcedureInstance> possibleProcedure = findValidProcedures(millingProcess, allProcedures);
+        List<ProcedureInstance> possibleProcedure = MatchProcessProcedure.findValidProcedures(millingProcess, allProcedures);
         System.out.println("From " + allProcedures.size() + " are " + possibleProcedure.size() + " possible.");
 
         Map<AssetAdministrationShell, List<Submodel>> aas = createAASfromProcedure(millingProcedure, "MillingProcedure",
