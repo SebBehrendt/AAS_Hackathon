@@ -2,18 +2,9 @@ package New_ProcessModel;
 
 import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
-import org.eclipse.basyx.aas.metamodel.map.descriptor.AASDescriptor;
-import org.eclipse.basyx.aas.metamodel.map.descriptor.CustomId;
 import org.eclipse.basyx.aas.metamodel.map.descriptor.ModelUrn;
-import org.eclipse.basyx.aas.metamodel.map.descriptor.SubmodelDescriptor;
 import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
-import org.eclipse.basyx.aas.registration.api.IAASRegistry;
-import org.eclipse.basyx.aas.registration.memory.InMemoryRegistry;
-import org.eclipse.basyx.aas.registration.restapi.AASRegistryModelProvider;
-import org.eclipse.basyx.aas.restapi.AASModelProvider;
-import org.eclipse.basyx.aas.restapi.MultiSubmodelProvider;
 import org.eclipse.basyx.submodel.metamodel.api.ISubmodel;
-import org.eclipse.basyx.submodel.metamodel.api.submodelelement.ISubmodelElement;
 import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyElements;
@@ -22,21 +13,12 @@ import org.eclipse.basyx.submodel.metamodel.map.qualifier.LangStrings;
 import org.eclipse.basyx.submodel.metamodel.map.reference.Reference;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.SubmodelElementCollection;
-import org.eclipse.basyx.submodel.restapi.SubmodelProvider;
-import org.eclipse.basyx.vab.modelprovider.api.IModelProvider;
-import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
-
-import camundajar.impl.scala.sys.Prop;
 import sdm_aas.PushAAStoServer;
 
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.ReferenceElement;
-import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.AASLambdaPropertyHelper;
-import org.eclipse.basyx.vab.protocol.api.IConnectorFactory;
-
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 enum AttributeType {
@@ -260,7 +242,6 @@ public class ProcedureAASInstance {
         procedureReferencSubmodel.addSubmodelElement(processReferenceElement);
 
         procedureAAS.addSubmodel(procedureReferencSubmodel);
-
 
         Map<AssetAdministrationShell, List<Submodel>> procedureAASMap = new HashMap<AssetAdministrationShell, List<Submodel>>();
         List<Submodel> submodels = new ArrayList<Submodel>();
