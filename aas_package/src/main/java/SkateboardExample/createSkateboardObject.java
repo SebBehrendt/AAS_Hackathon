@@ -27,15 +27,15 @@ public class createSkateboardObject {
     }
     static void addPlannedSubComponentsToSkateboard (Product skateBoard)
     {
-        skateBoard.addSubProduct(createBoardProduct.createBoardProductInstance());
+        // skateBoard.addSubProduct(createBoardProduct.createBoardProductInstance());
         //skateBoard.addSubProduct(createWheelComponents.createWheelTypeComponent());
         skateBoard.addSubProduct(createWheelComponents.createWheelInstanceComponent("Wheel_1"));
         skateBoard.addSubProduct(createWheelComponents.createWheelInstanceComponent("Wheel_2"));
         skateBoard.addSubProduct(createWheelComponents.createWheelInstanceComponent("Wheel_3"));
         skateBoard.addSubProduct(createWheelComponents.createWheelInstanceComponent("Wheel_4"));
 
-        skateBoard.addSubProduct(createAxisComponents.createAxisComponentInstance("Axis_1"));
-        skateBoard.addSubProduct(createAxisComponents.createAxisComponentInstance("Axis_2"));
+        // skateBoard.addSubProduct(createAxisComponents.createAxisComponentInstance("Axis_1"));
+        // skateBoard.addSubProduct(createAxisComponents.createAxisComponentInstance("Axis_2"));
 
         //when all subcomponents are designed and chosen: CAD-File of "Parent Product"
         skateBoard.setConstructionData(createSkateboardConstructionData());
