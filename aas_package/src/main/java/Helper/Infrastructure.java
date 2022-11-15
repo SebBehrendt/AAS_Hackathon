@@ -12,7 +12,6 @@ import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 
 public class Infrastructure {
     public static final String REGISTRYPATH = "http://193.196.37.23:4000/registry";
-   // public static final String AAS_SERVERPATH_MACHINES = "http://aas-machines.prj-sdm06.isw.uni-stuttgart.de/aasServer";
    public static final String AAS_SERVERPATH = "http://193.196.37.23:4001/aasServer";
     static final int REGISTRY_PORT = 4000;
     static final int AAS_SERVER_PORT = 4001;

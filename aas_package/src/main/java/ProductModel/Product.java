@@ -192,6 +192,7 @@ public class Product implements IProduct {
                         KeyElements.MULTILANGUAGEPROPERTY, false ), new LangStrings(AASHelper.nameToIdShort(set.getKey()), set.getValue()));
                 mlp.setIdShort("Test");
 
+
                 submodelProductInformation.addSubmodelElement(mlp);
             }
         }
@@ -295,14 +296,12 @@ public class Product implements IProduct {
     }
     @Override
     public void updateAndUploadSM(Submodel submodelToUpdate, ConnectedAssetAdministrationShellManager manager) {
-        // To be implemented
+        // TODO To be implemented
     }
-
     @Override
     public ProductType getTypeOfSubcomponent() {
         return ProductType.PRODUCT;
     }
-
     @Override
     public ProductionState getProductionState() {
 
