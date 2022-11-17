@@ -131,7 +131,8 @@ public class Simple_AAS {
 	private void startupEdgeServer() {
 
 		// Create a BaSyxConetxt for port 8082 with an empty endpoint
-		BaSyxContextConfiguration contextConfig = new BaSyxContextConfiguration(4002, "");
+		// BaSyxContextConfiguration contextConfig = new BaSyxContextConfiguration(4002, "");
+		BaSyxContextConfiguration contextConfig = new BaSyxContextConfiguration("", "", "193.196.37.23", 4002);;
 		BaSyxContext context = contextConfig.createBaSyxContext();
 
 		// Get the edgeSubmodel from the ComponentFactory
@@ -140,7 +141,7 @@ public class Simple_AAS {
 		// Create a new SubmodelServlet containing the edgeSubmodel
 		SubmodelServlet smServlet = new SubmodelServlet(testSubmodel);
 
-		// Add the SubmodelServlet mapping to the context at the path "/oven/curr_temp"
+		// Add the SubmodelServlet mapping to the context at the path
 		context.addServletMapping("/submodelserver/" + EDGESM_ID + "/*", smServlet);
 
 		// Create and start a HTTP server with the context created above
