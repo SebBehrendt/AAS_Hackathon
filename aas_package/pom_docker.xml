@@ -32,7 +32,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>dependency-jars/</classpathPrefix>
-							<mainClass>New_ProcessModel.Simple_AAS</mainClass>
+							<mainClass>New_ProcessModel.SubmodelService</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
