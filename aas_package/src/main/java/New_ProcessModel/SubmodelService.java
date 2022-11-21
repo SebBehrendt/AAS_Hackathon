@@ -84,8 +84,9 @@ public class SubmodelService {
 		// Create a Property to be used as input variable
 		// The ValueType is determined by the type of the given value
 		// here 0, which results in ValueType Integer
-		Property newRegistryURL = new Property();
-		newRegistryURL.setIdShort("registryURL");
+		// Property newRegistryURL = new Property();
+		// newRegistryURL.setIdShort("registryURL");
+		Property newRegistryURL = new Property("registryURL", "");
 		newRegistryURL.setKind(ModelingKind.TEMPLATE);
 
 		OperationVariable var = new OperationVariable(newRegistryURL);
@@ -97,7 +98,7 @@ public class SubmodelService {
 			ConnectedAssetAdministrationShellManager manager = getManager();
 			ISubmodel sm = manager.retrieveSubmodel(new ModelUrn(AAS_ID), new ModelUrn(SUBMODEL_ID));
 			ISubmodelElement elem = sm.getSubmodelElement(REGISTRY_PATH_ID);
-			elem.setValue((int) (t[0]));
+			elem.setValue((String) (t[0]));
 		};
 
 		operation.setInvokable(consumer);
@@ -182,8 +183,8 @@ public class SubmodelService {
 
 
 
-		Property registryProperty = new Property();
-		registryProperty.setIdShort(REGISTRY_PATH_ID);
+		Property registryProperty = new Property(REGISTRY_PATH_ID, "");
+		// registryProperty.setIdShort(REGISTRY_PATH_ID);
 		registryProperty.setKind(ModelingKind.TEMPLATE);
 
 

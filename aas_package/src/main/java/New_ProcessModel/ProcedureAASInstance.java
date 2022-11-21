@@ -1,5 +1,6 @@
 package New_ProcessModel;
 
+import org.apache.commons.math3.ode.nonstiff.AdamsBashforthFieldIntegrator;
 import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.aas.metamodel.map.descriptor.ModelUrn;
@@ -70,13 +71,114 @@ class ProcessAttribute {
 
 }
 
+enum ProcessModelType {
+    SINGLE,
+    SEQUENTIAL,
+    GRAPH
+}
+
+enum ProcessBorder{
+    START,
+    END
+}
+
+class ProcessModel{
+    String id;
+    String description;
+    ProcessModelType type;
+    List<Process> nodes;
+    List<List<Process>> edges;
+
+    public void add_node(Process process){
+        if (!this.nodes.contains(process)){
+            this.nodes.add(process);
+        }
+    }
+
+    public void add_edge(Process origin, Process target){
+        List<Process> edge = new ArrayList<>();
+        edge.add(origin);
+        edge.add(target);
+        if (!this.edges.contains(edge)){
+            this.edges.add(edge);
+        }
+    }
+
+    public void connectToStart(Process process){
+        List<Process> edge = new ArrayList<>();
+        edge.add(null);
+        edge.add(process);
+        if (!this.edges.contains(edge)){
+            this.edges.add(edge);
+        }
+    }
+
+    public void connectToEnd(Process process){
+        List<Process> edge = new ArrayList<>();
+        edge.add(process);
+        edge.add(null);
+        if (!this.edges.contains(edge)){
+            this.edges.add(edge);
+        }
+    }
+
+}
+
+class SingleProcessModel extends ProcessModel{
+    ProcessModelType type = ProcessModelType.SINGLE;
+
+    public SingleProcessModel(String id, String description, Process process) {
+        this.id = id;
+        this.description = description;
+        add_node(process);
+        connectToStart(process);
+        connectToEnd(process);
+    }
+}
+
+class SequentialProcessModel extends ProcessModel{
+    ProcessModelType type = ProcessModelType.SEQUENTIAL;
+
+    public SequentialProcessModel(String id, String description, List<Process> processes) {
+        this.id = id;
+        this.description = description;
+        for (Process process : processes){
+            add_node(process);
+        }
+        connectToStart(processes.get(0));
+        connectToEnd(processes.get(processes.size()-1));
+        for (int i = 0; i < processes.size()-1; i++){
+            add_edge(processes.get(i), processes.get(i+1));
+        }
+    }
+}
+
+class GraphProcessModel extends ProcessModel{
+    ProcessModelType type = ProcessModelType.GRAPH;
+
+    public GraphProcessModel(String id, String description) {
+        this.id = id;
+        this.description = description;
+    }
+
+    public void connectProcesses(Process origin, Process target) {
+        add_node(origin);
+        add_node(target);
+        add_edge(origin, target);
+    }
+}
+
 abstract class Process {
+    // TODO: ID has to be added here already
+    String id;
+    String description;
     List<ProcessAttribute> processAttributes;
-    // TODO: add process model
 }
 
 class ProcessInstance extends Process {
+    List<ProcessModel> processModels;
 
+    // TODO: process model has to be added in constructors and tested in main
     public ProcessInstance(List<ProcessAttribute> processAttributes) {
         this.processAttributes = processAttributes;
     }
@@ -104,6 +206,10 @@ class ProcedureInstance extends Process {
 
 public class ProcedureAASInstance {
 
+    public static void createAASfromProcess(ProcessInstance processInstance){
+        // TODO: implement method here
+    }
+
     public static void addProcessAttributesToSubmodel(ISubmodel submodel, List<ProcessAttribute> processAttributes) {
         for (ProcessAttribute processAttribute : processAttributes) {
             SubmodelElementCollection processAttributesCollection = new SubmodelElementCollection(
@@ -113,10 +219,7 @@ public class ProcedureAASInstance {
 
             Property descriptionProperty = new Property("description", processAttribute.description);
             processAttributesCollection.addSubmodelElement(descriptionProperty);
-
-            // Property attributeTypeProperty = new Property("attributeType",
-            // processAttribute.attributeType.toString());
-            // processAttributesCollection.addSubmodelElement(attributeTypeProperty);
+            
             String value;
             if (processAttribute.stringAttributeValue != null) {
                 value = processAttribute.stringAttributeValue.toString();
