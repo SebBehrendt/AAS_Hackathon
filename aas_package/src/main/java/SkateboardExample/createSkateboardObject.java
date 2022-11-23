@@ -2,6 +2,7 @@ package SkateboardExample;
 
 import Helper.AASHelper;
 import ProductModel.*;
+import ProductModel.Component.Component;
 
 import java.util.ArrayList;
 import java.util.List;

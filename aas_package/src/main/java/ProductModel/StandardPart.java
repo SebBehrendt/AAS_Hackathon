@@ -1,9 +1,11 @@
 package ProductModel;
 
+import ProductModel.Component.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class StandardPart extends Component{
+public class StandardPart extends Component {
 
     Map<String, String> listOfDescribingNorms = new HashMap<>(); //Part designation, Norm of designation
     Map<String, String> listDescriptionParameters = new HashMap<>(); //Material,

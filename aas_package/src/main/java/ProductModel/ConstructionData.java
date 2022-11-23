@@ -10,8 +10,8 @@ import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.prop
 import java.util.HashMap;
 import java.util.Map;
 
-public class ConstructionData {
-    private static final String SUBMODEL_CONSTRUCTION_SHORT_ID = "Construction_Data";
+public class ConstructionData { //To SM Geometry
+    private static final String SUBMODEL_CONSTRUCTION_SHORT_ID = "Geometry";
     private static final String SMC_CAD_ID = "CAD_Files";
     private static final String SMC_SPECIFICATION_ID = "Specification_Information";
     private static final String SUBMODEL_CONSTRUCTION_IDENTIFIER = "Construction_Data_";

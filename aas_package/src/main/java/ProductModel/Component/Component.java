@@ -1,6 +1,7 @@
-package ProductModel;
+package ProductModel.Component;
 
 import Helper.AASHelper;
+import ProductModel.*;
 import org.eclipse.basyx.aas.manager.ConnectedAssetAdministrationShellManager;
 import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.connected.ConnectedAssetAdministrationShell;

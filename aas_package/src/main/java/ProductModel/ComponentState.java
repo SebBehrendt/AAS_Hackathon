@@ -15,7 +15,6 @@ public enum ComponentState {
     {
         this.key = i;
         this.componentState = state;
-
     }
     public String getState()
     {
