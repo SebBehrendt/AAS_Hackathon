@@ -1,6 +1,10 @@
-package sdm_aas;import javax.servlet.http.HttpServlet;
+package sdm_aas;
+import javax.servlet.http.HttpServlet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.eclipse.basyx.aas.manager.ConnectedAssetAdministrationShellManager;
 import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.aas.metamodel.map.descriptor.AASDescriptor;
@@ -9,7 +13,6 @@ import org.eclipse.basyx.aas.metamodel.map.descriptor.SubmodelDescriptor;
 import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
 import org.eclipse.basyx.aas.registration.api.IAASRegistry;
 import org.eclipse.basyx.aas.registration.memory.InMemoryRegistry;
-import org.eclipse.basyx.aas.registration.proxy.AASRegistryProxy;
 import org.eclipse.basyx.aas.registration.restapi.AASRegistryModelProvider;
 import org.eclipse.basyx.aas.restapi.AASModelProvider;
 import org.eclipse.basyx.aas.restapi.MultiSubmodelProvider;
@@ -125,6 +128,18 @@ public class SubModelProviderResource {
 		aasDescriptor.addSubmodelDescriptor(avSMDescriptor);
 		aasDescriptor.addSubmodelDescriptor(rcSMDescriptor);	
 		registry.register(aasDescriptor);
+
+		List<Submodel> listofSubmodels = new ArrayList<>(); 
+		listofSubmodels.add(resource1Submodel); 
+		listofSubmodels.add(resource2Submodel);
+		listofSubmodels.add(availabilitySubmodel);
+		listofSubmodels.add(resourceComplexSubmodel);
+
+		Map<AssetAdministrationShell, List<Submodel>> map = new HashMap<>();
+		map.put(productionlineShell, listofSubmodels);
+
+		PushAAStoServer.pushAAS(map, "http://193.196.37.23:4001/aasServer", "http://193.196.37.23:4000/registry/api/v1/registry");
+
 		
 		// Deploy the AAS on a HTTP server
 		BaSyxContext context = new BaSyxContext("/handson", "", "localhost", 4000);
