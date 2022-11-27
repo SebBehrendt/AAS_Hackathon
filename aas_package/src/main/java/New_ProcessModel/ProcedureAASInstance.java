@@ -179,8 +179,10 @@ class ProcessInstance extends Process {
     List<ProcessModel> processModels;
 
     // TODO: process model has to be added in constructors and tested in main
-    public ProcessInstance(List<ProcessAttribute> processAttributes) {
+    public ProcessInstance(List<ProcessAttribute> processAttributes, List<ProcessModel> processModels) {
+
         this.processAttributes = processAttributes;
+        this.processModels = processModels;
     }
 }
 
