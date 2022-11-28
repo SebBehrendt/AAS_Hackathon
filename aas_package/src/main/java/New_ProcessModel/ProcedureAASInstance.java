@@ -208,8 +208,41 @@ class ProcedureInstance extends Process {
 
 public class ProcedureAASInstance {
 
-    public static void createAASfromProcess(ProcessInstance processInstance){
+    public static void createAASfromProcess(ProcessInstance processInstance, String idShort, String description){
         // TODO: implement method here
+        Asset processAsset = new Asset(idShort, new ModelUrn(idShort), AssetKind.INSTANCE);
+        AssetAdministrationShell processAAS = new AssetAdministrationShell(idShort + "AAS",
+                new ModelUrn(idShort + "AAS"), processAsset);
+        // create description for product shell
+        LangStrings descriptionProcessAAS = new LangStrings("english", description);
+        processAAS.setDescription(descriptionProcessAAS);
+
+        Submodel processAttributesSubmodel = new Submodel(idShort + "ProcessAttributes",
+                new ModelUrn(idShort + "Submodel"));
+        addProcessAttributesToSubmodel(processAttributesSubmodel, procedure.processAttributes);
+        //procedureAAS.addSubmodel(processAttributesSubmodel);
+
+        Submodel processReferencSubmodel = new Submodel(idShort + "References", new ModelUrn(idShort + "References"));
+        Identifier resourceIdentifier = new Identifier(IdentifierType.IRI, process.resourceURI);
+        Reference resourceReference = new Reference(resourceIdentifier, KeyElements.ASSETADMINISTRATIONSHELL, false);
+        ReferenceElement resourceReferenceElement = new ReferenceElement("Resource_reference", resourceReference);
+        processReferencSubmodel.addSubmodelElement(resourceReferenceElement);
+
+        Identifier processIdentifier = new Identifier(IdentifierType.IRI, procedure.processURI);
+        Reference processReference = new Reference(processIdentifier, KeyElements.ASSETADMINISTRATIONSHELL, false);
+        ReferenceElement processReferenceElement = new ReferenceElement("Process_reference", processReference);
+        processReferencSubmodel.addSubmodelElement(processReferenceElement);
+
+        procedureAAS.addSubmodel(procedureReferencSubmodel);
+
+        Map<AssetAdministrationShell, List<Submodel>> processAASMap = new HashMap<AssetAdministrationShell, List<Submodel>>();
+        List<Submodel> submodels = new ArrayList<Submodel>();
+        submodels.add(processAttributesSubmodel);
+        submodels.add(processReferencSubmodel);
+        processAASMap.put(processAAS, submodels);
+
+        return processAASMap;
+
     }
 
     public static void addProcessAttributesToSubmodel(ISubmodel submodel, List<ProcessAttribute> processAttributes) {
@@ -345,6 +378,8 @@ public class ProcedureAASInstance {
         String REGISTRY_URL = "http://193.196.37.23:4000/registry/api/v1/registry";
 
         PushAAStoServer.pushAAS(aas, SERVER_URL, REGISTRY_URL);
+
+
 
     }
 }
