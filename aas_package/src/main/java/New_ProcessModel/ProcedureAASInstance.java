@@ -169,7 +169,7 @@ class GraphProcessModel extends ProcessModel{
 }
 
 abstract class Process {
-    // TODO: ID has to be added here already
+    // TODO: change constructors to consider id and description
     String id;
     String description;
     List<ProcessAttribute> processAttributes;
@@ -213,6 +213,7 @@ public class ProcedureAASInstance {
     }
 
     public static void addProcessAttributesToSubmodel(ISubmodel submodel, List<ProcessAttribute> processAttributes) {
+        // TODO: Type of process attribute is still missing
         for (ProcessAttribute processAttribute : processAttributes) {
             SubmodelElementCollection processAttributesCollection = new SubmodelElementCollection(
                     processAttribute.description.replaceAll("\\s+", ""));
