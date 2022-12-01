@@ -1,6 +1,6 @@
 package Helper;
 
-import ProductModel.IProduct;
+import ProductModel_Backup.IProduct;
 import org.eclipse.basyx.aas.manager.ConnectedAssetAdministrationShellManager;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.aas.registration.proxy.AASRegistryProxy;

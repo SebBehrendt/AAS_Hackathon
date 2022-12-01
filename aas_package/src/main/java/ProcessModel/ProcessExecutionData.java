@@ -1,6 +1,6 @@
 package ProcessModel;
 
-import ResourceModel.IResource;
+import ResourceModel_backup.IResource;
 import org.javatuples.Pair;
 
 import java.io.File;

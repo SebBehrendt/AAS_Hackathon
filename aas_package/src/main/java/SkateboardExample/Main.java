@@ -1,7 +1,7 @@
 package SkateboardExample;
 
-import ProductModel.Product;
-import ProductModel.ProductLifecycleState;
+import ProductModel_Backup.Product;
+import ProductModel_Backup.ProductLifecycleState;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 
 /**

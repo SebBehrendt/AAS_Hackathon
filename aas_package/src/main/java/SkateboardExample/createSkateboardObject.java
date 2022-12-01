@@ -1,12 +1,15 @@
 package SkateboardExample;
 
 import Helper.AASHelper;
-import ProductModel.*;
-import ProductModel.Component.Component;
+import ProductModel_Backup.*;
+import ProductModel_Backup.Component.*;
+
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static SkateboardExample.createSkateboardObject.createWheelComponents.*;
 
 /**
  * class used to implement the example object Skateboard (Product) for example.
@@ -30,10 +33,10 @@ public class createSkateboardObject {
     {
         // skateBoard.addSubProduct(createBoardProduct.createBoardProductInstance());
         //skateBoard.addSubProduct(createWheelComponents.createWheelTypeComponent());
-        skateBoard.addSubProduct(createWheelComponents.createWheelInstanceComponent("Wheel_1"));
-        skateBoard.addSubProduct(createWheelComponents.createWheelInstanceComponent("Wheel_2"));
-        skateBoard.addSubProduct(createWheelComponents.createWheelInstanceComponent("Wheel_3"));
-        skateBoard.addSubProduct(createWheelComponents.createWheelInstanceComponent("Wheel_4"));
+        skateBoard.addSubProduct(createWheelInstanceComponent("Wheel_1"));
+        skateBoard.addSubProduct(createWheelInstanceComponent("Wheel_2"));
+        skateBoard.addSubProduct(createWheelInstanceComponent("Wheel_3"));
+        skateBoard.addSubProduct(createWheelInstanceComponent("Wheel_4"));
 
         // skateBoard.addSubProduct(createAxisComponents.createAxisComponentInstance("Axis_1"));
         // skateBoard.addSubProduct(createAxisComponents.createAxisComponentInstance("Axis_2"));

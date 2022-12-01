@@ -2,9 +2,9 @@ package SkateboardExample;
 
 import ProcessModel.ProcessHeader;
 import ProcessModel.ProcessTypeCategory;
-import ResourceModel.Machine;
-import ResourceModel.TechnicalData;
-import ResourceModel.Tool;
+import ResourceModel_backup.Machine;
+import ResourceModel_backup.TechnicalData;
+import ResourceModel_backup.Tool;
 
 public class createResources {
 
