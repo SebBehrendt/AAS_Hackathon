@@ -2,11 +2,8 @@ package OrderModel;
 
 import Helper.AASHelper;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
-import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
-import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyElements;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
-import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
 import org.eclipse.basyx.submodel.metamodel.map.reference.Reference;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.SubmodelElementCollection;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.ReferenceElement;
@@ -29,7 +26,6 @@ public class ProductInstances {
     public ProductInstances (ProductInstance productAAS)
     {
             this.listProductInstances.put(productAAS.getInstance().getIdShort(), productAAS);
-
     }
     public void addProductAAS (AssetAdministrationShell productAAS)
     {
@@ -53,7 +49,7 @@ public class ProductInstances {
             productInstancesSubmodel.addSubmodelElement(new Property(AASHelper.nameToIdShort(QUANTITY), entry.getValue().getQuantity()));
             productInstancesSubmodel.addSubmodelElement(productSMC);
         }
-        order.addSubmodelToListOfSubmodels(productInstancesSubmodel);
+        order.addSubmodelToListOfOrderSubmodels(productInstancesSubmodel);
         return productInstancesSubmodel;
     }
  /*

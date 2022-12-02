@@ -23,13 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Order {
-    /**
-     * SMs in Order AAS:
-     *  General_Order_Information -> Orderfiles integrated?
-     *  Product_Instances
-     *
-     */
-    private static final  IdentifierType IDENTIFIER_TYPE = IdentifierType.CUSTOM;
+    private static final IdentifierType IDENTIFIER_TYPE = IdentifierType.CUSTOM;
     private static AssetKind ASSET_KIND  = AssetKind.INSTANCE; // Default
     private static final String AAS_IDENTIFIER_PREFIX = "Order_AAS_";
     private static final String PREFIX_ASSET = "Asset_";
@@ -37,48 +31,40 @@ public class Order {
     private static KeyElements KEYELEMENTS_MLP = KeyElements.MULTILANGUAGEPROPERTY; //Or Conceptdescription if referenced IRDI?
     private static final String ORDER_DESCRIPTION = "Order_Description";
     private static final String SMC_ORDERFILES_ID_SHORT = "Order_Files";
+
+    String orderId;
+    ProductInstances productInstances = null;
+    GeneralOrderInformation generalOrderInformation = null;
     /**
      * Create Submodel GeneralInformation
      */
     String orderIdentification;
-    Map<String, String> multiLanguageOrderDescription = new HashMap();
-    Map<String,String> listOrderFiles = new HashMap(); //-> SMC OrderFiles //Map <Name, Link>
+
 
     List<Submodel> listOfOrderSubmodels = new ArrayList<>();
-    /**
-     * Submodels
-     *      ProductInstances
-     */
-    ProductInstances productInstances;
 
-    //Constructors
-    public Order (String orderId) {this.orderIdentification = orderId; }
-    public Order (String orderId, ProductInstances instances) {
+    public Order(String orderId) {this.orderIdentification = orderId; }
+    public Order(String orderId, ProductInstances instances) {
         this.orderIdentification = orderId;
         this.productInstances = instances;
+    }
+    public Order(String orderId, ProductInstances instances, GeneralOrderInformation generalOrderInformation) {
+        this.orderIdentification = orderId;
+        this.productInstances = instances;
+        this.generalOrderInformation = generalOrderInformation;
     }
 
     //Getters and Setters
     public String getOrderIdentification() {
         return orderIdentification;
     }
-    public void AddMultiLanguageOrderDescription (String language, String description)
-    {
-        this.multiLanguageOrderDescription.put(language, description);
-    }
-    protected void addSubmodelToListOfSubmodels(Submodel submodel)
+
+    protected void addSubmodelToListOfOrderSubmodels(Submodel submodel)
     {
         this.listOfOrderSubmodels.add(submodel);
     }
 
-    public void setListOrderFiles(Map<String, String> listOrderFiles) {this.listOrderFiles = listOrderFiles;}
-    public void addOrderFile (String filename, String filepath) {this.listOrderFiles.put(filename, filepath);}
-
     public List<Submodel> getListOfOrderSubmodels() {return listOfOrderSubmodels;}
-    private Asset createAssetOfOrder()
-    {
-        return new Asset ("asset_id_short_dummy", new Identifier(IdentifierType.CUSTOM, "id_dummy"),AssetKind.INSTANCE);
-    }
 
     //AAS-Environment
     public AssetAdministrationShell createOrderAAS()
@@ -88,47 +74,14 @@ public class Order {
         /**
          * Create SMs
          */
-        //create Submodel general Info
-        orderAAS.addSubmodel(createSubmodelGeneralInfo());
-
-        // create Submodel ProductInstances
-        orderAAS.addSubmodel(this.productInstances.createSubmodelProductInstancesOfOrder(this));
-
-
+        if (this.generalOrderInformation != null) {
+            orderAAS.addSubmodel(generalOrderInformation.createSubmodelGeneralInfo(this));
+        }
+        if (this.productInstances != null) {
+            orderAAS.addSubmodel(this.productInstances.createSubmodelProductInstancesOfOrder(this));
+        }
         return orderAAS;
     }
-    protected Submodel createSubmodelGeneralInfo ()
-    {
-        Submodel generalInfoSM = new Submodel();
-
-        // Add MLP Description
-        LangStrings mlp = new LangStrings();
-        for (Map.Entry entry : this.multiLanguageOrderDescription.entrySet())
-        {
-            mlp.add(new LangString(AASHelper.nameToIdShort(entry.getKey().toString()), entry.getValue().toString()));
-        }
-        MultiLanguageProperty mlpOrderDescription = new MultiLanguageProperty(new Reference(new Identifier(IdentifierType.CUSTOM, ORDER_DESCRIPTION),
-                KEYELEMENTS_MLP, true), mlp);
-        mlpOrderDescription.setIdShort(MLP_ORDER_DESCRIPTION_SHORT_ID);
-        // create SMC OrderFiles
-        if (!this.listOrderFiles.isEmpty())
-        {
-            generalInfoSM.addSubmodelElement(createOrderFilesSMC());
-        }
-
-        this.listOfOrderSubmodels.add(generalInfoSM);
-        return generalInfoSM;
-    }
-    private SubmodelElementCollection createOrderFilesSMC()
-    {
-        SubmodelElementCollection orderFileSMC = new SubmodelElementCollection(SMC_ORDERFILES_ID_SHORT);
-        for (Map.Entry entry : this.listOrderFiles.entrySet())
-        {
-            orderFileSMC.addSubmodelElement(new Property(AASHelper.nameToIdShort(entry.getKey().toString()), entry.getValue().toString()));
-        }
-        return orderFileSMC;
-    }
-
     @NotNull
     @Contract(pure = true)
     private String createAASIdentifier()
@@ -140,8 +93,6 @@ public class Order {
         return new Asset(PREFIX_ASSET+this.orderIdentification, new Identifier(IdentifierType.CUSTOM, "dummy_Asset_Id"), ASSET_KIND);
 
     }
-    private void addProductInstance (AssetAdministrationShell instanceAAS)
-    {
-        // Add specific  AAS to SM and upload new version to server
-    }
+
+
 }
