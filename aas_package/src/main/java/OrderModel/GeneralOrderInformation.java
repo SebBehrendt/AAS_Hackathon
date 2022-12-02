@@ -41,6 +41,7 @@ public class GeneralOrderInformation {
     {
         Submodel generalInfoSM = new Submodel();
 
+        generalInfoSM.addSubmodelElement(new Property(AASHelper.nameToIdShort("Order_Identification"),order.getOrderIdentification()));
         // Add MLP Description
         LangStrings mlp = new LangStrings();
         for (Map.Entry entry : this.multiLanguageOrderDescription.entrySet())
@@ -67,4 +68,5 @@ public class GeneralOrderInformation {
         }
         return orderFileSMC;
     }
+
 }

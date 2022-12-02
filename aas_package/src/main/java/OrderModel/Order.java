@@ -27,18 +27,16 @@ public class Order {
     private static AssetKind ASSET_KIND  = AssetKind.INSTANCE; // Default
     private static final String AAS_IDENTIFIER_PREFIX = "Order_AAS_";
     private static final String PREFIX_ASSET = "Asset_";
-    private static final String MLP_ORDER_DESCRIPTION_SHORT_ID= "OrderDescription";
-    private static KeyElements KEYELEMENTS_MLP = KeyElements.MULTILANGUAGEPROPERTY; //Or Conceptdescription if referenced IRDI?
-    private static final String ORDER_DESCRIPTION = "Order_Description";
-    private static final String SMC_ORDERFILES_ID_SHORT = "Order_Files";
+    private static final String PREFIX_ORDER_ASSET_IDENTIFIER= "Order_";
 
-    String orderId;
+
+    String orderIdentification;
     ProductInstances productInstances = null;
     GeneralOrderInformation generalOrderInformation = null;
     /**
      * Create Submodel GeneralInformation
      */
-    String orderIdentification;
+
 
 
     List<Submodel> listOfOrderSubmodels = new ArrayList<>();
@@ -90,7 +88,7 @@ public class Order {
     }
     private Asset createOrderAsset()
     {
-        return new Asset(PREFIX_ASSET+this.orderIdentification, new Identifier(IdentifierType.CUSTOM, "dummy_Asset_Id"), ASSET_KIND);
+        return new Asset(PREFIX_ASSET+this.orderIdentification, new Identifier(IdentifierType.CUSTOM, PREFIX_ORDER_ASSET_IDENTIFIER), ASSET_KIND);
 
     }
 
