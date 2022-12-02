@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/AAS_Hackathon.iml" filepath="$PROJECT_DIR$/.idea/AAS_Hackathon.iml" />
-      <module fileurl="file://$PROJECT_DIR$/aas_package/basyx.hello_world.iml" filepath="$PROJECT_DIR$/aas_package/basyx.hello_world.iml" />
     </modules>
   </component>
 </project>
