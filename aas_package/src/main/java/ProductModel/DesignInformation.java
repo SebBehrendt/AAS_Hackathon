@@ -1,6 +1,7 @@
 package ProductModel;
 
 import Helper.AASHelper;
+import Helper.IAAS;
 import Helper.ISubmodel;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
@@ -40,7 +41,7 @@ public class DesignInformation implements ISubmodel {
     private static final String SM_DESIGN_DATA_IDENTIFER = "Identifier_Design_Data_";
 
     @Override
-    public Submodel createSubmodel(Product_abstract product) {
+    public Submodel createSubmodel(IAAS product) {
         Submodel submodelDesignData = new Submodel(SM_DESIGN_DATA_ID_SHORT, new Identifier(SM_DESIGN_ID_TYPE, SM_DESIGN_DATA_IDENTIFER ));
         for (Map.Entry<String,String> entry: this.designData.entrySet())
         {
@@ -49,4 +50,7 @@ public class DesignInformation implements ISubmodel {
         product.addSubmodelToList(submodelDesignData);
         return submodelDesignData;
     }
+
+
+
 }

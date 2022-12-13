@@ -1,6 +1,7 @@
 package OrderModel;
 
 import Helper.AASHelper;
+import Helper.IAAS;
 import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 //TODO: implement framework (AAS_Object and ISubmodel)
 
-public class Order {
+public class Order implements IAAS {
     private static final IdentifierType IDENTIFIER_TYPE = IdentifierType.CUSTOM;
     private static AssetKind ASSET_KIND  = AssetKind.INSTANCE; // Default
     private static final String AAS_IDENTIFIER_PREFIX = "Order_AAS_";
@@ -47,32 +48,45 @@ public class Order {
         this.productInstances = productInstances;
     }
     //Getters and Setters
-    public String getOrderIdentification() {
+    @Override
+    public String getIdentification() {
         return orderIdentification;
     }
 
-    protected void addSubmodelToListOfOrderSubmodels(Submodel submodel)
+     @Override
+     public void addSubmodelToList(Submodel submodel)
     {
         this.listOfOrderSubmodels.add(submodel);
+    }
+
+    @Override
+    public void createSubmodels() {
+
     }
 
     public List<Submodel> getListOfOrderSubmodels() {return listOfOrderSubmodels;}
 
     //AAS-Environment
-    public AssetAdministrationShell createProductAAS()
+    @Override
+    public AssetAdministrationShell createAAS()
     {
-        AssetAdministrationShell orderAAS = new AssetAdministrationShell(AASHelper.nameToIdShort(this.getOrderIdentification()),
+        AssetAdministrationShell orderAAS = new AssetAdministrationShell(AASHelper.nameToIdShort(this.getIdentification()),
                 new Identifier(IDENTIFIER_TYPE, createAASIdentifier()), createOrderAsset());
         /**
          * Create SMs
          */
         if (this.generalOrderInformation != null) {
-            orderAAS.addSubmodel(generalOrderInformation.createSubmodelGeneralInfo(this));
+            orderAAS.addSubmodel(generalOrderInformation.createSubmodel(this));
         }
         if (this.productInstances != null) {
-            orderAAS.addSubmodel(this.productInstances.createSubmodelProductInstancesOfOrder(this));
+            orderAAS.addSubmodel(this.productInstances.createSubmodel(this));
         }
         return orderAAS;
+    }
+
+    @Override
+    public AssetAdministrationShell createAAS(AssetKind kind) {
+        return null;
     }
 
     @NotNull

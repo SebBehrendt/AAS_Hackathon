@@ -1,6 +1,7 @@
 package ProductModel;
 
 import Helper.AASHelper;
+import Helper.IAAS;
 import Helper.ISubmodel;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyElements;
@@ -23,8 +24,10 @@ public class BOM implements ISubmodel {
             this.listSubComponents.put(AASHelper.nameToIdShort(shell.getIdShort()), shell);
         }
     }
+    private static final String SUB_PRODUCT = "Sub_Product_";
+
     @Override
-    public Submodel createSubmodel(Product_abstract product) {
+    public Submodel createSubmodel(IAAS product) {
         Submodel submodelSubcomponentsBOM = new Submodel();
         for (Map.Entry<String, AssetAdministrationShell> entry : this.listSubComponents.entrySet())
         {
@@ -38,5 +41,4 @@ public class BOM implements ISubmodel {
         product.addSubmodelToList(submodelSubcomponentsBOM);
         return submodelSubcomponentsBOM;
     }
-    private static final String SUB_PRODUCT = "Sub_Product_";
 }

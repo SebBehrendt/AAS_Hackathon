@@ -49,21 +49,28 @@ public class Product extends Product_abstract{
     {
         this.productionInformation = productionInformation;
     }
-    protected String getIdentification ()
+    public String getIdentification()
     {
         return this.productIdentification;
     }
+
+    @Override
+    public void createSubmodels() {
+        for(ISubmodel submodelObj : listOfSubmodelClasses)
+        {
+            this.addSubmodelToList(submodelObj.createSubmodel(this));
+        }
+
+    }
+
     /**
      * AAS Environment
      */
-
-
     @Override
     Asset createProductAsset() {
         return new Asset(AASHelper.nameToIdShort(ASSET_PREFIX + this.productIdentification),
                 new Identifier(IDENTIFIER_TYPE_ASSET, ASSET_PREFIX + this.productIdentification), DEFAULT_ASSET_KIND);
     }
-
     @Override
     Asset createProductAsset(AssetKind assetKind) {
         return new Asset(AASHelper.nameToIdShort(ASSET_PREFIX + this.productIdentification),

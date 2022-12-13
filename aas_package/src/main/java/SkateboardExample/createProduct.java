@@ -42,7 +42,7 @@ public class createProduct {
             Product skateboardBoard = new Product("Board_20221212_1047", createSkateboardDigitalNameplate());
             // if time: add dummy SM Production
             //add designInformation
-            listOfSubComponents.add(skateboardBoard.createProductAAS());
+            listOfSubComponents.add(skateboardBoard.createAAS());
 
         }
         static void createSubComponents()
@@ -78,7 +78,7 @@ public class createProduct {
             Product axisFront = new Product("Axis_front_20221212_1118");
             axisFront.addDesignInformation(new DesignInformation("CAD_axis_front", "link_to_objectserver/cad/axis/axis_front.stp"));
 
-            listOfSubComponents.add(axisFront.createProductAAS());
+            listOfSubComponents.add(axisFront.createAAS());
         }
 
     }

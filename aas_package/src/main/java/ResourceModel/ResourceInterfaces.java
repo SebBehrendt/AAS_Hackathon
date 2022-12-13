@@ -1,6 +1,8 @@
 package ResourceModel;
 
 import Helper.AASHelper;
+import Helper.IAAS;
+import Helper.ISubmodel;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ResourceInterfaces {
+public class ResourceInterfaces implements ISubmodel {
     List<ResourceInterface> listOfResourceInterfaces = new ArrayList<>();
 
     public ResourceInterfaces (List<ResourceInterface> listOfResourceInterfaces)
@@ -39,5 +41,8 @@ public class ResourceInterfaces {
     }
 
 
-
+    @Override
+    public Submodel createSubmodel(IAAS abstactShellObject) {
+        return null;
+    }
 }

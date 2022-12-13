@@ -32,13 +32,15 @@ public abstract class Product_abstract  implements IAAS {
     public Product_abstract(String productId, DigitalNameplate digitalNameplate)
     {
         this.productIdentification = productId;
-
         this.digitalNameplate = digitalNameplate;
         listOfSubmodelClasses.add(digitalNameplate);
     }
+    public String getIdentification()
+    {
+        return this.productIdentification;
+    }
 
-
-    protected void addSubmodelToList(Submodel submodel)
+     public void addSubmodelToList(Submodel submodel)
     {
         this.listOfSubmodels.add(submodel);
     }
@@ -47,7 +49,7 @@ public abstract class Product_abstract  implements IAAS {
      * AAS Environment
      */
 
-    public AssetAdministrationShell createProductAAS()
+    public AssetAdministrationShell createAAS()
     {
         AssetAdministrationShell productAAS =
                 new AssetAdministrationShell(AASHelper.nameToIdShort(AAS_PREFIX + this.productIdentification),
@@ -57,7 +59,9 @@ public abstract class Product_abstract  implements IAAS {
         createSubmodelsOfProduct(productAAS);
         return productAAS;
     }
-    public AssetAdministrationShell createProductAAS(AssetKind assetKind)
+
+   @Override
+   public AssetAdministrationShell createAAS(AssetKind assetKind)
     {
         AssetAdministrationShell productAAS =
                 new AssetAdministrationShell(AASHelper.nameToIdShort(AAS_PREFIX + this.productIdentification),
@@ -79,7 +83,7 @@ public abstract class Product_abstract  implements IAAS {
     abstract Asset createProductAsset(AssetKind assetKind);
     public void createAndUploadAAStoServer() //TODO does it work?
     {
-        Helper.ServerAASX.uploadAAStoServer(this.createProductAAS(), this.listOfSubmodels);
+        Helper.ServerAASX.uploadAAStoServer(this.createAAS(), this.listOfSubmodels);
     }
 
     private static final IdentifierType IDENTIFIER_TYPE_AAS = IdentifierType.CUSTOM;

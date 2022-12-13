@@ -35,4 +35,9 @@ public class StandardComponent extends Product_abstract{
     private static final String AAS_IDENTIFIER_PREFIX = "AAS_";
     private static final String AAS_IDENTIFIER_SUFFIX = "_Identifier";
     private static AssetKind DEFAULT_ASSET_KIND = AssetKind.INSTANCE;
+
+    @Override
+    public void createSubmodels() {
+
+    }
 }

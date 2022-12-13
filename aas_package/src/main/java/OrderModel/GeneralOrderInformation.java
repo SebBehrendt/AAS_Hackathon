@@ -1,6 +1,7 @@
 package OrderModel;
 
 import Helper.AASHelper;
+import Helper.IAAS;
 import Helper.ISubmodel;
 import ProductModel.Product_abstract;
 import org.bouncycastle.asn1.cms.Time;
@@ -19,7 +20,7 @@ import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.prop
 import java.util.HashMap;
 import java.util.Map;
 
-public class GeneralOrderInformation  {
+public class GeneralOrderInformation implements ISubmodel {
 
     String orderPriority;
     Map<String, String> multiLanguageOrderDescription = new HashMap();
@@ -45,11 +46,12 @@ public class GeneralOrderInformation  {
     public void AddMultiLanguageOrderDescription (String language, String description) {this.multiLanguageOrderDescription.put(language, description);}
 
 
-    protected Submodel createSubmodelGeneralInfo (Order order)
+    @Override
+    public Submodel createSubmodel(IAAS order)
     {
         Submodel generalInfoSM = new Submodel(); //TODO add Aspects and Ident
 
-        generalInfoSM.addSubmodelElement(new Property(AASHelper.nameToIdShort(ORDER_IDENTIFICATION),order.getOrderIdentification()));
+        generalInfoSM.addSubmodelElement(new Property(AASHelper.nameToIdShort(ORDER_IDENTIFICATION),order.getIdentification()));
         generalInfoSM.addSubmodelElement(new Property(AASHelper.nameToIdShort(ORDER_PRIORITY),this.orderPriority));
         // Add MLP Description
         LangStrings mlp = new LangStrings();
@@ -65,7 +67,7 @@ public class GeneralOrderInformation  {
         if (!this.listOrderFiles.isEmpty()) {generalInfoSM.addSubmodelElement(createOrderFilesSMC());}
         if (this.customerInformation != null) {generalInfoSM.addSubmodelElement( this.customerInformation.createCustomerInfoSMC());}
         if (this.timeScheduling != null) {generalInfoSM.addSubmodelElement(this.timeScheduling.createSMCTimeScheduling());}
-        order.addSubmodelToListOfOrderSubmodels(generalInfoSM);
+        order.addSubmodelToList(generalInfoSM);
         return generalInfoSM;
     }
     private SubmodelElementCollection createOrderFilesSMC()
@@ -85,4 +87,5 @@ public class GeneralOrderInformation  {
     private static final String SMC_ORDERFILES_ID_SHORT = "Order_Files";
     private static String DEFAULT = "0";
 
-   }
+
+}

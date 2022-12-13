@@ -1,6 +1,8 @@
 package ProductModel;
 
-public interface IProduct {
+import Helper.IAAS;
+
+public interface IProduct extends IAAS {
 
     void createSubmodels();
 }

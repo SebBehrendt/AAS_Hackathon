@@ -10,13 +10,13 @@ public class createOrder {
 
     protected static void createSkateboardOrder()
     {
-        Order skateBoardOrder = new Order("skateboard_sdm4fzi_20221202_1323");
+        Order skateBoardOrder = new Order(ORDER_INSTANCE_NAME);
         // Add sub Components
         skateBoardOrder.setGeneralOrderInformation(createGeneralOrderInformation());
        // skateBoardOrder.setProductInstances(createProductInstances());
 
 
-        skateBoardOrder.createProductAAS();
+        skateBoardOrder.createAAS();
     }
     private static GeneralOrderInformation createGeneralOrderInformation()
     {
@@ -35,26 +35,30 @@ public class createOrder {
     {
         CustomerInformation customerInfo = new CustomerInformation(COMPANY_NAME, CONTACT_NAME, CUSTOMER_IDENTIFICATION);
         customerInfo.setAddress(STREET_AND_NUMBER, ZIP_CODE, PLACE, COUNTRY);
+        customerInfo.setContactInfo(PHONE_NUMBER_CONTACT, "adam.skilter@skateboars-manufacturing.com");
 
         return customerInfo;
     }
     private static TimeScheduling createSchedulingInfos()
     {
-        TimeScheduling timeScheduling = new TimeScheduling();
-        //TODO
+        TimeScheduling timeScheduling = new TimeScheduling("13.02.2023  00:00:00", "14.02.2023  23:59:59", "14.02.2023  23:59:59"  );
+        timeScheduling.addSchedulingProperties("delivery_buffer", "4 days");
+
         return timeScheduling;
     }
     private static Map<String,String> createOrderFiles ()
     {
         Map<String,String> orderFiles = new HashMap<>();
-        orderFiles.put("1", "2");
-        // TODO
+        orderFiles.put("OrderFile", "Order_"+ORDER_INSTANCE_NAME+".pdf");
+
         return orderFiles;
     }
     private static Map<String,String> createMlpDescriptions()
     {
         Map<String,String> mlpDescription = new HashMap<>();
-        //TODO
+        mlpDescription.put(EN,"Order Insatnce for "+ORDER_INSTANCE_NAME );
+        mlpDescription.put(GER, "Auftragsinstanz für "+ ORDER_INSTANCE_NAME);
+
         return mlpDescription;
     }
     private static ProductInstances createSkateboardInstances()
@@ -69,6 +73,12 @@ public class createOrder {
     private static final String ZIP_CODE= "10115";
     private static final String PLACE = "Berlin";
     private static final String COUNTRY = "Germany";
+    private static final String ORDER_INSTANCE_NAME = "skateboard_sdm4fzi_20221202_1323";
+    private static final String EN = "en";
+    private static final String GER = "de";
+    private static final String ORDER_FILE = "OrderFile";
+    private static final String PHONE_NUMBER_CONTACT = "+49 03031 78993-9";
+
 }
 
 // Order:

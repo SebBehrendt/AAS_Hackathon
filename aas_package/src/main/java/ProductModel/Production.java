@@ -1,5 +1,6 @@
 package ProductModel;
 
+import Helper.IAAS;
 import Helper.ISubmodel;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 
@@ -22,7 +23,7 @@ public class Production implements ISubmodel {
     }
 
     @Override
-    public Submodel createSubmodel(Product_abstract product) {
+    public Submodel createSubmodel(IAAS product) {
         Submodel submodelProduction = new Submodel();
         if (this.plannedProduction != null)
         {
