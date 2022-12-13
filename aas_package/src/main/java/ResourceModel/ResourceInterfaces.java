@@ -28,7 +28,7 @@ public class ResourceInterfaces implements ISubmodel {
     {
         this.listOfResourceInterfaces.add(resourceInterface);
     }
-    //TODO
+
 
     private SubmodelElementCollection createInterfaceSMC(ResourceInterface interfaceResource)
     {

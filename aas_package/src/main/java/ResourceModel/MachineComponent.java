@@ -24,7 +24,8 @@ public class MachineComponent extends Resource{
 
     @Override
    public Asset createAsset() {
-        return new Asset(AASHelper.nameToIdShort(this.getId()), new Identifier(IdentifierType.CUSTOM, ASSET_IDENTIFIER_PREFIX + this.getIdentification()), AssetKind.INSTANCE);
+        return new Asset(AASHelper.nameToIdShort(this.getId()),
+                new Identifier(IdentifierType.CUSTOM, ASSET_IDENTIFIER_PREFIX + this.getIdentification()), AssetKind.INSTANCE);
     }
 
 

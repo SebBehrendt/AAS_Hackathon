@@ -32,6 +32,7 @@ public abstract class Resource implements IResource {
     {
         this.resourceIdentification = resourceIdent;
         listOfSubmodelClasses.add(this.resourceIdentification);
+        this.id = this.resourceIdentification.id;
 
         this.hierarchicalStructureOfResource = resourceHierarchy;
         listOfSubmodelClasses.add(this.hierarchicalStructureOfResource);

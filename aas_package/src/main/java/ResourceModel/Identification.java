@@ -1,8 +1,12 @@
 package ResourceModel;
 
+import Helper.AASHelper;
 import Helper.IAAS;
 import Helper.ISubmodel;
+import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
+import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
+import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
 
 // Might change to digital Nameplate --> to DNP
 public class Identification implements ISubmodel {
@@ -22,6 +26,22 @@ public class Identification implements ISubmodel {
 
     @Override
     public Submodel createSubmodel(IAAS abstactShellObject) {
-        return null;
+        Submodel digitalNameplateMinimal = new Submodel(AASHelper.nameToIdShort(DIGITAL_NAMEPLATE_SHORT_ID),
+                new Identifier(IdentifierType.CUSTOM,DIGITAL_NAMEPLATE_IDENTIFIER ));
+
+        digitalNameplateMinimal.addSubmodelElement(new Property(AASHelper.nameToIdShort(RESOURCE_NAME), this.name));
+        digitalNameplateMinimal.addSubmodelElement(new Property(AASHelper.nameToIdShort(RESOURCE_IDENTIFICATION), this.id));
+        digitalNameplateMinimal.addSubmodelElement(new Property(AASHelper.nameToIdShort(MANUFACTURER), this.manufacturer));
+        digitalNameplateMinimal.addSubmodelElement(new Property(AASHelper.nameToIdShort(RESOURCE_TYPE), this.typeOfResource.getResourceTypeName()));
+
+        abstactShellObject.addSubmodelToList(digitalNameplateMinimal);
+        return digitalNameplateMinimal;
     }
+
+    private static final String RESOURCE_NAME = "Resource_Name";
+    private static final String RESOURCE_IDENTIFICATION= "Resource_Identification";
+    private static final String MANUFACTURER = "Manufacturer";
+    private static final String  RESOURCE_TYPE = "Resource_Type";
+    private static final String  DIGITAL_NAMEPLATE_SHORT_ID = "Digital_Nameplate";
+    private static final String  DIGITAL_NAMEPLATE_IDENTIFIER = "Digital_Nameplate_Identifier_";
 }

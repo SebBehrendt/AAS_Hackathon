@@ -4,6 +4,7 @@ import Helper.AASHelper;
 import Helper.IAAS;
 import Helper.ISubmodel;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
+import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyElements;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
@@ -28,7 +29,7 @@ public class BOM implements ISubmodel {
 
     @Override
     public Submodel createSubmodel(IAAS product) {
-        Submodel submodelSubcomponentsBOM = new Submodel();
+        Submodel submodelSubcomponentsBOM = new Submodel("BOM", new Identifier(IdentifierType.CUSTOM, "BOM_Identifier"));
         for (Map.Entry<String, AssetAdministrationShell> entry : this.listSubComponents.entrySet())
         {
             //new smc and ref-Element to AAS of subComponent

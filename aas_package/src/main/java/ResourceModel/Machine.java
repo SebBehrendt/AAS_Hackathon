@@ -27,7 +27,7 @@ public class Machine extends Resource{
 
     @Override
     public String getIdentification() {
-        return this.getId();
+        return this.id;
     }
 
 private static final String ASSET_IDENTIFIER_PREFIX = "Asset_";

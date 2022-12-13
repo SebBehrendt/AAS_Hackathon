@@ -22,7 +22,7 @@ public class Hierarchy implements ISubmodel {
     private static final String SUBMODEL_HIERARCHY_IDENTIFIER = "Ident";
     private static final String SMC_SUBSYSTEM_PREFIX = "SubSystem_";
 
-    Map<ResourceType, AssetAdministrationShell> listOfSubsystems = new HashMap<>(); //
+    Map<ResourceType, AssetAdministrationShell> listOfSubsystems ;
 
     public Hierarchy (Map<ResourceType,AssetAdministrationShell> listOfSubs)
     {

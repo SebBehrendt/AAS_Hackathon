@@ -22,7 +22,7 @@ public class DigitalNameplate implements ISubmodel {
     @Override
     public Submodel createSubmodel(IAAS product) {
         Submodel submodelDigitalNameplate = new Submodel(SUBMODEL_DIGITAL_NAMEPLATE_ID_SHORT,
-                new Identifier(IdentifierType.CUSTOM, AASHelper.nameToIdShort(SUBMODEL_DIGITAL_NAMEPLATE_IDENTIFIER_PREFIX + this.ProductIdentifier)));
+                new Identifier(IdentifierType.CUSTOM, AASHelper.nameToIdShort(SUBMODEL_DIGITAL_NAMEPLATE_IDENTIFIER_PREFIX)));
 
 
         product.addSubmodelToList(submodelDigitalNameplate);

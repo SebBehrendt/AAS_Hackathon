@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class ResourceInterface {
     InterfaceTypes typeOfInterface;
-    Map<String,String> listOfAttributes = new HashMap<>();
+    Map<String,String> listOfAttributes;
 
     public ResourceInterface(InterfaceTypes type, Map<String,String> listOfAttributes)
     {
@@ -39,6 +39,12 @@ public class ResourceInterface {
     {
         return this.typeOfInterface.getInterfaceName();
     }
+
+
+
+
+
+
 /*
     public ResourceInterface(InterfaceTypes type, Map<String,String> listOfAttributes)
     {

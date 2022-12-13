@@ -1,11 +1,9 @@
 package ProductModel;
 
-import Helper.AASHelper;
+
 import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
-import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
-import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
-import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
+
 
 public class StandardComponent extends Product_abstract{
 
