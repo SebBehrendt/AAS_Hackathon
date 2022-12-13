@@ -5,22 +5,14 @@ import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
-import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyElements;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
-import org.eclipse.basyx.submodel.metamodel.map.qualifier.LangString;
-import org.eclipse.basyx.submodel.metamodel.map.qualifier.LangStrings;
-import org.eclipse.basyx.submodel.metamodel.map.reference.Reference;
-import org.eclipse.basyx.submodel.metamodel.map.submodelelement.SubmodelElementCollection;
-import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.MultiLanguageProperty;
-import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+//TODO: implement framework (AAS_Object and ISubmodel)
 
 public class Order {
     private static final IdentifierType IDENTIFIER_TYPE = IdentifierType.CUSTOM;
@@ -31,15 +23,10 @@ public class Order {
 
 
     String orderIdentification;
-    ProductInstances productInstances = null;
+    ProductInstances productInstances = null; //Position --> Ref AAS, Quantity (rename)
     GeneralOrderInformation generalOrderInformation = null;
-    /**
-     * Create Submodel GeneralInformation
-     */
 
-
-
-    List<Submodel> listOfOrderSubmodels = new ArrayList<>();
+    private List<Submodel> listOfOrderSubmodels = new ArrayList<>();
 
     public Order(String orderId) {this.orderIdentification = orderId; }
     public Order(String orderId, ProductInstances instances) {
@@ -51,7 +38,14 @@ public class Order {
         this.productInstances = instances;
         this.generalOrderInformation = generalOrderInformation;
     }
-
+    public void setGeneralOrderInformation (GeneralOrderInformation generalInfo)
+    {
+        this.generalOrderInformation = generalInfo;
+    }
+    public void setProductInstances (ProductInstances instances)
+    {
+        this.productInstances = productInstances;
+    }
     //Getters and Setters
     public String getOrderIdentification() {
         return orderIdentification;
@@ -65,7 +59,7 @@ public class Order {
     public List<Submodel> getListOfOrderSubmodels() {return listOfOrderSubmodels;}
 
     //AAS-Environment
-    public AssetAdministrationShell createOrderAAS()
+    public AssetAdministrationShell createProductAAS()
     {
         AssetAdministrationShell orderAAS = new AssetAdministrationShell(AASHelper.nameToIdShort(this.getOrderIdentification()),
                 new Identifier(IDENTIFIER_TYPE, createAASIdentifier()), createOrderAsset());
@@ -80,6 +74,7 @@ public class Order {
         }
         return orderAAS;
     }
+
     @NotNull
     @Contract(pure = true)
     private String createAASIdentifier()

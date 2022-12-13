@@ -6,3 +6,13 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+libraries/
+compiler.xml
+deployment.xml
+encodings.xml
+jarRepositories.xml
+jpa-buddy.xml
+uiDesigner.xml
+workspace.xml
+
+

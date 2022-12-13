@@ -21,6 +21,7 @@ import org.eclipse.basyx.submodel.metamodel.map.submodelelement.SubmodelElementC
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.MultiLanguageProperty;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.ReferenceElement;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -196,7 +197,7 @@ public class Product implements IProduct {
         {//Set MLPs for Product description
             for (Map.Entry<String, String> set : this.productDescription.entrySet())
             {
-                MultiLanguageProperty mlp = new MultiLanguageProperty(new Reference(new Identifier(IdentifierType.CUSTOM, "customID"),
+                MultiLanguageProperty mlp = new MultiLanguageProperty(new Reference(new Identifier(IdentifierType.CUSTOM, "customID"), //TODO IDs!
                         KeyElements.MULTILANGUAGEPROPERTY, false ), new LangStrings(AASHelper.nameToIdShort(set.getKey()), set.getValue()));
                 mlp.setIdShort(PRODUCT_DESCRIPTION_MLP_ID_SHORT);
                 submodelProductInformation.addSubmodelElement(mlp);
@@ -209,6 +210,7 @@ public class Product implements IProduct {
         this.listOfSubmodels.add(submodelProductInformation);
         return submodelProductInformation;
     }
+    @NotNull
     private SubmodelElementCollection createSMCOrderInformation()
     {
         SubmodelElementCollection orderInfoSMC = new SubmodelElementCollection(SMC_ORDER_INFO);
@@ -223,9 +225,9 @@ public class Product implements IProduct {
         {
             orderInfoSMC.addSubmodelElement(createSMCOrderFiles());
         }
-
         return orderInfoSMC;
     }
+    @NotNull
     private SubmodelElementCollection createSMCOrderFiles()
     {
         SubmodelElementCollection orderFilesSMC = new SubmodelElementCollection(SMC_ORDER_FILES);
@@ -239,7 +241,7 @@ public class Product implements IProduct {
     private SubmodelElementCollection createSMCOrderBOM()
     {
         SubmodelElementCollection SMCBOM = new SubmodelElementCollection(SMC_BOM);
-        ConnectedAssetAdministrationShellManager manager =  Helper.Infrastructure.createManager();
+        ConnectedAssetAdministrationShellManager manager =  Helper.Infrastructure.getManager();
         for (Map.Entry<String, IProduct> set : this.listSubComponents.entrySet())
         {
             // AssetAdministrationShell componentAAS = set.getValue().getProductAAS();

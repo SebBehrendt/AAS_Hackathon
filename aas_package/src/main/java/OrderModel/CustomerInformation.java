@@ -1,6 +1,7 @@
 package OrderModel;
 
 import Helper.AASHelper;
+import Helper.ISubmodel;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.SubmodelElementCollection;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
 

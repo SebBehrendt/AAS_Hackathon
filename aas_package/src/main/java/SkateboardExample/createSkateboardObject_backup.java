@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static SkateboardExample.createSkateboardObject.createWheelComponents.*;
+import static SkateboardExample.createSkateboardObject_backup.createWheelComponents.*;
 
 /**
  * class used to implement the example object Skateboard (Product) for example.
  */
-public class createSkateboardObject {
+public class createSkateboardObject_backup {
     private static final String INTERNAL_ID_PREFIX = "ID_Prefix_";
     private static final String INTERNAL_ID_SUFFIX = "_time_stamp_etc"; //Example DUmmy
 

@@ -206,10 +206,13 @@ class ProcedureInstance extends Process {
     }
 }
 
+/*
 public class ProcedureAASInstance {
+
 
     public static void createAASfromProcess(ProcessInstance processInstance, String idShort, String description){
         // TODO: implement method here
+        // FIXME: id short shall not be used as URN!
         Asset processAsset = new Asset(idShort, new ModelUrn(idShort), AssetKind.INSTANCE);
         AssetAdministrationShell processAAS = new AssetAdministrationShell(idShort + "AAS",
                 new ModelUrn(idShort + "AAS"), processAsset);
@@ -244,6 +247,8 @@ public class ProcedureAASInstance {
         return processAASMap;
 
     }
+
+
 
     public static void addProcessAttributesToSubmodel(ISubmodel submodel, List<ProcessAttribute> processAttributes) {
         // TODO: Type of process attribute is still missing
@@ -383,4 +388,10 @@ public class ProcedureAASInstance {
 
 
     }
+
+
 }
+
+ */
+
+

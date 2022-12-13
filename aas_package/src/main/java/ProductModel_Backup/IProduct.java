@@ -22,4 +22,5 @@ public interface IProduct {
     ProductType getTypeOfSubcomponent ();
     ProductionState getProductionState();
 
+
 }
