@@ -11,11 +11,12 @@ public class Identification implements ISubmodel {
     String manufacturer;
     ResourceType typeOfResource;
 
-    public Identification(String name, String id, String manufacturer )
+    public Identification(String name, String id, String manufacturer, ResourceType resourceType )
     {
         this.name = name;
         this.id = id;
         this.manufacturer = manufacturer;
+        this.typeOfResource = resourceType;
     }
 
 

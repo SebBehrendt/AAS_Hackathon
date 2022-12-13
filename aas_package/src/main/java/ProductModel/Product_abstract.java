@@ -39,7 +39,34 @@ public abstract class Product_abstract  implements IAAS {
     {
         return this.productIdentification;
     }
+    @Override
+    public void createSubmodels(AssetAdministrationShell shell ) {
+        for(ISubmodel submodelObj : listOfSubmodelClasses)
+        {
+            Submodel createdSubmodel = submodelObj.createSubmodel(this);
+            shell.addSubmodel(createdSubmodel);
+            this.addSubmodelToList(createdSubmodel);
 
+        }
+
+    }
+    @Override
+    public List<Submodel> getSubmodels()
+    {
+        return listOfSubmodels;
+    }
+    /*
+    @Override
+    public void createSubmodels(AssetAdministrationShell shell ) {
+        for(ISubmodel submodelObj : listOfSubmodelClasses)
+        {
+            this.addSubmodelToList(submodelObj.createSubmodel(this));
+        }
+
+    }
+
+
+     */
      public void addSubmodelToList(Submodel submodel)
     {
         this.listOfSubmodels.add(submodel);

@@ -36,8 +36,5 @@ public class Component extends Product_abstract{
 
     }
 
-    @Override
-    public void createSubmodels() {
 
-    }
 }

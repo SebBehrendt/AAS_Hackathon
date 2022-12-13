@@ -41,7 +41,7 @@ public class createOrder {
     }
     private static TimeScheduling createSchedulingInfos()
     {
-        TimeScheduling timeScheduling = new TimeScheduling("13.02.2023  00:00:00", "14.02.2023  23:59:59", "14.02.2023  23:59:59"  );
+        TimeScheduling timeScheduling = new TimeScheduling("13.02.2023  00:00:00", "14.02.2023  23:59:59", "14.02.2023  23:59:59");
         timeScheduling.addSchedulingProperties("delivery_buffer", "4 days");
 
         return timeScheduling;

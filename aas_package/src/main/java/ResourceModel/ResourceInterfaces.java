@@ -20,6 +20,14 @@ public class ResourceInterfaces implements ISubmodel {
     {
         this.listOfResourceInterfaces = listOfResourceInterfaces;
     }
+    public ResourceInterfaces (ResourceInterface resourceInterface)
+    {
+        this.listOfResourceInterfaces.add(resourceInterface);
+    }
+    public void addResourceInterface (ResourceInterface resourceInterface)
+    {
+        this.listOfResourceInterfaces.add(resourceInterface);
+    }
     //TODO
     protected Submodel createSubmodelResourceInterfaces ()
     {

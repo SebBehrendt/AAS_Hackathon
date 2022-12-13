@@ -54,14 +54,6 @@ public class Product extends Product_abstract{
         return this.productIdentification;
     }
 
-    @Override
-    public void createSubmodels() {
-        for(ISubmodel submodelObj : listOfSubmodelClasses)
-        {
-            this.addSubmodelToList(submodelObj.createSubmodel(this));
-        }
-
-    }
 
     /**
      * AAS Environment

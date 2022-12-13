@@ -11,6 +11,7 @@ import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
 import org.eclipse.basyx.submodel.metamodel.map.reference.Reference;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.SubmodelElementCollection;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.ReferenceElement;
+import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,35 +22,35 @@ public class Hierarchy implements ISubmodel {
     private static final String SUBMODEL_HIERARCHY_IDENTIFIER = "Ident";
     private static final String SMC_SUBSYSTEM_PREFIX = "SubSystem_";
 
-    Map<String, AssetAdministrationShell> listOfSubsystems = new HashMap<>();
+    Map<ResourceType, AssetAdministrationShell> listOfSubsystems = new HashMap<>(); //
 
-    public Hierarchy (List<AssetAdministrationShell> listOfSubs)
+    public Hierarchy (Map<ResourceType,AssetAdministrationShell> listOfSubs)
     {
-        for (AssetAdministrationShell shell : listOfSubs) {
-            this.listOfSubsystems.put(shell.getIdShort(), shell);
-        }
+        this.listOfSubsystems = listOfSubs;
     }
 
-    private SubmodelElementCollection createSMCSubsystems(AssetAdministrationShell shell)
+    private SubmodelElementCollection createSMCSubsystems(Map.Entry<ResourceType, AssetAdministrationShell> subSystem)
     {
-        SubmodelElementCollection smcSubsystem = new SubmodelElementCollection(AASHelper.nameToIdShort(SMC_SUBSYSTEM_PREFIX + shell.getIdShort()));
-        ReferenceElement refElSubsystem = new ReferenceElement("id_short", new Reference((Identifier)shell.getIdentification(),
+        SubmodelElementCollection smcSubsystem = new SubmodelElementCollection(AASHelper.nameToIdShort(SMC_SUBSYSTEM_PREFIX + subSystem.getValue().getIdShort()));
+        ReferenceElement refElSubsystem = new ReferenceElement(ID_SHORT, new Reference((Identifier)subSystem.getValue().getIdentification(),
                 KeyElements.ASSETADMINISTRATIONSHELL, false));
         smcSubsystem.addSubmodelElement(refElSubsystem);
+        smcSubsystem.addSubmodelElement(new Property(RESOURCE_TYPE, subSystem.getKey().getResourceTypeName()));
         return smcSubsystem;
 
     }
-
     @Override
     public Submodel createSubmodel(IAAS abstractShellObject) {
         Submodel submodelHierarchy = new Submodel(AASHelper.nameToIdShort(SUBMODEL_HIERARCHY_ID_SHORT),
                 new Identifier(IdentifierType.CUSTOM, SUBMODEL_HIERARCHY_IDENTIFIER ));
 
-        for (AssetAdministrationShell subsysAAS : this.listOfSubsystems.values())
+        for (Map.Entry<ResourceType,AssetAdministrationShell> subSystemEntry: this.listOfSubsystems.entrySet())
         {
-            submodelHierarchy.addSubmodelElement(createSMCSubsystems(subsysAAS));
+            submodelHierarchy.addSubmodelElement(createSMCSubsystems(subSystemEntry));
         }
         abstractShellObject.addSubmodelToList(submodelHierarchy);
         return submodelHierarchy;
     }
+    private static final String ID_SHORT = "id_short";
+    private static final String RESOURCE_TYPE = "Resource_Type";
 }

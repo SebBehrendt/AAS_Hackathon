@@ -1,40 +1,88 @@
 package ResourceModel;
 
-import ResourceModel.Hierarchy;
-import ResourceModel.ResourceInterfaces;
+import Helper.AASHelper;
+import Helper.ISubmodel;
+
+import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
+import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
+import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
 
-import java.util.ArrayList;
 import java.util.List;
+
 
 public abstract class Resource implements IResource {
 
     Hierarchy hierarchicalStructureOfResource = null;
-    Identification resourceIdentification = null;
-
+    Identification resourceIdentification;
 
     /**
      * AAS Environment
      */
-    protected List<Submodel> listOfSubmodels = new ArrayList<>();
-
-
     public Resource (Identification resourceIdent)
     {
         this.resourceIdentification = resourceIdent;
+        listOfSubmodelClasses.add(this.resourceIdentification);
     }
     public Resource (Identification resourceIdent, Hierarchy resourceHierarchy)
     {
         this.resourceIdentification = resourceIdent;
-        listOfSubmodelClasses.add(resourceIdent);
+        listOfSubmodelClasses.add(this.resourceIdentification);
+
         this.hierarchicalStructureOfResource = resourceHierarchy;
+        listOfSubmodelClasses.add(this.hierarchicalStructureOfResource);
+    }
+    public void addHierarchy (Hierarchy hierarchy)
+    {
+        this.hierarchicalStructureOfResource = hierarchy;
+        listOfSubmodelClasses.add(this.hierarchicalStructureOfResource);
+    }
+    public ResourceType getResourceType()
+    {
+        return this.resourceIdentification.typeOfResource;
     }
 
    @Override
    public AssetAdministrationShell createAAS()
     {
-        return null;
+        AssetAdministrationShell resourceAAS = new AssetAdministrationShell(AASHelper.nameToIdShort(this.getIdentification()),
+                new Identifier(IdentifierType.CUSTOM, AAS_IDENTIFIER_PREFIX + this.getIdentification()),createAsset() );
+
+        createSubmodels(resourceAAS);
+
+        return resourceAAS;
     }
+    @Override
+    public AssetAdministrationShell createAAS(AssetKind kind) //TODO
+    {
+        AssetAdministrationShell resourceAAS = new AssetAdministrationShell(AASHelper.nameToIdShort(this.getIdentification()),
+                new Identifier(IdentifierType.CUSTOM, AAS_IDENTIFIER_PREFIX + this.getIdentification()),createAsset() );
+        for (ISubmodel submodelObject : listOfSubmodelClasses)
+        {
+            resourceAAS.addSubmodel(submodelObject.createSubmodel(this));
+        }
+        return resourceAAS;
+    }
+    abstract Asset createAsset();
+
+    @Override
+    public void createSubmodels(AssetAdministrationShell shell ) {
+        for(ISubmodel submodelObj : listOfSubmodelClasses)
+        {
+            Submodel createdSubmodel = submodelObj.createSubmodel(this);
+            shell.addSubmodel(createdSubmodel);
+            this.addSubmodelToList(createdSubmodel);
+
+        }
+
+    }
+    @Override
+    public List<Submodel> getSubmodels()
+    {
+        return listOfSubmodels;
+    }
+
+    private static final String AAS_IDENTIFIER_PREFIX = "AAS_";
 }
