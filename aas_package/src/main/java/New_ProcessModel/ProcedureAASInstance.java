@@ -88,7 +88,7 @@ class ProcessModel{
     ProcessModelType type;
     List<Process> nodes;
     List<List<Process>> edges;
-
+^1q
     public void add_node(Process process){
         if (!this.nodes.contains(process)){
             this.nodes.add(process);
@@ -169,7 +169,6 @@ class GraphProcessModel extends ProcessModel{
 }
 
 abstract class Process {
-    // TODO: change constructors to consider id and description
     String id;
     String description;
     List<ProcessAttribute> processAttributes;
@@ -179,8 +178,10 @@ class ProcessInstance extends Process {
     List<ProcessModel> processModels;
 
     // TODO: process model has to be added in constructors and tested in main
-    public ProcessInstance(List<ProcessAttribute> processAttributes, List<ProcessModel> processModels) {
+    public ProcessInstance(String id, String description, List<ProcessAttribute> processAttributes, List<ProcessModel> processModels) {
 
+        this.id = id;
+        this.desctiption = description;
         this.processAttributes = processAttributes;
         this.processModels = processModels;
     }
@@ -190,12 +191,16 @@ class ProcedureInstance extends Process {
     String resourceURI;
     String processURI;
 
-    public ProcedureInstance(List<ProcessAttribute> processAttributes, String resourceURI) {
+    public ProcedureInstance(String id, String description, List<ProcessAttribute> processAttributes, String resourceURI) {
+        this.id = id;
+        this.description = description;
         this.processAttributes = processAttributes;
         this.resourceURI = resourceURI;
     }
 
-    public ProcedureInstance(List<ProcessAttribute> processAttributes, String resourceURI, String processURI) {
+    public ProcedureInstance(String id, String description, List<ProcessAttribute> processAttributes, String resourceURI, String processURI) {
+        this.id = id;
+        this.description = description;
         this.processAttributes = processAttributes;
         this.resourceURI = resourceURI;
         this.processURI = processURI;
@@ -206,13 +211,9 @@ class ProcedureInstance extends Process {
     }
 }
 
-/*
 public class ProcedureAASInstance {
 
-
     public static void createAASfromProcess(ProcessInstance processInstance, String idShort, String description){
-        // TODO: implement method here
-        // FIXME: id short shall not be used as URN!
         Asset processAsset = new Asset(idShort, new ModelUrn(idShort), AssetKind.INSTANCE);
         AssetAdministrationShell processAAS = new AssetAdministrationShell(idShort + "AAS",
                 new ModelUrn(idShort + "AAS"), processAsset);
@@ -223,32 +224,15 @@ public class ProcedureAASInstance {
         Submodel processAttributesSubmodel = new Submodel(idShort + "ProcessAttributes",
                 new ModelUrn(idShort + "Submodel"));
         addProcessAttributesToSubmodel(processAttributesSubmodel, procedure.processAttributes);
-        //procedureAAS.addSubmodel(processAttributesSubmodel);
-
-        Submodel processReferencSubmodel = new Submodel(idShort + "References", new ModelUrn(idShort + "References"));
-        Identifier resourceIdentifier = new Identifier(IdentifierType.IRI, process.resourceURI);
-        Reference resourceReference = new Reference(resourceIdentifier, KeyElements.ASSETADMINISTRATIONSHELL, false);
-        ReferenceElement resourceReferenceElement = new ReferenceElement("Resource_reference", resourceReference);
-        processReferencSubmodel.addSubmodelElement(resourceReferenceElement);
-
-        Identifier processIdentifier = new Identifier(IdentifierType.IRI, procedure.processURI);
-        Reference processReference = new Reference(processIdentifier, KeyElements.ASSETADMINISTRATIONSHELL, false);
-        ReferenceElement processReferenceElement = new ReferenceElement("Process_reference", processReference);
-        processReferencSubmodel.addSubmodelElement(processReferenceElement);
-
-        procedureAAS.addSubmodel(procedureReferencSubmodel);
 
         Map<AssetAdministrationShell, List<Submodel>> processAASMap = new HashMap<AssetAdministrationShell, List<Submodel>>();
         List<Submodel> submodels = new ArrayList<Submodel>();
         submodels.add(processAttributesSubmodel);
-        submodels.add(processReferencSubmodel);
         processAASMap.put(processAAS, submodels);
 
         return processAASMap;
 
     }
-
-
 
     public static void addProcessAttributesToSubmodel(ISubmodel submodel, List<ProcessAttribute> processAttributes) {
         // TODO: Type of process attribute is still missing
@@ -388,10 +372,4 @@ public class ProcedureAASInstance {
 
 
     }
-
-
 }
-
- */
-
-
