@@ -88,7 +88,7 @@ class ProcessModel{
     ProcessModelType type;
     List<Process> nodes;
     List<List<Process>> edges;
-^1q
+
     public void add_node(Process process){
         if (!this.nodes.contains(process)){
             this.nodes.add(process);
@@ -181,7 +181,7 @@ class ProcessInstance extends Process {
     public ProcessInstance(String id, String description, List<ProcessAttribute> processAttributes, List<ProcessModel> processModels) {
 
         this.id = id;
-        this.desctiption = description;
+        this.description = description;
         this.processAttributes = processAttributes;
         this.processModels = processModels;
     }
@@ -210,10 +210,13 @@ class ProcedureInstance extends Process {
         this.processURI = processURI;
     }
 }
-
+/*
+//FIXME: Does not build!
 public class ProcedureAASInstance {
 
     public static void createAASfromProcess(ProcessInstance processInstance, String idShort, String description){
+    //FIXME: Id Short shall not be used as Urn!
+
         Asset processAsset = new Asset(idShort, new ModelUrn(idShort), AssetKind.INSTANCE);
         AssetAdministrationShell processAAS = new AssetAdministrationShell(idShort + "AAS",
                 new ModelUrn(idShort + "AAS"), processAsset);
@@ -229,6 +232,7 @@ public class ProcedureAASInstance {
         List<Submodel> submodels = new ArrayList<Submodel>();
         submodels.add(processAttributesSubmodel);
         processAASMap.put(processAAS, submodels);
+
 
         return processAASMap;
 
@@ -373,3 +377,5 @@ public class ProcedureAASInstance {
 
     }
 }
+
+ */
