@@ -4,8 +4,10 @@ import Helper.AASHelper;
 import Helper.IAAS;
 import Helper.ISubmodel;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
+import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyElements;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
+import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
 import org.eclipse.basyx.submodel.metamodel.map.reference.Reference;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.SubmodelElementCollection;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.ReferenceElement;
@@ -40,7 +42,9 @@ public class ProductInstances implements ISubmodel {
      */
     @Override
     public Submodel createSubmodel(IAAS order) {
-        Submodel productInstancesSubmodel = new Submodel(); //TODO define values
+        Submodel productInstancesSubmodel = new Submodel(INSTANCES_ID_SHORT,
+                new Identifier(IdentifierType.CUSTOM, INSTANCES_IDENTIFIER));
+
         for (Map.Entry<String, ProductInstance> entry : this.listProductInstances.entrySet())
         {
             SubmodelElementCollection productSMC = new SubmodelElementCollection(AASHelper.nameToIdShort(entry.getKey()));
@@ -54,6 +58,8 @@ public class ProductInstances implements ISubmodel {
         order.addSubmodelToList(productInstancesSubmodel);
         return productInstancesSubmodel;
     }
+    private static final String INSTANCES_ID_SHORT = "Instances";
+    private static final String INSTANCES_IDENTIFIER= "Instances_Identifier";
 
 }
 

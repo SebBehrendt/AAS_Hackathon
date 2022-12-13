@@ -12,9 +12,10 @@ public class createOrder {
     protected static void createSkateboardOrder(List<ProductInstance> listInstances)
     {
         Order skateBoardOrder = new Order(ORDER_INSTANCE_NAME);
+
         // Add sub Components
         skateBoardOrder.setGeneralOrderInformation(createGeneralOrderInformation());
-       // skateBoardOrder.setProductInstances(createProductInstances(listInstances));
+       skateBoardOrder.setProductInstances(createProductInstances(listInstances));
 
 
         skateBoardOrder.createAndUploadAAStoServer();
@@ -30,7 +31,7 @@ public class createOrder {
     public static ProductInstances createProductInstances(List<ProductInstance> listInstances) //TODO --> get Instances in there!
     {
         ProductInstances instances = new ProductInstances(listInstances);
-        //TODO
+
         return instances;
 
     }

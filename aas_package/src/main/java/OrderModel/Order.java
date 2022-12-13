@@ -17,11 +17,7 @@ import java.util.List;
 //TODO: implement framework (AAS_Object and ISubmodel)
 
 public class Order implements IAAS {
-    private static final IdentifierType IDENTIFIER_TYPE = IdentifierType.CUSTOM;
-    private static AssetKind ASSET_KIND  = AssetKind.INSTANCE; // Default
-    private static final String AAS_IDENTIFIER_PREFIX = "Order_AAS_";
-    private static final String PREFIX_ASSET = "Asset_";
-    private static final String PREFIX_ORDER_ASSET_IDENTIFIER= "Order_";
+
 
 
     String orderIdentification;
@@ -32,7 +28,7 @@ public class Order implements IAAS {
     public Order(String orderId, ProductInstances instances) {
         this.orderIdentification = orderId;
         this.productInstances = instances;
-        listOfSubmodelClasses.add(instances);
+        listOfSubmodelClasses.add(this.productInstances);
     }
     public Order(String orderId, ProductInstances instances, GeneralOrderInformation generalOrderInformation) {
         this.orderIdentification = orderId;
@@ -48,7 +44,7 @@ public class Order implements IAAS {
     }
     public void setProductInstances (ProductInstances instances)
     {
-        this.productInstances = productInstances;
+        this.productInstances = instances;
         listOfSubmodelClasses.add(this.productInstances);
     }
     //Getters and Setters
@@ -62,8 +58,6 @@ public class Order implements IAAS {
     {
         this.listOfSubmodels.add(submodel);
     }
-
-    public List<Submodel> getListOfOrderSubmodels() {return listOfSubmodels;}
 
     //AAS-Environment
     @Override
@@ -126,5 +120,11 @@ public class Order implements IAAS {
         Helper.ServerAASX.uploadAAStoServer(this.createAAS(), this.listOfSubmodels);
     }
 
+
+    private static final IdentifierType IDENTIFIER_TYPE = IdentifierType.CUSTOM;
+    private static AssetKind ASSET_KIND  = AssetKind.INSTANCE; // Default
+    private static final String AAS_IDENTIFIER_PREFIX = "Order_AAS_";
+    private static final String PREFIX_ASSET = "Asset_";
+    private static final String PREFIX_ORDER_ASSET_IDENTIFIER= "Order_";
 
 }

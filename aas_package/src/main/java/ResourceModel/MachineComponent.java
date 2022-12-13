@@ -8,6 +8,7 @@ import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
 
 public class MachineComponent extends Resource{
+    //TODO ATtributes and Class Tool (Tool extends component)
     public MachineComponent(Identification resourceIdent) {
         super(resourceIdent);
     }
