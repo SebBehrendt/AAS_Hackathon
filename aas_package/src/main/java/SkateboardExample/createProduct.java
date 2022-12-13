@@ -16,21 +16,31 @@ import java.util.Map;
 
 public class createProduct {
 
-    //the right Order:
-    /*
-    create Subcomponents, instanciate AAS and submodels, upload to server, reference in parent Product (Skateboard), upload
-     */
-
-   static Map <String, AssetAdministrationShell> subComponents = new HashMap<>(); //Id_short, AAS_subcomponent
     static List<AssetAdministrationShell> listOfSubComponents = new ArrayList<>();
-    static List<Submodel> listOfSkateboardSubmodels = new ArrayList<>();
 
-     Product createSkateboard()
+     static AssetAdministrationShell createSkateboard()
     {
         Product skateBoard = new Product("Skateboard_xyz");
+
+        createSubComponents();
+
         skateBoard.addSubComponents(new BOM(listOfSubComponents));
 
-        return skateBoard;
+        AssetAdministrationShell shell = skateBoard.createAAS();
+        skateBoard.createAndUploadAAStoServer();
+
+        System.out.println("Test");
+
+        return shell;
+
+
+
+    }
+    static void createSubComponents()
+    {
+        Board.createBoardProduct();
+        Axis.createAxis();
+        //  Axis.createAxisAssembly();
 
     }
 
@@ -38,19 +48,20 @@ public class createProduct {
 
         static void createBoardProduct()
         {
-            // Digital Nameplate, BOM
+            // Digital Nameplate
             Product skateboardBoard = new Product("Board_20221212_1047", createSkateboardDigitalNameplate());
+            skateboardBoard.addDesignInformation(createDesignInformation());
+
             // if time: add dummy SM Production
             //add designInformation
-            listOfSubComponents.add(skateboardBoard.createAAS());
+
+            AssetAdministrationShell shell = skateboardBoard.createAAS();
+            skateboardBoard.createAndUploadAAStoServer();
+            listOfSubComponents.add(shell);
 
         }
-        static void createSubComponents()
-        {
-            Axis.createAxis();
-            Axis.createAxisAssembly();
 
-        }
+
         @NotNull
         @Contract(value = " -> new", pure = true)
         private static DigitalNameplate createSkateboardDigitalNameplate()
@@ -78,7 +89,9 @@ public class createProduct {
             Product axisFront = new Product("Axis_front_20221212_1118");
             axisFront.addDesignInformation(new DesignInformation("CAD_axis_front", "link_to_objectserver/cad/axis/axis_front.stp"));
 
-            listOfSubComponents.add(axisFront.createAAS());
+            AssetAdministrationShell shell = axisFront.createAAS();
+            axisFront.createAndUploadAAStoServer();
+            listOfSubComponents.add(shell);
         }
 
     }

@@ -1,7 +1,11 @@
 package ResourceModel;
 
+import Helper.AASHelper;
+import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
+import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
+import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
 
 public class MachineComponent extends Resource{
     public MachineComponent(Identification resourceIdent) {
@@ -10,16 +14,19 @@ public class MachineComponent extends Resource{
 
     @Override
     public void addSubmodelToList(Submodel basyxSubmodel) {
-
+        listOfSubmodels.add(basyxSubmodel);
     }
 
     @Override
     public String getIdentification() {
-        return null;
+       return this.getId();
     }
 
     @Override
-    Asset createAsset() {
-        return null;
+   public Asset createAsset() {
+        return new Asset(AASHelper.nameToIdShort(this.getId()), new Identifier(IdentifierType.CUSTOM, ASSET_IDENTIFIER_PREFIX + this.getIdentification()), AssetKind.INSTANCE);
     }
+
+
+    private static final String ASSET_IDENTIFIER_PREFIX = "asset_";
 }

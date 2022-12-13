@@ -15,18 +15,6 @@ public class StandardComponent extends Product_abstract{
     }
 
 
-    @Override
-    Asset createProductAsset() {
-       return new Asset(AASHelper.nameToIdShort(ASSET_PREFIX + this.productIdentification),
-               new Identifier(IDENTIFIER_TYPE_ASSET, ASSET_PREFIX + this.productIdentification), DEFAULT_ASSET_KIND);
-    }
-
-    @Override
-    Asset createProductAsset(AssetKind assetKind) {
-        return new Asset(AASHelper.nameToIdShort(ASSET_PREFIX + this.productIdentification),
-                new Identifier(IDENTIFIER_TYPE_ASSET, ASSET_PREFIX + this.productIdentification), assetKind);
-    }
-    //in abstract: createAndUploadAAStoServer()
 
     private static final IdentifierType IDENTIFIER_TYPE_AAS = IdentifierType.CUSTOM;
     private static final IdentifierType IDENTIFIER_TYPE_ASSET = IdentifierType.CUSTOM;

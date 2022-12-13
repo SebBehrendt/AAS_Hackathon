@@ -49,7 +49,7 @@ public class GeneralOrderInformation implements ISubmodel {
     @Override
     public Submodel createSubmodel(IAAS order)
     {
-        Submodel generalInfoSM = new Submodel(); //TODO add Aspects and Ident
+        Submodel generalInfoSM = new Submodel("general_Information", new Identifier(IdentifierType.CUSTOM, "general_Info_Identifier")); //TODO add Aspects and Ident
 
         generalInfoSM.addSubmodelElement(new Property(AASHelper.nameToIdShort(ORDER_IDENTIFICATION),order.getIdentification()));
         generalInfoSM.addSubmodelElement(new Property(AASHelper.nameToIdShort(ORDER_PRIORITY),this.orderPriority));
@@ -75,7 +75,7 @@ public class GeneralOrderInformation implements ISubmodel {
         SubmodelElementCollection orderFileSMC = new SubmodelElementCollection(SMC_ORDERFILES_ID_SHORT);
         for (Map.Entry entry : this.listOrderFiles.entrySet())
         {
-            orderFileSMC.addSubmodelElement(new File(AASHelper.nameToIdShort(entry.getKey().toString()), entry.getValue().toString()));
+            orderFileSMC.addSubmodelElement(new Property(AASHelper.nameToIdShort(entry.getKey().toString()), entry.getValue().toString()));
         }
         return orderFileSMC;
     }

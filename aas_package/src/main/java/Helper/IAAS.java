@@ -2,6 +2,7 @@ package Helper;
 
 import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
+import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 
 import java.util.ArrayList;
@@ -30,9 +31,12 @@ public interface IAAS {
   * @return created AAS -> does not yet upload it to server
   */
  AssetAdministrationShell createAAS(AssetKind kind);
+ Asset createAsset();
+ Asset createAsset(AssetKind kind);
  List<Submodel> getSubmodels();
 
-    public void createSubmodels(AssetAdministrationShell aas) ;
+ public void createSubmodels(AssetAdministrationShell aas) ;
+ public void createAndUploadAAStoServer();
 
 
 

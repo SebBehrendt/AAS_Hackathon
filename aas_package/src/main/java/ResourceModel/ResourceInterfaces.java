@@ -29,18 +29,10 @@ public class ResourceInterfaces implements ISubmodel {
         this.listOfResourceInterfaces.add(resourceInterface);
     }
     //TODO
-    protected Submodel createSubmodelResourceInterfaces ()
-    {
-        Submodel submodelResourceInterfaces = new Submodel("dummy", new Identifier(IdentifierType.CUSTOM, "test"));
-        for (ResourceInterface resourceInterface: listOfResourceInterfaces)
-        {
-            submodelResourceInterfaces.addSubmodelElement(createInterfaceSMC(resourceInterface));
-        }
-        return submodelResourceInterfaces;
-    }
+
     private SubmodelElementCollection createInterfaceSMC(ResourceInterface interfaceResource)
     {
-        SubmodelElementCollection smcInterface = new SubmodelElementCollection("smcInterface");
+        SubmodelElementCollection smcInterface = new SubmodelElementCollection(AASHelper.nameToIdShort(SMC_INTERFACE_PREFIX + interfaceResource.getInterfaceType()));
         for (Map.Entry entryset: interfaceResource.getListOfAttributes().entrySet())
         {
             smcInterface.addSubmodelElement(new Property(AASHelper.nameToIdShort(entryset.getKey().toString()), entryset.getValue()));
@@ -50,7 +42,17 @@ public class ResourceInterfaces implements ISubmodel {
 
 
     @Override
-    public Submodel createSubmodel(IAAS abstactShellObject) {
-        return null;
+    public Submodel createSubmodel(IAAS abstractShellObject) {
+        Submodel submodelResourceInterfaces = new Submodel(INTERFACES_ID_SHORT, new Identifier(IdentifierType.CUSTOM, INTERFACES_IDENTIFIER));
+        for (ResourceInterface resourceInterface: listOfResourceInterfaces)
+        {
+            submodelResourceInterfaces.addSubmodelElement(createInterfaceSMC(resourceInterface));
+        }
+        abstractShellObject.addSubmodelToList(submodelResourceInterfaces);
+        return submodelResourceInterfaces;
     }
+
+    private static final String INTERFACES_ID_SHORT =  "Interfaces_id_Short";
+    private static final String INTERFACES_IDENTIFIER =  "Submodel_Interfaces_Identifier";
+    private static final String SMC_INTERFACE_PREFIX =  "SMC_Interface_";
 }

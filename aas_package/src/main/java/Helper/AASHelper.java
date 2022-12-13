@@ -16,6 +16,10 @@ public class AASHelper {
             return nameString.replaceAll("\\s","_").replace('.','_').replaceAll("[^a-zA-Z0-9]+","");
 
         }
+        if (nameString == null)
+        {
+            return EXCEPTION_SHORT_ID;
+        }
         else return EXCEPTION_SHORT_ID;
 
     }

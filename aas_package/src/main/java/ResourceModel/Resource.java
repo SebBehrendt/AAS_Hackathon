@@ -17,6 +17,7 @@ public abstract class Resource implements IResource {
 
     Hierarchy hierarchicalStructureOfResource = null;
     Identification resourceIdentification;
+    String id;
 
     /**
      * AAS Environment
@@ -25,6 +26,7 @@ public abstract class Resource implements IResource {
     {
         this.resourceIdentification = resourceIdent;
         listOfSubmodelClasses.add(this.resourceIdentification);
+        this.id = this.resourceIdentification.id;
     }
     public Resource (Identification resourceIdent, Hierarchy resourceHierarchy)
     {
@@ -43,6 +45,10 @@ public abstract class Resource implements IResource {
     {
         return this.resourceIdentification.typeOfResource;
     }
+    protected String getId()
+    {
+        return this.id;
+    }
 
    @Override
    public AssetAdministrationShell createAAS()
@@ -55,17 +61,17 @@ public abstract class Resource implements IResource {
         return resourceAAS;
     }
     @Override
-    public AssetAdministrationShell createAAS(AssetKind kind) //TODO
+    public AssetAdministrationShell createAAS(AssetKind kind)
     {
         AssetAdministrationShell resourceAAS = new AssetAdministrationShell(AASHelper.nameToIdShort(this.getIdentification()),
-                new Identifier(IdentifierType.CUSTOM, AAS_IDENTIFIER_PREFIX + this.getIdentification()),createAsset() );
+                new Identifier(IdentifierType.CUSTOM, AAS_IDENTIFIER_PREFIX + this.getIdentification()),createAsset(kind));
+
         for (ISubmodel submodelObject : listOfSubmodelClasses)
         {
             resourceAAS.addSubmodel(submodelObject.createSubmodel(this));
         }
         return resourceAAS;
     }
-    abstract Asset createAsset();
 
     @Override
     public void createSubmodels(AssetAdministrationShell shell ) {
@@ -74,9 +80,7 @@ public abstract class Resource implements IResource {
             Submodel createdSubmodel = submodelObj.createSubmodel(this);
             shell.addSubmodel(createdSubmodel);
             this.addSubmodelToList(createdSubmodel);
-
         }
-
     }
     @Override
     public List<Submodel> getSubmodels()
@@ -84,5 +88,20 @@ public abstract class Resource implements IResource {
         return listOfSubmodels;
     }
 
+    @Override
+    public Asset createAsset() {
+        return new Asset(AASHelper.nameToIdShort(this.id), new Identifier(IdentifierType.CUSTOM, ASSET_IDENTIFIER_PREFIX + this.getIdentification()), AssetKind.INSTANCE);
+    }
+    @Override
+    public Asset createAsset(AssetKind kind) {
+        return new Asset(AASHelper.nameToIdShort(this.id), new Identifier(IdentifierType.CUSTOM, ASSET_IDENTIFIER_PREFIX + this.getIdentification()), kind);
+    }
+    @Override
+    public void createAndUploadAAStoServer()
+    {
+        Helper.ServerAASX.uploadAAStoServer(this.createAAS(), this.listOfSubmodels);
+    }
+
+    private static final String ASSET_IDENTIFIER_PREFIX = "asset_";
     private static final String AAS_IDENTIFIER_PREFIX = "AAS_";
 }

@@ -1,8 +1,12 @@
 package SkateboardExample;
 
+import OrderModel.ProductInstance;
 import ProductModel_Backup.Product;
 import ProductModel_Backup.ProductLifecycleState;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Main used to execute example
@@ -10,12 +14,20 @@ import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 public class Main {
     public static void main(String[] args) {
 
-    createOrder.createSkateboardOrder();
+        // create AAS of Skateboard
+       AssetAdministrationShell skateboardShell =  createProduct.createSkateboard();
+        //create List of ProductInstance (SkateboardAAS, quantity)
+        List<ProductInstance> listInstance = new ArrayList<>();
+        listInstance.add(new ProductInstance(skateboardShell, "1"));
+        createOrder.createSkateboardOrder(listInstance);
 
+        /*
     createResourceCaesar.createCaesarCell();
 
         //Breakpoint Dummy for debugging
         System.out.println("Hello World");
+
+         */
 
 
 

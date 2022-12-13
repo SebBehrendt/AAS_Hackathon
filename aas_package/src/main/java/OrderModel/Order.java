@@ -70,17 +70,23 @@ public class Order implements IAAS {
     public AssetAdministrationShell createAAS()
     {
         AssetAdministrationShell orderAAS = new AssetAdministrationShell(AASHelper.nameToIdShort(this.getIdentification()),
-                new Identifier(IDENTIFIER_TYPE, createAASIdentifier()), createOrderAsset());
+                new Identifier(IDENTIFIER_TYPE, createAASIdentifier()), createAsset());
         /**
          * Create SMs
          */
-       createSubmodels( orderAAS );
+       createSubmodels(orderAAS);
         return orderAAS;
     }
 
     @Override
     public AssetAdministrationShell createAAS(AssetKind kind) {
-        return null;
+        AssetAdministrationShell orderAAS = new AssetAdministrationShell(AASHelper.nameToIdShort(this.getIdentification()),
+                new Identifier(IDENTIFIER_TYPE, createAASIdentifier()), createAsset(kind));
+        /**
+         * Create SMs
+         */
+        createSubmodels(orderAAS );
+        return orderAAS;
     }
 
     @Override
@@ -104,9 +110,20 @@ public class Order implements IAAS {
     {
         return AAS_IDENTIFIER_PREFIX + this.orderIdentification;
     }
-    private Asset createOrderAsset()
+   @Override
+   public Asset createAsset()
     {
         return new Asset(PREFIX_ASSET+this.orderIdentification, new Identifier(IdentifierType.CUSTOM, PREFIX_ORDER_ASSET_IDENTIFIER), ASSET_KIND);
+    }
+    @Override
+    public Asset createAsset(AssetKind kind)
+    {
+        return new Asset(PREFIX_ASSET+this.orderIdentification, new Identifier(IdentifierType.CUSTOM, PREFIX_ORDER_ASSET_IDENTIFIER), kind);
+    }
+    @Override
+    public void createAndUploadAAStoServer()
+    {
+        Helper.ServerAASX.uploadAAStoServer(this.createAAS(), this.listOfSubmodels);
     }
 
 

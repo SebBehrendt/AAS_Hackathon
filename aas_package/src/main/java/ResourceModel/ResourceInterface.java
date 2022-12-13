@@ -12,12 +12,8 @@ public class ResourceInterface {
     public ResourceInterface(InterfaceTypes type, Map<String,String> listOfAttributes)
     {
         this.typeOfInterface = type;
-        //this.listOfAttributes = listOfAttributes;
+        this.listOfAttributes = listOfAttributes;
 
-        switch(this.typeOfInterface){
-            case fluid -> this.listOfAttributes = createFluidInterfaceAttributes();
-         //   case Electrical -> this.listOfAttributes =
-    }
     }
     public void addAttribute (String key, String value)
     {
@@ -28,6 +24,10 @@ public class ResourceInterface {
     {
         return this.listOfAttributes;
     }
+
+
+
+    //FIXME: Add sometime later
     private static Map<String,String> createFluidInterfaceAttributes()
     {
         Map<String,String> listOfFluidAttributes = new HashMap<>();
@@ -35,6 +35,22 @@ public class ResourceInterface {
 
         return listOfFluidAttributes;
     }
+    public String getInterfaceType()
+    {
+        return this.typeOfInterface.getInterfaceName();
+    }
+/*
+    public ResourceInterface(InterfaceTypes type, Map<String,String> listOfAttributes)
+    {
+        this.typeOfInterface = type;
+        //this.listOfAttributes = listOfAttributes;
 
+        switch(this.typeOfInterface){
+            case fluid -> this.listOfAttributes = createFluidInterfaceAttributes();
+            //   case Electrical -> this.listOfAttributes =
+        }
+
+
+ */
 
 }

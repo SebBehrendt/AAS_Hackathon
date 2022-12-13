@@ -1,10 +1,7 @@
 package ResourceModel;
 
-import ResourceModel.ResourceInterfaces;
-import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
-import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
-import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
+
 
 public class Machine extends Resource{
 
@@ -15,15 +12,12 @@ public class Machine extends Resource{
         super(machineIdent);
     }
 
-    @Override
-    Asset createAsset() {
-        return null;
-    }
 
     public Machine (Identification machineIdent, Hierarchy hierarchy, ResourceInterfaces resourceInterfaces)
     {
         super(machineIdent, hierarchy);
         this.resourceInterfaces = resourceInterfaces;
+        listOfSubmodelClasses.add(this.resourceInterfaces);
     }
 
     @Override
@@ -33,12 +27,8 @@ public class Machine extends Resource{
 
     @Override
     public String getIdentification() {
-        return this.getIdentification();
+        return this.getId();
     }
 
-
-    @Override
-    public AssetAdministrationShell createAAS(AssetKind kind) {
-        return null;
-    }
+private static final String ASSET_IDENTIFIER_PREFIX = "Asset_";
 }

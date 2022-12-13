@@ -22,18 +22,20 @@ public class Component extends Product_abstract{
 
 
     @Override
-    Asset createProductAsset() {
-        return null;
-    }
-
-    @Override
-    Asset createProductAsset(AssetKind assetKind) {
-        return null;
-    }
-
-    @Override
     public void addSubmodelToList(Submodel basyxSubmodel) {
 
+    }
+
+
+
+    @Override
+    public Asset createAsset() {
+        return null;
+    }
+
+    @Override
+    public Asset createAsset(AssetKind kind) {
+        return null;
     }
 
 

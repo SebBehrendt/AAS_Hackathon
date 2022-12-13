@@ -1,6 +1,7 @@
 package SkateboardExample;
 
 import OrderModel.*;
+import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,26 +9,28 @@ import java.util.Map;
 
 public class createOrder {
 
-    protected static void createSkateboardOrder()
+    protected static void createSkateboardOrder(List<ProductInstance> listInstances)
     {
         Order skateBoardOrder = new Order(ORDER_INSTANCE_NAME);
         // Add sub Components
         skateBoardOrder.setGeneralOrderInformation(createGeneralOrderInformation());
-       // skateBoardOrder.setProductInstances(createProductInstances());
+       // skateBoardOrder.setProductInstances(createProductInstances(listInstances));
 
 
-        skateBoardOrder.createAAS();
+        skateBoardOrder.createAndUploadAAStoServer();
+
     }
     private static GeneralOrderInformation createGeneralOrderInformation()
     {
         GeneralOrderInformation generalOrderInfoSkateboard =
-                new GeneralOrderInformation("0", createCustomerInfos(), createSchedulingInfos(), createOrderFiles(), createMlpDescriptions() );
+                new GeneralOrderInformation("0", createCustomerInfos(), createSchedulingInfos(), createOrderFiles(), createMlpDescriptions());
 
         return generalOrderInfoSkateboard;
     }
     public static ProductInstances createProductInstances(List<ProductInstance> listInstances) //TODO --> get Instances in there!
     {
         ProductInstances instances = new ProductInstances(listInstances);
+        //TODO
         return instances;
 
     }
@@ -49,7 +52,7 @@ public class createOrder {
     private static Map<String,String> createOrderFiles ()
     {
         Map<String,String> orderFiles = new HashMap<>();
-        orderFiles.put("OrderFile", "Order_"+ORDER_INSTANCE_NAME+".pdf");
+        orderFiles.put(ORDER_FILE, "Order_"+ORDER_INSTANCE_NAME+".pdf");
 
         return orderFiles;
     }
@@ -61,11 +64,6 @@ public class createOrder {
 
         return mlpDescription;
     }
-    private static ProductInstances createSkateboardInstances()
-    {
-      return null;
-    }
-
     private static final String COMPANY_NAME = "Skateboard Manufacturing inc.";
     private static final String CONTACT_NAME = "Adam Skilter";
     private static final String CUSTOMER_IDENTIFICATION = "CustomerId:34599697_1";
