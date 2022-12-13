@@ -210,7 +210,7 @@ class ProcedureInstance extends Process {
         this.processURI = processURI;
     }
 }
-
+/*
 //FIXME: Does not build!
 public class ProcedureAASInstance {
 
@@ -378,5 +378,7 @@ public class ProcedureAASInstance {
 
     }
 }
+
+ */
 
 
