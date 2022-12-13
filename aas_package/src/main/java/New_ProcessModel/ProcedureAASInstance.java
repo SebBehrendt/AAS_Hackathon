@@ -234,6 +234,7 @@ public class ProcedureAASInstance {
         processAASMap.put(processAAS, submodels);
 
 
+        //FIXME: Why does void have a return value?
         return processAASMap;
 
     }
