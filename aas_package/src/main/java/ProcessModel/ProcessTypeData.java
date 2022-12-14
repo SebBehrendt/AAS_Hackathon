@@ -1,7 +1,7 @@
 package ProcessModel;
 
-import ResourceModel.IResource;
-import ResourceModel.Machine;
+import ResourceModel_backup.IResource;
+import ResourceModel_backup.Machine;
 import org.javatuples.Tuple;
 
 import java.io.File;

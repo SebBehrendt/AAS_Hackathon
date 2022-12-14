@@ -1,6 +1,6 @@
 package Helper;
 
-import ProductModel.IProduct;
+import ProductModel_Backup.IProduct;
 import org.eclipse.basyx.aas.manager.ConnectedAssetAdministrationShellManager;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.aas.registration.proxy.AASRegistryProxy;
@@ -17,10 +17,11 @@ public class Infrastructure {
     static final int AAS_SERVER_PORT = 4001;
     static final String REGISTRY_CONTEXT_PATH = "/registry";
     static final String SERVER_CONTEXT_PATH = "/aasServer";
+    public static ConnectedAssetAdministrationShellManager manager = new ConnectedAssetAdministrationShellManager(new AASRegistryProxy(REGISTRYPATH));
 
-    public static ConnectedAssetAdministrationShellManager createManager()
+    public static ConnectedAssetAdministrationShellManager getManager()
     {
-        return new ConnectedAssetAdministrationShellManager(new AASRegistryProxy(REGISTRYPATH));
+        return manager;
     }
     public static void setAASServerInfrastructure()
     {
@@ -43,4 +44,5 @@ public class Infrastructure {
 
         registry.startComponent();
     }
+
 }

@@ -1,7 +1,7 @@
 package SkateboardExample;
 
-import ProductModel.Product;
-import ProductModel.ProductLifecycleState;
+import ProductModel_Backup.Product;
+import ProductModel_Backup.ProductLifecycleState;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 
 /**
@@ -10,24 +10,30 @@ import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 public class Main {
     public static void main(String[] args) {
 
-       //First: based on the configuration and order, create Product Object of Skateboard
-       Product skateBoardInstance = createSkateboardObject.createSkateboardProductFromOrder();
-       AssetAdministrationShell skateBoardAAS = skateBoardInstance.createAAS();
-       // Infrastructure:upload to server
+    createOrder.createSkateboardOrder();
+        //Breakpoint Dummy for debugging
+        System.out.println("Hello World");
 
-       //Planning gets OrderFiles from AAS (HTTP Client)
-       //-> plans components, adds Subcomponents to product
+
+
+    }
+    private static void testing_to_delete()
+    {
+        //First: based on the configuration and order, create Product Object of Skateboard
+        Product skateBoardInstance = createSkateboardObject_backup.createSkateboardProductFromOrder();
+        AssetAdministrationShell skateBoardAAS = skateBoardInstance.createAAS();
+        // Infrastructure:upload to server
+
+        //Planning gets OrderFiles from AAS (HTTP Client)
+        //-> plans components, adds Subcomponents to product
         skateBoardInstance.setProductLifecycleState(ProductLifecycleState.DESIGN);
-        createSkateboardObject.addPlannedSubComponentsToSkateboard(skateBoardInstance);
+        createSkateboardObject_backup.addPlannedSubComponentsToSkateboard(skateBoardInstance);
         // Set new submodels --> Update method is TODO
         skateBoardAAS.addSubmodel(skateBoardInstance.createSubmodelConstruction());
 
         //Production Planning
         skateBoardInstance.setProductLifecycleState((ProductLifecycleState.PRODUCTION_PLANNING));
         skateBoardAAS.addSubmodel(skateBoardInstance.createSubmodelProduction());
-
-        //Breakpoint Dummy for debugging
-        System.out.println("Hello World");
 
 
     }

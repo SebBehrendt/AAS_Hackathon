@@ -210,10 +210,13 @@ class ProcedureInstance extends Process {
         this.processURI = processURI;
     }
 }
-
+/*
+//FIXME: Does not build!
 public class ProcedureAASInstance {
 
     public static void createAASfromProcess(ProcessInstance processInstance, String idShort, String description){
+    //FIXME: Id Short shall not be used as Urn!
+
         Asset processAsset = new Asset(idShort, new ModelUrn(idShort), AssetKind.INSTANCE);
         AssetAdministrationShell processAAS = new AssetAdministrationShell(idShort + "AAS",
                 new ModelUrn(idShort + "AAS"), processAsset);
@@ -230,6 +233,8 @@ public class ProcedureAASInstance {
         submodels.add(processAttributesSubmodel);
         processAASMap.put(processAAS, submodels);
 
+
+        //FIXME: Why does void have a return value?
         return processAASMap;
 
     }
@@ -380,3 +385,7 @@ public class ProcedureAASInstance {
 
     }
 }
+
+ */
+
+
