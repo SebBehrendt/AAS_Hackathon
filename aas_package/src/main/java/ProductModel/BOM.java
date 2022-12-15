@@ -28,8 +28,8 @@ public class BOM implements ISubmodel {
     private static final String SUB_PRODUCT = "Sub_Product_";
 
     @Override
-    public Submodel createSubmodel(IAAS product) {
-        Submodel submodelSubcomponentsBOM = new Submodel("BOM", new Identifier(IdentifierType.CUSTOM, "BOM_Identifier"));
+    public Submodel createSubmodel(IAAS abstractShellObject) {
+        Submodel submodelSubcomponentsBOM = new Submodel(AASHelper.nameToIdShort(SUBMODEL_BOM_ID_SHORT), new Identifier(IdentifierType.CUSTOM, SUBMODEL_BOM_IDENTIFIER));
         for (Map.Entry<String, AssetAdministrationShell> entry : this.listSubComponents.entrySet())
         {
             //new smc and ref-Element to AAS of subComponent
@@ -39,7 +39,9 @@ public class BOM implements ISubmodel {
             smcSubComponent.addSubmodelElement(refElSubComponent);
             submodelSubcomponentsBOM.addSubmodelElement(smcSubComponent);
         }
-        product.addSubmodelToList(submodelSubcomponentsBOM);
+        abstractShellObject.addSubmodelToList(submodelSubcomponentsBOM);
         return submodelSubcomponentsBOM;
     }
+    private static final String SUBMODEL_BOM_ID_SHORT = "BOM";
+    private static final String SUBMODEL_BOM_IDENTIFIER= "BOM_Identifier";
 }

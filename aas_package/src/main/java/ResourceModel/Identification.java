@@ -25,7 +25,7 @@ public class Identification implements ISubmodel {
 
 
     @Override
-    public Submodel createSubmodel(IAAS abstactShellObject) {
+    public Submodel createSubmodel(IAAS abstractShellObject) {
         Submodel digitalNameplateMinimal = new Submodel(AASHelper.nameToIdShort(DIGITAL_NAMEPLATE_SHORT_ID),
                 new Identifier(IdentifierType.CUSTOM,DIGITAL_NAMEPLATE_IDENTIFIER ));
 
@@ -34,7 +34,7 @@ public class Identification implements ISubmodel {
         digitalNameplateMinimal.addSubmodelElement(new Property(AASHelper.nameToIdShort(MANUFACTURER), this.manufacturer));
         digitalNameplateMinimal.addSubmodelElement(new Property(AASHelper.nameToIdShort(RESOURCE_TYPE), this.typeOfResource.getResourceTypeName()));
 
-        abstactShellObject.addSubmodelToList(digitalNameplateMinimal);
+        abstractShellObject.addSubmodelToList(digitalNameplateMinimal);
         return digitalNameplateMinimal;
     }
 

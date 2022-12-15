@@ -8,7 +8,7 @@ import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
 
 public class Production implements ISubmodel {
 
-    PlannedProduction plannedProduction = null; //Production plan
+    PlannedProduction plannedProduction;
     ExecutedProcedures executedProduction = null;
 
     public Production(PlannedProduction planned, ExecutedProcedures executed) {
@@ -25,7 +25,7 @@ public class Production implements ISubmodel {
     }
 
     @Override
-    public Submodel createSubmodel(IAAS product) {
+    public Submodel createSubmodel(IAAS abstractShellObject) {
         Submodel submodelProduction = new Submodel("Production", new Identifier(IdentifierType.CUSTOM, "Production_Identifier"));
         if (this.plannedProduction != null)
         {
@@ -36,7 +36,7 @@ public class Production implements ISubmodel {
             submodelProduction.addSubmodelElement(this.executedProduction.createSMCExecutedProduction());
         }
 
-        product.addSubmodelToList(submodelProduction);
+        abstractShellObject.addSubmodelToList(submodelProduction);
         return submodelProduction;
     }
 }

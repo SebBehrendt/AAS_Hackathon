@@ -8,13 +8,16 @@ import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Interface for classes, which instantiate an AAS
+ */
 public interface IAAS {
     List<ISubmodel> listOfSubmodelClasses = new ArrayList<>();
     List<Submodel> listOfSubmodels = new ArrayList<>();
 
  /**
   * Adds Submodel (IDTA / Basyx) to list -> for AAS upload to server.
-   * @param basyxSubmodel
+   * @param basyxSubmodel Submodel created through Basyx classes
   */
  void addSubmodelToList(Submodel basyxSubmodel);
 
@@ -24,7 +27,6 @@ public interface IAAS {
   */
      String getIdentification();
      AssetAdministrationShell createAAS();
-
  /**
   * Creates AAS from Object with possibility to create Type AAS
   * @param kind AssetKind type or Instance
@@ -34,9 +36,8 @@ public interface IAAS {
  Asset createAsset();
  Asset createAsset(AssetKind kind);
  List<Submodel> getSubmodels();
-
- public void createSubmodels(AssetAdministrationShell aas) ;
- public void createAndUploadAAStoServer();
+void createSubmodels(AssetAdministrationShell aas) ;
+void createAndUploadAAStoServer();
 
 
 

@@ -10,15 +10,12 @@ import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Product_abstract  implements IAAS {
+public abstract class Product_abstract implements IAAS {
 
-    DigitalNameplate digitalNameplate = null;
+    DigitalNameplate digitalNameplate;
     String productIdentification;
-
-   // private List<Submodel> listOfSubmodels = new ArrayList<>();
 
     public Product_abstract(DigitalNameplate digitalNameplate)
     {
@@ -49,19 +46,12 @@ public abstract class Product_abstract  implements IAAS {
         }
     }
     @Override
-    public List<Submodel> getSubmodels()
-    {
-        return listOfSubmodels;
-    }
+    public List<Submodel> getSubmodels() {return listOfSubmodels;}
 
      public void addSubmodelToList(Submodel submodel)
     {
         this.listOfSubmodels.add(submodel);
     }
-
-    /**
-     * AAS Environment
-     */
 
     public AssetAdministrationShell createAAS()
     {
@@ -107,12 +97,10 @@ public abstract class Product_abstract  implements IAAS {
     }
 
     private static final IdentifierType IDENTIFIER_TYPE_AAS = IdentifierType.CUSTOM;
-    private static final IdentifierType IDENTIFIER_TYPE_ASSET = IdentifierType.CUSTOM;
     private static final String AAS_PREFIX = "AAS_";
-    private static final String ASSET_PREFIX = "Asset_";
     private static final String AAS_IDENTIFIER_PREFIX = "AAS_";
     private static final String AAS_IDENTIFIER_SUFFIX = "_Identifier";
-    private static AssetKind DEFAULT_ASSET_KIND = AssetKind.INSTANCE;
+    private static final AssetKind DEFAULT_ASSET_KIND = AssetKind.INSTANCE;
     private static final String ASSET_IDENTIFIER_PREFIX = "asset_";
 }
 

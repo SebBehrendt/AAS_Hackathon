@@ -20,12 +20,12 @@ public class DigitalNameplate implements ISubmodel {
     private static final String SUBMODEL_DIGITAL_NAMEPLATE_IDENTIFIER_PREFIX = "DigitalNameplate_";
 
     @Override
-    public Submodel createSubmodel(IAAS product) {
+    public Submodel createSubmodel(IAAS abstractShellObject) {
         Submodel submodelDigitalNameplate = new Submodel(SUBMODEL_DIGITAL_NAMEPLATE_ID_SHORT,
                 new Identifier(IdentifierType.CUSTOM, AASHelper.nameToIdShort(SUBMODEL_DIGITAL_NAMEPLATE_IDENTIFIER_PREFIX)));
 
 
-        product.addSubmodelToList(submodelDigitalNameplate);
+        abstractShellObject.addSubmodelToList(submodelDigitalNameplate);
         return submodelDigitalNameplate;
     }
 

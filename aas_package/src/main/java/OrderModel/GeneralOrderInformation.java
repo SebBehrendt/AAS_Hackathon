@@ -3,8 +3,6 @@ package OrderModel;
 import Helper.AASHelper;
 import Helper.IAAS;
 import Helper.ISubmodel;
-import ProductModel.Product_abstract;
-import org.bouncycastle.asn1.cms.Time;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyElements;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
@@ -13,7 +11,6 @@ import org.eclipse.basyx.submodel.metamodel.map.qualifier.LangString;
 import org.eclipse.basyx.submodel.metamodel.map.qualifier.LangStrings;
 import org.eclipse.basyx.submodel.metamodel.map.reference.Reference;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.SubmodelElementCollection;
-import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.File;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.MultiLanguageProperty;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
 
@@ -23,8 +20,8 @@ import java.util.Map;
 public class GeneralOrderInformation implements ISubmodel {
 
     String orderPriority;
-    Map<String, String> multiLanguageOrderDescription = new HashMap();
-    Map<String,String> listOrderFiles = new HashMap(); //-> SMC OrderFiles //Map <Name, Link>
+    Map<String, String> multiLanguageOrderDescription = new HashMap<>();
+    Map<String,String> listOrderFiles = new HashMap<>(); //-> SMC OrderFiles //Map <Name, Link>
 
     CustomerInformation customerInformation = null;
     TimeScheduling timeScheduling = null;
@@ -44,14 +41,17 @@ public class GeneralOrderInformation implements ISubmodel {
     public void setListOrderFiles(Map<String, String> listOrderFiles) {this.listOrderFiles = listOrderFiles;}
     public void addOrderFile (String filename, String filepath) {this.listOrderFiles.put(filename, filepath);}
     public void AddMultiLanguageOrderDescription (String language, String description) {this.multiLanguageOrderDescription.put(language, description);}
-
+    public void changePriority(String priority)
+    {
+        this.orderPriority = priority;
+    }
 
     @Override
-    public Submodel createSubmodel(IAAS order)
+    public Submodel createSubmodel(IAAS abstractShellObject)
     {
         Submodel generalInfoSM = new Submodel("general_Information", new Identifier(IdentifierType.CUSTOM, "general_Info_Identifier")); //TODO add Aspects and Ident
 
-        generalInfoSM.addSubmodelElement(new Property(AASHelper.nameToIdShort(ORDER_IDENTIFICATION),order.getIdentification()));
+        generalInfoSM.addSubmodelElement(new Property(AASHelper.nameToIdShort(ORDER_IDENTIFICATION), abstractShellObject.getIdentification()));
         generalInfoSM.addSubmodelElement(new Property(AASHelper.nameToIdShort(ORDER_PRIORITY),this.orderPriority));
         // Add MLP Description
         LangStrings mlp = new LangStrings();
@@ -67,7 +67,7 @@ public class GeneralOrderInformation implements ISubmodel {
         if (!this.listOrderFiles.isEmpty()) {generalInfoSM.addSubmodelElement(createOrderFilesSMC());}
         if (this.customerInformation != null) {generalInfoSM.addSubmodelElement( this.customerInformation.createCustomerInfoSMC());}
         if (this.timeScheduling != null) {generalInfoSM.addSubmodelElement(this.timeScheduling.createSMCTimeScheduling());}
-        order.addSubmodelToList(generalInfoSM);
+        abstractShellObject.addSubmodelToList(generalInfoSM);
         return generalInfoSM;
     }
     private SubmodelElementCollection createOrderFilesSMC()
@@ -82,7 +82,7 @@ public class GeneralOrderInformation implements ISubmodel {
     private static final String ORDER_PRIORITY = "Priority";
     private static final String ORDER_IDENTIFICATION = "Order_Identification";
     private static final String MLP_ORDER_DESCRIPTION_SHORT_ID= "OrderDescription";
-    private static KeyElements KEYELEMENTS_MLP = KeyElements.MULTILANGUAGEPROPERTY; //Or Conceptdescription if referenced IRDI?
+    private static final KeyElements KEYELEMENTS_MLP = KeyElements.MULTILANGUAGEPROPERTY; //Or Conceptdescription if referenced IRDI?
     private static final String ORDER_DESCRIPTION = "Order_Description";
     private static final String SMC_ORDERFILES_ID_SHORT = "Order_Files";
     private static String DEFAULT = "0";

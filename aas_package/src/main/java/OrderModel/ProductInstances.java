@@ -41,7 +41,7 @@ public class ProductInstances implements ISubmodel {
      *      Submodel ProductInstances includes SMCs for every Instance and references AAS of the Instance
      */
     @Override
-    public Submodel createSubmodel(IAAS order) {
+    public Submodel createSubmodel(IAAS abstractShellObject) {
         Submodel productInstancesSubmodel = new Submodel(INSTANCES_ID_SHORT,
                 new Identifier(IdentifierType.CUSTOM, INSTANCES_IDENTIFIER));
 
@@ -55,7 +55,7 @@ public class ProductInstances implements ISubmodel {
             productInstancesSubmodel.addSubmodelElement(new Property(AASHelper.nameToIdShort(QUANTITY), entry.getValue().getQuantity()));
             productInstancesSubmodel.addSubmodelElement(productSMC);
         }
-        order.addSubmodelToList(productInstancesSubmodel);
+        abstractShellObject.addSubmodelToList(productInstancesSubmodel);
         return productInstancesSubmodel;
     }
     private static final String INSTANCES_ID_SHORT = "Instances";
