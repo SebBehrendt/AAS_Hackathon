@@ -1,5 +1,6 @@
-package Helper;
+package AAS_Framework;
 
+import AAS_Framework.ISubmodel;
 import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.aas.metamodel.map.parts.Asset;

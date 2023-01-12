@@ -1,7 +1,7 @@
 package ProductModel;
 
-import Helper.IAAS;
-import Helper.ISubmodel;
+import AAS_Framework.IAAS;
+import AAS_Framework.ISubmodel;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;

@@ -1,7 +1,7 @@
 package ResourceModel;
 
 import Helper.AASHelper;
-import Helper.ISubmodel;
+import AAS_Framework.ISubmodel;
 
 import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
@@ -25,14 +25,16 @@ public abstract class Resource implements IResource {
     public Resource (Identification resourceIdent)
     {
         this.resourceIdentification = resourceIdent;
-        listOfSubmodelClasses.add(this.resourceIdentification);
         this.id = this.resourceIdentification.id;
+
+        listOfSubmodelClasses.add(this.resourceIdentification);
+
     }
     public Resource (Identification resourceIdent, Hierarchy resourceHierarchy)
     {
         this.resourceIdentification = resourceIdent;
-        listOfSubmodelClasses.add(this.resourceIdentification);
         this.id = this.resourceIdentification.id;
+        listOfSubmodelClasses.add(this.resourceIdentification);
 
         this.hierarchicalStructureOfResource = resourceHierarchy;
         listOfSubmodelClasses.add(this.hierarchicalStructureOfResource);

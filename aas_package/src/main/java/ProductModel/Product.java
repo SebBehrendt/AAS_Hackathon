@@ -1,12 +1,7 @@
 package ProductModel;
 
-import Helper.AASHelper;
-import Helper.ISubmodel;
 import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
-import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
-import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
-import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
 
 public class Product extends Product_abstract{
     DesignInformation designInformation;
@@ -24,8 +19,10 @@ public class Product extends Product_abstract{
     public Product (String productId, DigitalNameplate digitalNameplate, BOM bom, Production production)
     {
         super(productId, digitalNameplate);
+
         this.subComponentsBOM = bom;
         listOfSubmodelClasses.add(bom);
+
         this.productionInformation = production;
         listOfSubmodelClasses.add(production);
     }

@@ -1,8 +1,8 @@
 package ResourceModel;
 
 import Helper.AASHelper;
-import Helper.IAAS;
-import Helper.ISubmodel;
+import AAS_Framework.IAAS;
+import AAS_Framework.ISubmodel;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyElements;
@@ -13,8 +13,6 @@ import org.eclipse.basyx.submodel.metamodel.map.submodelelement.SubmodelElementC
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.ReferenceElement;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Hierarchy implements ISubmodel {

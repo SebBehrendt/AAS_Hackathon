@@ -1,8 +1,8 @@
 package OrderModel;
 
 import Helper.AASHelper;
-import Helper.IAAS;
-import Helper.ISubmodel;
+import AAS_Framework.IAAS;
+import AAS_Framework.ISubmodel;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyElements;

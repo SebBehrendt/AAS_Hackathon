@@ -12,7 +12,6 @@ public class Machine extends Resource{
         super(machineIdent);
     }
 
-
     public Machine (Identification machineIdent, Hierarchy hierarchy, ResourceInterfaces resourceInterfaces)
     {
         super(machineIdent, hierarchy);
@@ -30,5 +29,4 @@ public class Machine extends Resource{
         return this.id;
     }
 
-private static final String ASSET_IDENTIFIER_PREFIX = "Asset_";
 }

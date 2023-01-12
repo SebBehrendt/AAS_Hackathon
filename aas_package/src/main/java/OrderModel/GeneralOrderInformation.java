@@ -1,8 +1,8 @@
 package OrderModel;
 
 import Helper.AASHelper;
-import Helper.IAAS;
-import Helper.ISubmodel;
+import AAS_Framework.IAAS;
+import AAS_Framework.ISubmodel;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyElements;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
@@ -49,7 +49,7 @@ public class GeneralOrderInformation implements ISubmodel {
     @Override
     public Submodel createSubmodel(IAAS abstractShellObject)
     {
-        Submodel generalInfoSM = new Submodel("general_Information", new Identifier(IdentifierType.CUSTOM, "general_Info_Identifier")); //TODO add Aspects and Ident
+        Submodel generalInfoSM = new Submodel(GENERAL_INFORMATION, new Identifier(IdentifierType.CUSTOM, GENERAL_INFORMATION_IDENTIFIER ));
 
         generalInfoSM.addSubmodelElement(new Property(AASHelper.nameToIdShort(ORDER_IDENTIFICATION), abstractShellObject.getIdentification()));
         generalInfoSM.addSubmodelElement(new Property(AASHelper.nameToIdShort(ORDER_PRIORITY),this.orderPriority));
@@ -86,6 +86,8 @@ public class GeneralOrderInformation implements ISubmodel {
     private static final String ORDER_DESCRIPTION = "Order_Description";
     private static final String SMC_ORDERFILES_ID_SHORT = "Order_Files";
     private static String DEFAULT = "0";
+    private static final String GENERAL_INFORMATION = "general_Information";
+    private static final String GENERAL_INFORMATION_IDENTIFIER = "general_Info_Identifier";
 
 
 }

@@ -1,8 +1,8 @@
 package ResourceModel;
 
 import Helper.AASHelper;
-import Helper.IAAS;
-import Helper.ISubmodel;
+import AAS_Framework.IAAS;
+import AAS_Framework.ISubmodel;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
@@ -29,18 +29,17 @@ public class ResourceInterfaces implements ISubmodel {
         this.listOfResourceInterfaces.add(resourceInterface);
     }
 
-
     private SubmodelElementCollection createInterfaceSMC(ResourceInterface interfaceResource)
     {
-        SubmodelElementCollection smcInterface = new SubmodelElementCollection(AASHelper.nameToIdShort(SMC_INTERFACE_PREFIX + interfaceResource.getInterfaceType()));
-        for (Map.Entry entryset: interfaceResource.getListOfAttributes().entrySet())
+        SubmodelElementCollection smcInterface =
+                new SubmodelElementCollection(AASHelper.nameToIdShort(SMC_INTERFACE_PREFIX + interfaceResource.getInterfaceType()));
+
+        for (Map.Entry entry: interfaceResource.getListOfAttributes().entrySet())
         {
-            smcInterface.addSubmodelElement(new Property(AASHelper.nameToIdShort(entryset.getKey().toString()), entryset.getValue()));
+            smcInterface.addSubmodelElement(new Property(AASHelper.nameToIdShort(entry.getKey().toString()), entry.getValue()));
         }
         return smcInterface;
     }
-
-
     @Override
     public Submodel createSubmodel(IAAS abstractShellObject) {
         Submodel submodelResourceInterfaces = new Submodel(INTERFACES_ID_SHORT, new Identifier(IdentifierType.CUSTOM, INTERFACES_IDENTIFIER));

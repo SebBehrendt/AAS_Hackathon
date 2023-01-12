@@ -1,8 +1,8 @@
 package ProductModel;
 
 import Helper.AASHelper;
-import Helper.IAAS;
-import Helper.ISubmodel;
+import AAS_Framework.IAAS;
+import AAS_Framework.ISubmodel;
 import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
@@ -57,7 +57,8 @@ public abstract class Product_abstract implements IAAS {
     {
         AssetAdministrationShell productAAS =
                 new AssetAdministrationShell(AASHelper.nameToIdShort(AAS_PREFIX + this.productIdentification),
-                        new Identifier(IDENTIFIER_TYPE_AAS, AASHelper.nameToIdentifier(AAS_IDENTIFIER_PREFIX  + this.productIdentification +AAS_IDENTIFIER_SUFFIX)),
+                        new Identifier(IDENTIFIER_TYPE_AAS, AASHelper.nameToIdentifier(AAS_IDENTIFIER_PREFIX  +
+                                this.productIdentification +AAS_IDENTIFIER_SUFFIX)),
                         createAsset(DEFAULT_ASSET_KIND));
 
         createSubmodelsOfProduct(productAAS);

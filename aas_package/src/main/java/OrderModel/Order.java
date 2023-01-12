@@ -1,8 +1,8 @@
 package OrderModel;
 
 import Helper.AASHelper;
-import Helper.IAAS;
-import Helper.ISubmodel;
+import AAS_Framework.IAAS;
+import AAS_Framework.ISubmodel;
 import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
@@ -12,13 +12,10 @@ import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 //TODO: implement framework (AAS_Object and ISubmodel)
 
 public class Order implements IAAS {
-
-
 
     String orderIdentification;
     private ProductInstances productInstances = null; //Position --> Ref AAS, Quantity (rename)
@@ -76,9 +73,7 @@ public class Order implements IAAS {
     public AssetAdministrationShell createAAS(AssetKind kind) {
         AssetAdministrationShell orderAAS = new AssetAdministrationShell(AASHelper.nameToIdShort(this.getIdentification()),
                 new Identifier(IDENTIFIER_TYPE, createAASIdentifier()), createAsset(kind));
-        /**
-         * Create SMs
-         */
+
         createSubmodels(orderAAS );
         return orderAAS;
     }
@@ -107,12 +102,14 @@ public class Order implements IAAS {
    @Override
    public Asset createAsset()
     {
-        return new Asset(PREFIX_ASSET+this.orderIdentification, new Identifier(IdentifierType.CUSTOM, PREFIX_ORDER_ASSET_IDENTIFIER), ASSET_KIND);
+        return new Asset(PREFIX_ASSET+this.orderIdentification,
+                new Identifier(IdentifierType.CUSTOM, PREFIX_ORDER_ASSET_IDENTIFIER), ASSET_KIND);
     }
     @Override
     public Asset createAsset(AssetKind kind)
     {
-        return new Asset(PREFIX_ASSET+this.orderIdentification, new Identifier(IdentifierType.CUSTOM, PREFIX_ORDER_ASSET_IDENTIFIER), kind);
+        return new Asset(PREFIX_ASSET+this.orderIdentification,
+                new Identifier(IdentifierType.CUSTOM, PREFIX_ORDER_ASSET_IDENTIFIER), kind);
     }
     @Override
     public void createAndUploadAAStoServer()
