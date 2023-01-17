@@ -177,7 +177,6 @@ abstract class Process {
 class ProcessInstance extends Process {
     List<ProcessModel> processModels;
 
-    // TODO: process model has to be added in constructors and tested in main
     public ProcessInstance(String id, String description, List<ProcessAttribute> processAttributes, List<ProcessModel> processModels) {
 
         this.id = id;
@@ -210,33 +209,36 @@ class ProcedureInstance extends Process {
         this.processURI = processURI;
     }
 }
-/*
-//FIXME: Does not build!
+
 public class ProcedureAASInstance {
 
-    public static void createAASfromProcess(ProcessInstance processInstance, String idShort, String description){
-    //FIXME: Id Short shall not be used as Urn!
+    public static Map<AssetAdministrationShell, List<Submodel>> createAASfromProcess(ProcessInstance processInstance, 
+    String idShort, String description) {
 
         Asset processAsset = new Asset(idShort, new ModelUrn(idShort), AssetKind.INSTANCE);
         AssetAdministrationShell processAAS = new AssetAdministrationShell(idShort + "AAS",
                 new ModelUrn(idShort + "AAS"), processAsset);
-        // create description for product shell
+       
         LangStrings descriptionProcessAAS = new LangStrings("english", description);
         processAAS.setDescription(descriptionProcessAAS);
 
         Submodel processAttributesSubmodel = new Submodel(idShort + "ProcessAttributes",
-                new ModelUrn(idShort + "Submodel"));
-        addProcessAttributesToSubmodel(processAttributesSubmodel, procedure.processAttributes);
+        new ModelUrn(idShort + "Submodel"));
+        addProcessAttributesToSubmodel(processAttributesSubmodel, processInstance.processAttributes);
+
+        Submodel processModelsSubmodel = new Submodel(idShort + "ProcessModels", new ModelUrn(idShort + "Submodel"));
+
+        processAAS.addSubmodel(processAttributesSubmodel);
+        processAAS.addSubmodel(processModelsSubmodel);
+
 
         Map<AssetAdministrationShell, List<Submodel>> processAASMap = new HashMap<AssetAdministrationShell, List<Submodel>>();
         List<Submodel> submodels = new ArrayList<Submodel>();
+        submodels.add(processModelsSubmodel);
         submodels.add(processAttributesSubmodel);
         processAASMap.put(processAAS, submodels);
 
-
-        //FIXME: Why does void have a return value?
         return processAASMap;
-
     }
 
     public static void addProcessAttributesToSubmodel(ISubmodel submodel, List<ProcessAttribute> processAttributes) {
@@ -323,13 +325,13 @@ public class ProcedureAASInstance {
         
 
         // Generate new Process Instance
-        String exampleID = "155730119"
-        String exampleDescription = "This is an example Process Instance description"
+        String exampleID = "155730119";
+        String exampleDescription = "This is an example Process Instance description";
         List<ProcessAttribute> processAttributes = List.of(requiredMillingTechnology, requiredMillRotationSpeed, requiredDimensions);
-        SequentialProcessModel SequentialProcessModel1 = new SequentialProcessModel("12354","Sequential PM for Milling", )
-        List<ProcessModel> processModels = List.of(SequentialProcessModel);
+        //SequentialProcessModel SequentialProcessModel1 = new SequentialProcessModel("12354","Sequential PM for Milling", );
+        //List<ProcessModel> processModels = List.of(SequentialProcessModel);
 
-        ProcessInstance millingProcess = new ProcessInstance(exampleID, exampleDescription, processAttributes, );
+        //ProcessInstance millingProcess = new ProcessInstance(exampleID, exampleDescription, processAttributes, );
 
         ProcessAttribute actualMillingTechnology3 = new ProcessAttribute(millingTechnologySemantics,
                 "Milling technology", "3 Axes");
@@ -341,7 +343,7 @@ public class ProcedureAASInstance {
                 "Milling dimensions for x y z in mm", List.of(600.0, 600.0, 150.0), "Minimum");
 
         String EXAMPLE_RESOURCE_URI = "http://193.196.37.23:4001/aasServer/shells/ResourceID/aas/";
-        ProcedureInstance millingProcedure = new ProcedureInstance(
+        ProcedureInstance millingProcedure = new ProcedureInstance("hello", "hello",
                 List.of(actualMillingTechnology3, actualMillingTechnology5, acutalMillRotationSpeed, actualDimensions),
                 EXAMPLE_RESOURCE_URI);
 
@@ -353,7 +355,7 @@ public class ProcedureAASInstance {
                 "Milling dimensions for x y z in mm", List.of(1200.0, 1200.0, 150.0), "Minimum");
 
         String EXAMPLE_RESOURCE_URI2 = "http://193.196.37.23:4001/aasServer/shells/ResourceID2/aas/";
-        ProcedureInstance millingProcedure2 = new ProcedureInstance(
+        ProcedureInstance millingProcedure2 = new ProcedureInstance("hello", "hello",
                 List.of(actualMillingTechnology2, acutalMillRotationSpeed2, actualDimensions2),
                 EXAMPLE_RESOURCE_URI2);
 
@@ -363,7 +365,7 @@ public class ProcedureAASInstance {
                 "Milling dimensions for x y z in mm", List.of(15.0, 10.0, 15.0), "Minimum");
 
         String EXAMPLE_RESOURCE_URI3 = "http://193.196.37.23:4001/aasServer/shells/ResourceID3/aas/";
-        ProcedureInstance millingProcedure3 = new ProcedureInstance(
+        ProcedureInstance millingProcedure3 = new ProcedureInstance("hello", "hello",
                 List.of(actualMillingTechnology3, acutalMillRotationSpeed3, actualDimensions3),
                 EXAMPLE_RESOURCE_URI3);
 
