@@ -13,6 +13,9 @@ import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.qualifier.LangStrings;
 import org.eclipse.basyx.submodel.metamodel.map.reference.Reference;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
+
+import com.google.common.graph.Graph;
+
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.SubmodelElementCollection;
 import sdm_aas.PushAAStoServer;
 
@@ -90,7 +93,7 @@ class ProcessModel{
     List<List<Process>> edges;
 
     public void add_node(Process process){
-        if (!this.nodes.contains(process)){
+        if (this.nodes != null && !this.nodes.contains(process)){
             this.nodes.add(process);
         }
     }
@@ -99,7 +102,7 @@ class ProcessModel{
         List<Process> edge = new ArrayList<>();
         edge.add(origin);
         edge.add(target);
-        if (!this.edges.contains(edge)){
+        if (this.edges != null && !this.edges.contains(edge)){
             this.edges.add(edge);
         }
     }
@@ -174,6 +177,15 @@ abstract class Process {
     List<ProcessAttribute> processAttributes;
 }
 
+class ElementaryProcess extends Process {
+
+    public ElementaryProcess(String id, String description, List<ProcessAttribute> processAttributes) {
+        this.id = id;
+        this.description = description;
+        this.processAttributes = processAttributes;
+    }
+}
+
 class ProcessInstance extends Process {
     List<ProcessModel> processModels;
 
@@ -212,6 +224,32 @@ class ProcedureInstance extends Process {
 
 public class ProcedureAASInstance {
 
+    private static void addProcessModelsToSubmodel(Submodel processModelsSubmodel,
+            ProcessInstance processInstance) {
+        
+        //Method adds all attributes of each ProcessModel to Submodel of processModelSubmodel and that to processModelsSubmodel
+
+        for (ProcessModel processModel : processInstance.processModels) {
+
+            SubmodelElementCollection processModelCollection = new SubmodelElementCollection(
+                    processModel.description.replaceAll("\\s+", ""));
+
+            Property descriptionProperty = new Property("description", processModel.description);
+            processModelCollection.addSubmodelElement(descriptionProperty);
+            
+            Property typeProperty = new Property("Type Property", processModel.type.toString());
+            processModelCollection.addSubmodelElement(descriptionProperty);
+
+            Property nodesProperty = new Property("Nodes Property", processModel.nodes.toString());
+            processModelCollection.addSubmodelElement(nodesProperty);
+
+            Property edgesProperty = new Property("Edges Property", processModel.edges.toString());
+            processModelCollection.addSubmodelElement(edgesProperty);
+
+            processModelCollection.addSubmodelElement(processModelCollection);
+        }
+    }
+
     public static Map<AssetAdministrationShell, List<Submodel>> createAASfromProcess(ProcessInstance processInstance, 
     String idShort, String description) {
 
@@ -221,19 +259,21 @@ public class ProcedureAASInstance {
        
         LangStrings descriptionProcessAAS = new LangStrings("english", description);
         processAAS.setDescription(descriptionProcessAAS);
-
+        
+        // Submodel ProcessAttributes
         Submodel processAttributesSubmodel = new Submodel(idShort + "ProcessAttributes",
         new ModelUrn(idShort + "Submodel"));
         addProcessAttributesToSubmodel(processAttributesSubmodel, processInstance.processAttributes);
-
-        Submodel processModelsSubmodel = new Submodel(idShort + "ProcessModels", new ModelUrn(idShort + "Submodel"));
-
         processAAS.addSubmodel(processAttributesSubmodel);
-        processAAS.addSubmodel(processModelsSubmodel);
 
+        //Submodel ProcessModels with description, type, edges and nodes
+        Submodel processModelsSubmodel = new Submodel(idShort + "ProcessModels", new ModelUrn(idShort + "Submodel"));
+        Property descriptionProperty = new Property("description", processInstance.description);
+        processModelsSubmodel.addSubmodelElement(descriptionProperty);
 
         Map<AssetAdministrationShell, List<Submodel>> processAASMap = new HashMap<AssetAdministrationShell, List<Submodel>>();
         List<Submodel> submodels = new ArrayList<Submodel>();
+
         submodels.add(processModelsSubmodel);
         submodels.add(processAttributesSubmodel);
         processAASMap.put(processAAS, submodels);
@@ -324,14 +364,27 @@ public class ProcedureAASInstance {
                 "Milling dimensions for x y z in mm", List.of(350.0, 50.0, 40.0), "Minimum");
         
 
-        // Generate new Process Instance
-        String exampleID = "155730119";
-        String exampleDescription = "This is an example Process Instance description";
-        List<ProcessAttribute> processAttributes = List.of(requiredMillingTechnology, requiredMillRotationSpeed, requiredDimensions);
-        //SequentialProcessModel SequentialProcessModel1 = new SequentialProcessModel("12354","Sequential PM for Milling", );
-        //List<ProcessModel> processModels = List.of(SequentialProcessModel);
+        // Generate new Elementary Proccesses
+        List<ProcessAttribute> millingProcessAttributes = List.of(requiredMillingTechnology, requiredMillRotationSpeed, requiredDimensions);
 
-        //ProcessInstance millingProcess = new ProcessInstance(exampleID, exampleDescription, processAttributes, );
+        ElementaryProcess milling1 = new ElementaryProcess("12345", "milling 1", millingProcessAttributes);
+        ElementaryProcess milling2 = new ElementaryProcess("12345", "milling 1", millingProcessAttributes);
+
+        //Generate new Graph Process Model with elementary processes
+        GraphProcessModel millingProcessModel1 = new GraphProcessModel("123452", "graph process Model 1");
+
+        // Add Nodes and Edges to Process Model
+        millingProcessModel1.add_node(milling1);
+        millingProcessModel1.add_node(milling2);
+
+        millingProcessModel1.add_edge(milling1, milling2);
+        millingProcessModel1.add_edge(milling2, milling1);
+
+        //Generate new Process Model List
+        List<ProcessModel> millingProcessModels = List.of(millingProcessModel1);
+
+        ProcessInstance millingProcess = new ProcessInstance("12345", "Milling Process", millingProcessAttributes, 
+        millingProcessModels);
 
         ProcessAttribute actualMillingTechnology3 = new ProcessAttribute(millingTechnologySemantics,
                 "Milling technology", "3 Axes");
@@ -383,11 +436,10 @@ public class ProcedureAASInstance {
 
         PushAAStoServer.pushAAS(aas, SERVER_URL, REGISTRY_URL);
 
-
-
+        Map<AssetAdministrationShell, List<Submodel>> processAAS = createAASfromProcess(millingProcess, "12345", "ProcessModel");
+        PushAAStoServer.pushAAS(processAAS, SERVER_URL, REGISTRY_URL);
     }
 }
 
- */
 
 
