@@ -1,11 +1,14 @@
 package ProductModel;
 
-import Helper.ISubmodel;
+import AAS_Framework.IAAS;
+import AAS_Framework.ISubmodel;
+import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
+import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
 
 public class Production implements ISubmodel {
 
-    PlannedProduction plannedProduction = null; //Production plan
+    PlannedProduction plannedProduction;
     ExecutedProcedures executedProduction = null;
 
     public Production(PlannedProduction planned, ExecutedProcedures executed) {
@@ -22,8 +25,8 @@ public class Production implements ISubmodel {
     }
 
     @Override
-    public Submodel createSubmodel(Product_abstract product) {
-        Submodel submodelProduction = new Submodel();
+    public Submodel createSubmodel(IAAS abstractShellObject) {
+        Submodel submodelProduction = new Submodel("Production", new Identifier(IdentifierType.CUSTOM, "Production_Identifier"));
         if (this.plannedProduction != null)
         {
             submodelProduction.addSubmodelElement(this.plannedProduction.createSMCPlannedProduction());
@@ -33,7 +36,7 @@ public class Production implements ISubmodel {
             submodelProduction.addSubmodelElement(this.executedProduction.createSMCExecutedProduction());
         }
 
-        product.addSubmodelToList(submodelProduction);
+        abstractShellObject.addSubmodelToList(submodelProduction);
         return submodelProduction;
     }
 }

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
     public class PlannedProduction {
-    List<AssetAdministrationShell> listOfPlannedProcedures = new ArrayList<>();
+    List<AssetAdministrationShell> listOfPlannedProcedures;
 
     public PlannedProduction (List<AssetAdministrationShell> listProcesses) {
     this.listOfPlannedProcedures = listProcesses;

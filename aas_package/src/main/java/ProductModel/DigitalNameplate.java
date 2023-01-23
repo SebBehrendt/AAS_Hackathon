@@ -1,7 +1,8 @@
 package ProductModel;
 
 import Helper.AASHelper;
-import Helper.ISubmodel;
+import AAS_Framework.IAAS;
+import AAS_Framework.ISubmodel;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
@@ -19,12 +20,14 @@ public class DigitalNameplate implements ISubmodel {
     private static final String SUBMODEL_DIGITAL_NAMEPLATE_IDENTIFIER_PREFIX = "DigitalNameplate_";
 
     @Override
-    public Submodel createSubmodel(Product_abstract product) {
+    public Submodel createSubmodel(IAAS abstractShellObject) {
         Submodel submodelDigitalNameplate = new Submodel(SUBMODEL_DIGITAL_NAMEPLATE_ID_SHORT,
-                new Identifier(IdentifierType.CUSTOM, AASHelper.nameToIdShort(SUBMODEL_DIGITAL_NAMEPLATE_IDENTIFIER_PREFIX + this.ProductIdentifier)));
+                new Identifier(IdentifierType.CUSTOM, AASHelper.nameToIdShort(SUBMODEL_DIGITAL_NAMEPLATE_IDENTIFIER_PREFIX)));
 
 
-        product.addSubmodelToList(submodelDigitalNameplate);
+        abstractShellObject.addSubmodelToList(submodelDigitalNameplate);
         return submodelDigitalNameplate;
     }
+
+
 }
