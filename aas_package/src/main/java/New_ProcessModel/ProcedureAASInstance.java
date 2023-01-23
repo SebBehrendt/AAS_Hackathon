@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.*;
 
 enum AttributeType {
     MATCHING,
@@ -88,12 +89,12 @@ enum ProcessBorder{
 class ProcessModel{
     String id;
     String description;
-    ProcessModelType type;
-    List<Process> nodes;
-    List<List<Process>> edges;
+    ProcessModelType processModelType;
+    List<Process> nodes = new ArrayList<>();
+    List<List<Process>> edges = new ArrayList<>();
 
     public void add_node(Process process){
-        if (this.nodes != null && !this.nodes.contains(process)){
+        if (!this.nodes.contains(process)){
             this.nodes.add(process);
         }
     }
@@ -102,7 +103,7 @@ class ProcessModel{
         List<Process> edge = new ArrayList<>();
         edge.add(origin);
         edge.add(target);
-        if (this.edges != null && !this.edges.contains(edge)){
+        if (!this.edges.contains(edge)){
             this.edges.add(edge);
         }
     }
@@ -128,11 +129,11 @@ class ProcessModel{
 }
 
 class SingleProcessModel extends ProcessModel{
-    ProcessModelType type = ProcessModelType.SINGLE;
 
     public SingleProcessModel(String id, String description, Process process) {
         this.id = id;
         this.description = description;
+        this.processModelType = ProcessModelType.SINGLE;
         add_node(process);
         connectToStart(process);
         connectToEnd(process);
@@ -140,11 +141,12 @@ class SingleProcessModel extends ProcessModel{
 }
 
 class SequentialProcessModel extends ProcessModel{
-    ProcessModelType type = ProcessModelType.SEQUENTIAL;
 
     public SequentialProcessModel(String id, String description, List<Process> processes) {
         this.id = id;
         this.description = description;
+        this.processModelType = ProcessModelType.SEQUENTIAL;
+
         for (Process process : processes){
             add_node(process);
         }
@@ -162,7 +164,7 @@ class GraphProcessModel extends ProcessModel{
     public GraphProcessModel(String id, String description) {
         this.id = id;
         this.description = description;
-        this.type = ProcessModelType.GRAPH;
+        this.processModelType = ProcessModelType.GRAPH;
     }
 
     public void connectProcesses(Process origin, Process target) {
@@ -238,10 +240,10 @@ public class ProcedureAASInstance {
             Property descriptionProperty = new Property("description", processModel.description);
             processModelCollection.addSubmodelElement(descriptionProperty);
             
-            Property typeProperty = new Property("Type Property", processModel.type);
+            Property typeProperty = new Property("Type Property", processModel.processModelType.name());
             processModelCollection.addSubmodelElement(descriptionProperty);
             
-            //SMEC
+            //
             Property nodesProperty = new Property("Nodes Property", processModel.nodes.toString());
             processModelCollection.addSubmodelElement(nodesProperty);
             
@@ -377,7 +379,6 @@ public class ProcedureAASInstance {
 
         //Generate new Graph Process Model with elementary processes
         GraphProcessModel millingProcessModel1 = new GraphProcessModel("123452", "graph process Model 1");
-        millingProcessModel1.type = ProcessModelType.GRAPH;
 
         // Add Nodes and Edges to Process Model
         millingProcessModel1.add_node(milling1);
@@ -390,6 +391,8 @@ public class ProcedureAASInstance {
 
         //Generate new Process Model List
         List<ProcessModel> millingProcessModels = List.of(millingProcessModel1);
+
+        System.out.println(millingProcessAttributes.toString());
 
         // TODO: Processattribute für ProzessInstanz definieren
         ProcessInstance millingProcess = new ProcessInstance("12345", "Milling Process", millingProcessAttributes, 
