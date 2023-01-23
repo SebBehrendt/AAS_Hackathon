@@ -157,11 +157,12 @@ class SequentialProcessModel extends ProcessModel{
 }
 
 class GraphProcessModel extends ProcessModel{
-    ProcessModelType type = ProcessModelType.GRAPH;
+    
 
     public GraphProcessModel(String id, String description) {
         this.id = id;
         this.description = description;
+        this.type = ProcessModelType.GRAPH;
     }
 
     public void connectProcesses(Process origin, Process target) {
@@ -237,12 +238,14 @@ public class ProcedureAASInstance {
             Property descriptionProperty = new Property("description", processModel.description);
             processModelCollection.addSubmodelElement(descriptionProperty);
             
-            Property typeProperty = new Property("Type Property", processModel.type.toString());
+            Property typeProperty = new Property("Type Property", processModel.type);
             processModelCollection.addSubmodelElement(descriptionProperty);
-
+            
+            //SMEC
             Property nodesProperty = new Property("Nodes Property", processModel.nodes.toString());
             processModelCollection.addSubmodelElement(nodesProperty);
-
+            
+            //SMEC
             Property edgesProperty = new Property("Edges Property", processModel.edges.toString());
             processModelCollection.addSubmodelElement(edgesProperty);
 
@@ -261,6 +264,7 @@ public class ProcedureAASInstance {
         processAAS.setDescription(descriptionProcessAAS);
         
         // Submodel ProcessAttributes
+        // TODO: ProcessAttributes über Konstruktor
         Submodel processAttributesSubmodel = new Submodel(idShort + "ProcessAttributes",
         new ModelUrn(idShort + "Submodel"));
         addProcessAttributesToSubmodel(processAttributesSubmodel, processInstance.processAttributes);
@@ -269,8 +273,9 @@ public class ProcedureAASInstance {
         //Submodel ProcessModels with description, type, edges and nodes
         Submodel processModelsSubmodel = new Submodel(idShort + "ProcessModels", new ModelUrn(idShort + "Submodel"));
         Property descriptionProperty = new Property("description", processInstance.description);
+        addProcessModelsToSubmodel(processModelsSubmodel, processInstance);
         processModelsSubmodel.addSubmodelElement(descriptionProperty);
-
+            // TODO Modellierung über SMEC
         Map<AssetAdministrationShell, List<Submodel>> processAASMap = new HashMap<AssetAdministrationShell, List<Submodel>>();
         List<Submodel> submodels = new ArrayList<Submodel>();
 
@@ -372,6 +377,7 @@ public class ProcedureAASInstance {
 
         //Generate new Graph Process Model with elementary processes
         GraphProcessModel millingProcessModel1 = new GraphProcessModel("123452", "graph process Model 1");
+        millingProcessModel1.type = ProcessModelType.GRAPH;
 
         // Add Nodes and Edges to Process Model
         millingProcessModel1.add_node(milling1);
@@ -380,9 +386,12 @@ public class ProcedureAASInstance {
         millingProcessModel1.add_edge(milling1, milling2);
         millingProcessModel1.add_edge(milling2, milling1);
 
+        // TODO: Start und end verknüpfen
+
         //Generate new Process Model List
         List<ProcessModel> millingProcessModels = List.of(millingProcessModel1);
 
+        // TODO: Processattribute für ProzessInstanz definieren
         ProcessInstance millingProcess = new ProcessInstance("12345", "Milling Process", millingProcessAttributes, 
         millingProcessModels);
 
@@ -438,6 +447,8 @@ public class ProcedureAASInstance {
 
         Map<AssetAdministrationShell, List<Submodel>> processAAS = createAASfromProcess(millingProcess, "12345", "ProcessModel");
         PushAAStoServer.pushAAS(processAAS, SERVER_URL, REGISTRY_URL);
+
+        // TODO: matching
     }
 }
 
