@@ -1,6 +1,8 @@
 package ResourceModel;
 
 import Helper.AASHelper;
+import AAS_Framework.IAAS;
+import AAS_Framework.ISubmodel;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
@@ -11,33 +13,45 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ResourceInterfaces {
+public class ResourceInterfaces implements ISubmodel {
     List<ResourceInterface> listOfResourceInterfaces = new ArrayList<>();
 
     public ResourceInterfaces (List<ResourceInterface> listOfResourceInterfaces)
     {
         this.listOfResourceInterfaces = listOfResourceInterfaces;
     }
-    //TODO
-    protected Submodel createSubmodelResourceInterfaces ()
+    public ResourceInterfaces (ResourceInterface resourceInterface)
     {
-        Submodel submodelResourceInterfaces = new Submodel("dummy", new Identifier(IdentifierType.CUSTOM, "test"));
+        this.listOfResourceInterfaces.add(resourceInterface);
+    }
+    public void addResourceInterface (ResourceInterface resourceInterface)
+    {
+        this.listOfResourceInterfaces.add(resourceInterface);
+    }
+
+    private SubmodelElementCollection createInterfaceSMC(ResourceInterface interfaceResource)
+    {
+        SubmodelElementCollection smcInterface =
+                new SubmodelElementCollection(AASHelper.nameToIdShort(SMC_INTERFACE_PREFIX + interfaceResource.getInterfaceType()));
+
+        for (Map.Entry entry: interfaceResource.getListOfAttributes().entrySet())
+        {
+            smcInterface.addSubmodelElement(new Property(AASHelper.nameToIdShort(entry.getKey().toString()), entry.getValue()));
+        }
+        return smcInterface;
+    }
+    @Override
+    public Submodel createSubmodel(IAAS abstractShellObject) {
+        Submodel submodelResourceInterfaces = new Submodel(INTERFACES_ID_SHORT, new Identifier(IdentifierType.CUSTOM, INTERFACES_IDENTIFIER));
         for (ResourceInterface resourceInterface: listOfResourceInterfaces)
         {
             submodelResourceInterfaces.addSubmodelElement(createInterfaceSMC(resourceInterface));
         }
+        abstractShellObject.addSubmodelToList(submodelResourceInterfaces);
         return submodelResourceInterfaces;
     }
-    private SubmodelElementCollection createInterfaceSMC(ResourceInterface interfaceResource)
-    {
-        SubmodelElementCollection smcInterface = new SubmodelElementCollection("smcInterface");
-        for (Map.Entry entryset: interfaceResource.getListOfAttributes().entrySet())
-        {
-            smcInterface.addSubmodelElement(new Property(AASHelper.nameToIdShort(entryset.getKey().toString()), entryset.getValue()));
-        }
-        return smcInterface;
-    }
 
-
-
+    private static final String INTERFACES_ID_SHORT =  "Interfaces_id_Short";
+    private static final String INTERFACES_IDENTIFIER =  "Submodel_Interfaces_Identifier";
+    private static final String SMC_INTERFACE_PREFIX =  "SMC_Interface_";
 }

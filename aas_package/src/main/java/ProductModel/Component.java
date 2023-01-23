@@ -3,6 +3,7 @@ package ProductModel;
 import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
+import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 
 //Zukaufteil
 public class Component extends Product_abstract{
@@ -21,13 +22,21 @@ public class Component extends Product_abstract{
 
 
     @Override
-    Asset createProductAsset() {
+    public void addSubmodelToList(Submodel basyxSubmodel) {
+
+    }
+
+
+
+    @Override
+    public Asset createAsset() {
         return null;
     }
 
     @Override
-    Asset createProductAsset(AssetKind assetKind) {
+    public Asset createAsset(AssetKind kind) {
         return null;
     }
+
 
 }

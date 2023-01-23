@@ -1,17 +1,12 @@
 package ProductModel;
 
-import Helper.AASHelper;
-import Helper.ISubmodel;
 import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
-import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
-import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
-import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
 
 public class Product extends Product_abstract{
     DesignInformation designInformation;
     BOM subComponentsBOM;
-    Production productionInformation = null; //if null: create empty Submodel?
+    Production productionInformation = null;
     public Product(String productId)
     {
         super(productId);
@@ -24,8 +19,10 @@ public class Product extends Product_abstract{
     public Product (String productId, DigitalNameplate digitalNameplate, BOM bom, Production production)
     {
         super(productId, digitalNameplate);
+
         this.subComponentsBOM = bom;
         listOfSubmodelClasses.add(bom);
+
         this.productionInformation = production;
         listOfSubmodelClasses.add(production);
     }
@@ -33,6 +30,7 @@ public class Product extends Product_abstract{
     {
         super(productId, digitalNameplate);
         this.subComponentsBOM = bom;
+        listOfSubmodelClasses.add(this.subComponentsBOM);
     }
 
     public void addDesignInformation(DesignInformation designInfo)
@@ -48,27 +46,14 @@ public class Product extends Product_abstract{
     public void addProductionInformation(Production productionInformation)
     {
         this.productionInformation = productionInformation;
+        listOfSubmodelClasses.add(this.productionInformation);
     }
-    protected String getIdentification ()
+    public String getIdentification()
     {
         return this.productIdentification;
     }
-    /**
-     * AAS Environment
-     */
 
 
-    @Override
-    Asset createProductAsset() {
-        return new Asset(AASHelper.nameToIdShort(ASSET_PREFIX + this.productIdentification),
-                new Identifier(IDENTIFIER_TYPE_ASSET, ASSET_PREFIX + this.productIdentification), DEFAULT_ASSET_KIND);
-    }
-
-    @Override
-    Asset createProductAsset(AssetKind assetKind) {
-        return new Asset(AASHelper.nameToIdShort(ASSET_PREFIX + this.productIdentification),
-                new Identifier(IDENTIFIER_TYPE_ASSET, ASSET_PREFIX + this.productIdentification), assetKind);
-    }
 
     private static final IdentifierType IDENTIFIER_TYPE_AAS = IdentifierType.CUSTOM;
     private static final IdentifierType IDENTIFIER_TYPE_ASSET = IdentifierType.CUSTOM;

@@ -13,7 +13,7 @@ public class AASHelper {
     {
         if (!nameString.isEmpty())
         {
-            return nameString.replaceAll("\\s","_").replace('.','_').replaceAll("[^a-zA-Z0-9]+","");
+            return nameString.replaceAll("[^a-zA-Z0-9]+","_");
 
         }
         else return EXCEPTION_SHORT_ID;
@@ -23,7 +23,7 @@ public class AASHelper {
     {
         if (!nameString.isEmpty())
         {
-            return nameString.replaceAll("\\s","_").replace('.','_').replaceAll("[^a-zA-Z0-9]+","");
+            return nameString.replaceAll("\\s","_").replace('.','_').replaceAll("[^a-zA-Z0-9]+","_");
 
         }
         else return EXCEPTION_SHORT_ID;
