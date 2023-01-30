@@ -46,7 +46,7 @@ public class MatchProcessProcedure {
         return true;
     }
 
-    public static boolean checkProcedureContainsProcess(Process process, Process procedure) {
+    public static boolean checkProcedureContainsProcess(BaseProcess process, BaseProcess procedure) {
         for (ProcessAttribute processAttribute : process.processAttributes) {
             for (ProcessAttribute procedureAttribute : procedure.processAttributes) {
                 if (!checkMatchingStringList(processAttribute.semantics, procedureAttribute.semantics)) {
@@ -78,9 +78,9 @@ public class MatchProcessProcedure {
         return false;
     }
 
-    public static List<ProcedureInstance> findValidProcedures(Process process, List<ProcedureInstance> procedures) {
-        List<ProcedureInstance> validProcedures = new ArrayList<ProcedureInstance>();
-        for (ProcedureInstance procedure : procedures) {
+    public static List<ProcedureData> findValidProcedures(BaseProcess process, List<ProcedureData> procedures) {
+        List<ProcedureData> validProcedures = new ArrayList<ProcedureData>();
+        for (ProcedureData procedure : procedures) {
             if (checkProcedureContainsProcess(process, procedure)) {
                 validProcedures.add(procedure);
             }
