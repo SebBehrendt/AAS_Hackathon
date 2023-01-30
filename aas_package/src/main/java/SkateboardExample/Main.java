@@ -16,6 +16,7 @@ public class Main {
         createResourceCaesar.createCaesarCell();
         createResourceFiveX.createFiveX();
 
+        // Create AAS for processes and procedures and push to server
         createProcesses.createProcessAndProcedureAAS();
 
         // create AAS of Skateboard
