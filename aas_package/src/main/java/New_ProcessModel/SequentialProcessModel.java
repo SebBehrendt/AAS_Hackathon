@@ -4,12 +4,12 @@ import java.util.List;
 
 public class SequentialProcessModel extends ProcessModel{
 
-    public SequentialProcessModel(String id, String description, List<BaseProcess> processes) {
+    public SequentialProcessModel(String id, String description, List<AbstractProcess> processes) {
         this.id = id;
         this.description = description;
         this.processModelType = ProcessModelType.SEQUENTIAL;
 
-        for (BaseProcess process : processes){
+        for (AbstractProcess process : processes){
             add_node(process);
         }
         connectToStart(processes.get(0));

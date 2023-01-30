@@ -9,7 +9,7 @@ public class GraphProcessModel extends ProcessModel{
         this.processModelType = ProcessModelType.GRAPH;
     }
 
-    public void connectProcesses(BaseProcess origin, BaseProcess target) {
+    public void connectProcesses(AbstractProcess origin, AbstractProcess target) {
         add_node(origin);
         add_node(target);
         add_edge(origin, target);

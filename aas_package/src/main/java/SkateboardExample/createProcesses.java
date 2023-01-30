@@ -3,12 +3,11 @@ package SkateboardExample;
 import java.util.List;
 import java.util.ArrayList;
 
-import ProcessModel.Process;
 import New_ProcessModel.ProcessAttribute;
 
-import New_ProcessModel.ProcessData;
-import New_ProcessModel.ElementaryProcessData;
-import New_ProcessModel.ProcedureData;
+import New_ProcessModel.Process;
+import New_ProcessModel.ElementaryProcess;
+import New_ProcessModel.Procedure;
 
 import New_ProcessModel.ProcessModel;
 // import New_ProcessModel.SingleProcessModel;
@@ -17,22 +16,9 @@ import New_ProcessModel.GraphProcessModel;
 
 import New_ProcessModel.MatchProcessProcedure;
 
-import New_ProcessModel.ProcessAASCreator;
-import New_ProcessModel.ProcedureAASCreator;
-
-import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
-import org.eclipse.basyx.submodel.metamodel.map.Submodel;
-import sdm_aas.PushAAStoServer;
-
-import java.util.Map;
+import Helper.ServerAASX;
 
 public class createProcesses {
-
-        static Process createMillingProcessfor5X() {
-                Process millingProcess = new Process();
-
-                return millingProcess;
-        }
 
         private static List<ProcessAttribute> createProcessAttributesForMillingProcess() {
                 List<String> millingSemantics = new ArrayList<String>();
@@ -136,37 +122,38 @@ public class createProcesses {
 
         }
 
-        public static List<ProcedureData> createProcedureAAS() {
+        public static List<Procedure> createProcedureAAS() {
                 String EXAMPLE_RESOURCE_URI = "http://193.196.37.23:4001/aasServer/shells/ResourceID/aas/";
 
                 List<ProcessAttribute> millingProcessAttributes1 = createProcessAttributesForMillingProcedure1();
-                ProcedureData millingProcedure1 = new ProcedureData("millingProcedure1", "Milling Procedure 1",
+                Procedure millingProcedure1 = new Procedure("millingProcedure1", "Milling Procedure 1",
                                 millingProcessAttributes1,
                                 EXAMPLE_RESOURCE_URI);
 
                 List<ProcessAttribute> millingProcessAttributes2 = createProcessAttributesForMillingProcedure2();
                 String EXAMPLE_RESOURCE_URI2 = "http://193.196.37.23:4001/aasServer/shells/ResourceID2/aas/";
-                ProcedureData millingProcedure2 = new ProcedureData("millingProcedure2", "Milling Procedure 1",
+                Procedure millingProcedure2 = new Procedure("millingProcedure2", "Milling Procedure 1",
                                 millingProcessAttributes2,
                                 EXAMPLE_RESOURCE_URI2);
 
                 List<ProcessAttribute> millingProcessAttributes3 = createProcessAttributesForMillingProcedure3();
 
                 String EXAMPLE_RESOURCE_URI3 = "http://193.196.37.23:4001/aasServer/shells/ResourceID3/aas/";
-                ProcedureData millingProcedure3 = new ProcedureData("millingProcedure3", "Milling Procedure 1",
+                Procedure millingProcedure3 = new Procedure("millingProcedure3", "Milling Procedure 1",
                                 millingProcessAttributes3,
                                 EXAMPLE_RESOURCE_URI3);
 
                 return List.of(millingProcedure1, millingProcedure2, millingProcedure3);
         }
 
-        public static ProcessData createMillingProcessData() {
+
+        public static Process createMillingProcessData() {
 
                 List<ProcessAttribute> millingProcessAttributes = createProcessAttributesForMillingProcess();
 
-                ElementaryProcessData milling1 = new ElementaryProcessData("millingProcess1", "milling 1",
+                ElementaryProcess milling1 = new ElementaryProcess("millingProcess1", "milling 1",
                                 millingProcessAttributes);
-                ElementaryProcessData milling2 = new ElementaryProcessData("millingProcess2", "milling 1",
+                ElementaryProcess milling2 = new ElementaryProcess("millingProcess2", "milling 2",
                                 millingProcessAttributes);
 
                 // Generate new Graph Process Model with elementary processes
@@ -184,7 +171,7 @@ public class createProcesses {
                 // Generate new Process Model List
                 List<ProcessModel> millingProcessModels = List.of(millingProcessModel1);
 
-                ProcessData millingProcess = new ProcessData("millingProcess", "Milling Process", millingProcessAttributes,
+                Process millingProcess = new Process("millingProcess", "Milling Process", millingProcessAttributes,
                                 millingProcessModels);
 
                 return millingProcess;
@@ -192,38 +179,33 @@ public class createProcesses {
         }
 
         public static void createProcessAndProcedureAAS() {
-                String SERVER_URL = "http://193.196.37.23:4001/aasServer";
-                String REGISTRY_URL = "http://193.196.37.23:4000/registry/api/v1/registry";
+                final String SERVER_URL = "http://193.196.37.23:4001/aasServer";
+                final String REGISTRY_URL = "http://193.196.37.23:4000/registry/api/v1/registry";
 
 
-                ProcessData millingProcess = createMillingProcessData();
+                Process millingProcess = createMillingProcessData();
 
-                Map<AssetAdministrationShell, List<Submodel>> processAAS = ProcessAASCreator
-                                .createAASfromProcess(millingProcess, millingProcess.id, millingProcess.description);
-                PushAAStoServer.pushAAS(processAAS, SERVER_URL, REGISTRY_URL);
+                ServerAASX.pushAAS(millingProcess.createAAS(), millingProcess.getSubmodels(), SERVER_URL, REGISTRY_URL);
 
                 
-                List<ProcedureData> millingProcedures = createProcedureAAS();
+                List<Procedure> millingProcedures = createProcedureAAS();
 
-                ProcedureData test_procedure = millingProcedures.get(0);
+                Procedure test_procedure = millingProcedures.get(0);
                 boolean validProcedure = MatchProcessProcedure.checkProcedureContainsProcess(millingProcess,
                                 test_procedure);
                 System.out.println("Procedure is valid for process: " + validProcedure);
 
-                List<ProcedureData> possibleProcedure = MatchProcessProcedure.findValidProcedures(millingProcess,
+                List<Procedure> possibleProcedure = MatchProcessProcedure.findValidProcedures(millingProcess,
                                 millingProcedures);
                 System.out.println(
                                 "From " + millingProcedures.size() + " are " + possibleProcedure.size() + " possible.");
 
-                for (ProcedureData procedure : possibleProcedure){
+                for (Procedure procedure : possibleProcedure){
                         procedure.addProcess(SERVER_URL + "/shells/" + millingProcess.id + "AAS");
                 }
                 
-                for (ProcedureData procedure: millingProcedures){
-                        Map<AssetAdministrationShell, List<Submodel>> aas = ProcedureAASCreator.createAASfromProcedure(
-                                procedure, procedure.id,
-                                procedure.description);
-                        PushAAStoServer.pushAAS(aas, SERVER_URL, REGISTRY_URL);
+                for (Procedure procedure: millingProcedures){
+                        ServerAASX.pushAAS(procedure.createAAS(), procedure.getSubmodels(), SERVER_URL, REGISTRY_URL);
                 }
                 
 
