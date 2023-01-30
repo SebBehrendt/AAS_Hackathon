@@ -50,14 +50,14 @@ public class ProcessUtil {
             Property descriptionProperty = new Property("description", processModel.description);
             processModelCollection.addSubmodelElement(descriptionProperty);
 
-            Property typeProperty = new Property("Type Property", processModel.processModelType.name());
+            Property typeProperty = new Property("ProcessModelType", processModel.processModelType.name());
             processModelCollection.addSubmodelElement(typeProperty);
 
-            Property nodesProperty = new Property("Nodes Property", processModel.nodes.toString());
+            Property nodesProperty = new Property("Nodes", processModel.nodes.toString());
             processModelCollection.addSubmodelElement(nodesProperty);
 
             // SMEC
-            Property edgesProperty = new Property("Edges Property", processModel.edges.toString());
+            Property edgesProperty = new Property("Edges", processModel.edges.toString());
             processModelCollection.addSubmodelElement(edgesProperty);
 
             processModelCollection.addSubmodelElement(processModelCollection);

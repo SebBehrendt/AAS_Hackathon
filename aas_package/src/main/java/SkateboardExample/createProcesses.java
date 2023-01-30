@@ -140,20 +140,20 @@ public class createProcesses {
                 String EXAMPLE_RESOURCE_URI = "http://193.196.37.23:4001/aasServer/shells/ResourceID/aas/";
 
                 List<ProcessAttribute> millingProcessAttributes1 = createProcessAttributesForMillingProcedure1();
-                ProcedureData millingProcedure1 = new ProcedureData("hello", "hello",
+                ProcedureData millingProcedure1 = new ProcedureData("millingProcedure1", "Milling Procedure 1",
                                 millingProcessAttributes1,
                                 EXAMPLE_RESOURCE_URI);
 
                 List<ProcessAttribute> millingProcessAttributes2 = createProcessAttributesForMillingProcedure2();
                 String EXAMPLE_RESOURCE_URI2 = "http://193.196.37.23:4001/aasServer/shells/ResourceID2/aas/";
-                ProcedureData millingProcedure2 = new ProcedureData("hello", "hello",
+                ProcedureData millingProcedure2 = new ProcedureData("millingProcedure2", "Milling Procedure 1",
                                 millingProcessAttributes2,
                                 EXAMPLE_RESOURCE_URI2);
 
                 List<ProcessAttribute> millingProcessAttributes3 = createProcessAttributesForMillingProcedure3();
 
                 String EXAMPLE_RESOURCE_URI3 = "http://193.196.37.23:4001/aasServer/shells/ResourceID3/aas/";
-                ProcedureData millingProcedure3 = new ProcedureData("hello", "hello",
+                ProcedureData millingProcedure3 = new ProcedureData("millingProcedure3", "Milling Procedure 1",
                                 millingProcessAttributes3,
                                 EXAMPLE_RESOURCE_URI3);
 
@@ -164,13 +164,13 @@ public class createProcesses {
 
                 List<ProcessAttribute> millingProcessAttributes = createProcessAttributesForMillingProcess();
 
-                ElementaryProcessData milling1 = new ElementaryProcessData("12345", "milling 1",
+                ElementaryProcessData milling1 = new ElementaryProcessData("millingProcess1", "milling 1",
                                 millingProcessAttributes);
-                ElementaryProcessData milling2 = new ElementaryProcessData("12345", "milling 1",
+                ElementaryProcessData milling2 = new ElementaryProcessData("millingProcess2", "milling 1",
                                 millingProcessAttributes);
 
                 // Generate new Graph Process Model with elementary processes
-                GraphProcessModel millingProcessModel1 = new GraphProcessModel("123452", "graph process Model 1");
+                GraphProcessModel millingProcessModel1 = new GraphProcessModel("millingProcessModel", "graph process Model 1");
 
                 // Add Nodes and Edges to Process Model
                 millingProcessModel1.add_node(milling1);
@@ -184,7 +184,7 @@ public class createProcesses {
                 // Generate new Process Model List
                 List<ProcessModel> millingProcessModels = List.of(millingProcessModel1);
 
-                ProcessData millingProcess = new ProcessData("12345", "Milling Process", millingProcessAttributes,
+                ProcessData millingProcess = new ProcessData("millingProcess", "Milling Process", millingProcessAttributes,
                                 millingProcessModels);
 
                 return millingProcess;
@@ -199,7 +199,7 @@ public class createProcesses {
                 ProcessData millingProcess = createMillingProcessData();
 
                 Map<AssetAdministrationShell, List<Submodel>> processAAS = ProcessAASCreator
-                                .createAASfromProcess(millingProcess, "12345", "ProcessModel");
+                                .createAASfromProcess(millingProcess, millingProcess.id, millingProcess.description);
                 PushAAStoServer.pushAAS(processAAS, SERVER_URL, REGISTRY_URL);
 
                 
@@ -216,14 +216,14 @@ public class createProcesses {
                                 "From " + millingProcedures.size() + " are " + possibleProcedure.size() + " possible.");
 
                 for (ProcedureData procedure : possibleProcedure){
-                        procedure.addProcess(SERVER_URL + "/shells/" + millingProcess.id);
+                        procedure.addProcess(SERVER_URL + "/shells/" + millingProcess.id + "AAS");
                 }
                 
                 for (ProcedureData procedure: millingProcedures){
                         Map<AssetAdministrationShell, List<Submodel>> aas = ProcedureAASCreator.createAASfromProcedure(
                                 procedure, procedure.id,
                                 procedure.description);
-                        // PushAAStoServer.pushAAS(aas, SERVER_URL, REGISTRY_URL);
+                        PushAAStoServer.pushAAS(aas, SERVER_URL, REGISTRY_URL);
                 }
                 
 
