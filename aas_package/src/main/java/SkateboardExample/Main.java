@@ -16,7 +16,7 @@ public class Main {
         createResourceCaesar.createCaesarCell();
         createResourceFiveX.createFiveX();
 
-        //TODO: create procedures
+        createProcesses.createProcessAndProcedureAAS();
 
         // create AAS of Skateboard
         AssetAdministrationShell skateboardShell =  createProduct.createSkateboard();
@@ -25,9 +25,7 @@ public class Main {
         listInstance.add(new ProductInstance(skateboardShell, "1"));
         createOrder.createSkateboardOrder(listInstance);
 
-        //TODO: create Process
 
-        //TODO: Matching
 
 
 
