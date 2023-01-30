@@ -156,17 +156,6 @@ public class ProcessAAS {
 
 		Process process = createMillingProcess();
 
-		// // create product aas and submodels
-		AssetAdministrationShell shell = process.createAAS();
-		List<Submodel> submodels = process.getSubmodels();
-		// product.createAndUploadAAStoServer();
-
-		MultiSubmodelProvider fullProvider = getFullProvier(shell, submodels);
-
-		startServerWithInMemoryRegistry(fullProvider, shell);
-
-		startServerAndConnectToExternalRegistry(fullProvider, shell);
-
 		UseExternalServerAndRegistry(process);
 
 	}

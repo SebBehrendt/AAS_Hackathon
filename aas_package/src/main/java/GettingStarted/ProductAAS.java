@@ -198,21 +198,16 @@ public class ProductAAS {
 		List<Submodel> submodels = product.getSubmodels();
 
 		String ProcessReferenceURI = "http://localhost:8081/aasServer/shells/AAS_millingProcess_Identifier/aas";
-		Submodel ProcessReferenceSubmodel = createProductReferenceSubmodel(ProcessReferenceURI);
-		IAAS.listOfSubmodels.add(ProcessReferenceSubmodel);
+		// Submodel ProcessReferenceSubmodel = createProductReferenceSubmodel(ProcessReferenceURI);
+		// IAAS.listOfSubmodels.add(ProcessReferenceSubmodel);
 
 		MultiSubmodelProvider fullProvider = getFullProvier(shell, submodels);
 
 		startServerWithInMemoryRegistry(fullProvider, shell);
 
-		startServerAndConnectToExternalRegistry(fullProvider, shell);
+		// startServerAndConnectToExternalRegistry(fullProvider, shell);
 
-		UseExternalServerAndRegistry(product);
-
-		List<Product> subProducts = ProductAAS.listOfProducts;
-		for (Product subProduct : subProducts) {
-			UseExternalServerAndRegistry(subProduct);
-		}
+		// UseExternalServerAndRegistry(product);
 	
 		
 	}
