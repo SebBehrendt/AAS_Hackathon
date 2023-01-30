@@ -1,7 +1,6 @@
 package New_ProcessModel;
 
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
-import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
 import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyElements;

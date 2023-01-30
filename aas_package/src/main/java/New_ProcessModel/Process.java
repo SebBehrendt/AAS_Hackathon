@@ -2,7 +2,6 @@ package New_ProcessModel;
 import java.util.List;
 
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
-import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
 import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
 import org.eclipse.basyx.submodel.metamodel.map.qualifier.LangStrings;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;

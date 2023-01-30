@@ -18,7 +18,7 @@ import Helper.AASHelper;
 
 
 
-abstract class AbstractProcess {
+public abstract class AbstractProcess {
     public String id;
     public String description;
     public List<ProcessAttribute> processAttributes;

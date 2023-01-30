@@ -20,93 +20,71 @@ import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import AAS_Framework.IAAS;
-
-import org.eclipse.basyx.submodel.metamodel.map.reference.Reference;
-import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
-import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
-import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.ReferenceElement;
-import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyElements;
-
-
-
-import ProductModel.BOM;
-import ProductModel.DesignInformation;
-import ProductModel.DigitalNameplate;
-import ProductModel.Product;
+import New_ProcessModel.AbstractProcess;
+import New_ProcessModel.Process;
+import New_ProcessModel.ProcessAttribute;
+import New_ProcessModel.ProcessModel;
+import New_ProcessModel.ElementaryProcess;
+import New_ProcessModel.SequentialProcessModel;
 import Helper.ServerAASX;
-import Helper.AASHelper;
-
-
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+public class ProcessAAS {
+	private static final Logger logger = LoggerFactory.getLogger(ProcessAAS.class);
 
-public class ProductAAS {
-	private static final Logger logger = LoggerFactory.getLogger(ProductAAS.class);
 	static List<AssetAdministrationShell> listOfSubComponents = new ArrayList<>();
-	static List<Product> listOfProducts = new ArrayList<>();
+	static List<Process> listOfProcesses = new ArrayList<>();
 
-	static Product createSkateboard() {
-		Product skateBoard = new Product("Skateboard_Getting_Started");
+	private static List<ProcessAttribute> createProcessAttributesForMillingProcess() {
+		List<String> millingSemantics = new ArrayList<String>();
+		millingSemantics.add("Milling");
 
-		createSubComponents();
+		List<String> millingTechnologySemantics = new ArrayList<String>(millingSemantics);
+		millingTechnologySemantics.add("Technology");
 
-		skateBoard.addSubComponents(new BOM(listOfSubComponents));
+		List<String> rotationSemantics = new ArrayList<String>(millingSemantics);
+		rotationSemantics.add("Rotation speed");
 
-		return skateBoard;
+		List<String> dimensionSemantics = new ArrayList<String>(millingSemantics);
+		dimensionSemantics.add("Dimensions");
 
-	}
+		ProcessAttribute requiredMillingTechnology = new ProcessAttribute(millingTechnologySemantics,
+				"Milling technology", "3 Axes");
+		ProcessAttribute requiredMillRotationSpeed = new ProcessAttribute(rotationSemantics,
+				"Milling roation speed attribute in rpm", 30.0, "Minimum");
+		ProcessAttribute requiredDimensions = new ProcessAttribute(dimensionSemantics,
+				"Milling dimensions for x y z in mm", List.of(350.0, 50.0, 40.0), "Minimum");
 
-	static void createSubComponents() {
-		listOfProducts.add(Board.createBoardProduct());
-		listOfProducts.add(Axis.createAxis());
-	}
+		List<ProcessAttribute> millingProcessAttributes = List.of(requiredMillingTechnology,
+				requiredMillRotationSpeed, requiredDimensions);
 
-	static class Board {
-
-		static Product createBoardProduct() {
-			// Digital Nameplate
-			Product skateboardBoard = new Product("Board_20221212_1047", createSkateboardDigitalNameplate());
-			skateboardBoard.addDesignInformation(createDesignInformation());
-
-			AssetAdministrationShell shell = skateboardBoard.createAAS();
-			// skateboardBoard.createAndUploadAAStoServer();
-			listOfSubComponents.add(shell);
-
-			return skateboardBoard;
-
-		}
-
-		@NotNull
-		@Contract(value = " -> new", pure = true)
-		private static DigitalNameplate createSkateboardDigitalNameplate() {
-			return new DigitalNameplate("Board_20221212_1047");
-		}
-
-		private static DesignInformation createDesignInformation() {
-			DesignInformation designInfo = new DesignInformation("Board_CAD_File",
-					"S://01_CAD/2022/Boards/Board_20221212_1047.stp");
-			return designInfo;
-		}
+		return millingProcessAttributes;
 
 	}
 
-	static class Axis {
-		static Product createAxis() {
-			//
-			Product axisFront = new Product("Axis_front_20221212_1118");
-			axisFront.addDesignInformation(
-					new DesignInformation("CAD_axis_front", "link_to_objectserver/cad/axis/axis_front.stp"));
+	static Process createMillingProcess() {
+		List<ProcessAttribute> millingProcessAttributes = createProcessAttributesForMillingProcess();
 
-			AssetAdministrationShell shell = axisFront.createAAS();
-			// axisFront.createAndUploadAAStoServer();
-			listOfSubComponents.add(shell);
+		ElementaryProcess milling1 = new ElementaryProcess("millingProcess1", "milling 1",
+				millingProcessAttributes);
+		ElementaryProcess milling2 = new ElementaryProcess("millingProcess2", "milling 2",
+				millingProcessAttributes);
 
-			return axisFront;
-		}
+		// Generate new Graph Process Model with elementary processes
+		SequentialProcessModel millingProcessModel1 = new SequentialProcessModel("millingProcessModel",
+				"Sequential process Model 1", List.of(milling1, milling2));
+
+		SequentialProcessModel millingProcessModel2 = new SequentialProcessModel("millingProcessModel",
+		"Sequential process Model 2", List.of(milling2, milling1));
+
+		// Generate new Process Model List
+		List<ProcessModel> millingProcessModels = List.of(millingProcessModel1, millingProcessModel2);
+
+		Process millingProcess = new Process("millingProcess", "Milling Process", millingProcessAttributes,
+				millingProcessModels);
+
+		return millingProcess;
 
 	}
 
@@ -166,7 +144,7 @@ public class ProductAAS {
 		registryProxy.register(aasDescriptor);
 	}
 
-	public static void UseExternalServerAndRegistry(Product product) {
+	public static void UseExternalServerAndRegistry(AbstractProcess product) {
 		String host = "localhost"; // Enter here IP Adress for Remote host
 		// String host = "193.196.37.23";
 
@@ -174,32 +152,14 @@ public class ProductAAS {
 				"http://" + host + ":8082/registry/api/v1/registry");
 	}
 
-	public static Submodel createProductReferenceSubmodel(String URIreferenceProcess) {
-		Submodel processReferenceSubmodel = new Submodel(
-			AASHelper.nameToIdShort("ProcessReferenceSubmodel"),
-			new Identifier(IdentifierType.CUSTOM, AASHelper.nameToIdentifier("ProcessReferenceSubmodel"))
-		);
-
-        Identifier processIdentifier = new Identifier(IdentifierType.IRI, URIreferenceProcess);
-        Reference processReference = new Reference(processIdentifier, KeyElements.ASSETADMINISTRATIONSHELL, false);
-        ReferenceElement processReferenceElement = new ReferenceElement("ProcessReference", processReference);
-        processReferenceSubmodel.addSubmodelElement(processReferenceElement);
-
-        return processReferenceSubmodel;
-	}
-
-
 	public static void main(String[] args) throws Exception {
 
-		Product product = createSkateboard();
+		Process process = createMillingProcess();
 
 		// // create product aas and submodels
-		AssetAdministrationShell shell = product.createAAS();
-		List<Submodel> submodels = product.getSubmodels();
-
-		String ProcessReferenceURI = "http://localhost:8081/aasServer/shells/AAS_millingProcess_Identifier/aas";
-		Submodel ProcessReferenceSubmodel = createProductReferenceSubmodel(ProcessReferenceURI);
-		IAAS.listOfSubmodels.add(ProcessReferenceSubmodel);
+		AssetAdministrationShell shell = process.createAAS();
+		List<Submodel> submodels = process.getSubmodels();
+		// product.createAndUploadAAStoServer();
 
 		MultiSubmodelProvider fullProvider = getFullProvier(shell, submodels);
 
@@ -207,14 +167,8 @@ public class ProductAAS {
 
 		startServerAndConnectToExternalRegistry(fullProvider, shell);
 
-		UseExternalServerAndRegistry(product);
+		UseExternalServerAndRegistry(process);
 
-		List<Product> subProducts = ProductAAS.listOfProducts;
-		for (Product subProduct : subProducts) {
-			UseExternalServerAndRegistry(subProduct);
-		}
-	
-		
 	}
 
 }

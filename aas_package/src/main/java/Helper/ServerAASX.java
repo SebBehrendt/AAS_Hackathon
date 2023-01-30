@@ -5,8 +5,6 @@ import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.aas.registration.proxy.AASRegistryProxy;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 
-import AAS_Framework.IAAS;
-
 import java.util.List;
 
 public class ServerAASX {

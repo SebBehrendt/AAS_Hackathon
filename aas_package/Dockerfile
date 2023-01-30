@@ -9,4 +9,5 @@ FROM openjdk:17
 COPY --from=build /home/app/target/my-maven-docker-project.jar /usr/local/lib/demo.jar
 COPY --from=build /home/app/target/dependency-jars /usr/local/lib/dependency-jars
 EXPOSE 4002
+EXPOSE 4003
 ENTRYPOINT java -jar /usr/local/lib/demo.jar -D exec.mainClass="New_ProcessModel.SubmodelService"
