@@ -35,7 +35,7 @@ public abstract class AbstractProcess {
     public static final String SM_PROCESS_ATTRIBUTE_ID_SHORT = "ProcessAttributes";
 
     public static final String SME_PROCESS_ATTRIBUTE_SEMANTICS = "ProcessAttributeSemantics";
-    public static final String SME_PROCESS_ATTRIBUTE_DESCRIPTION = "ProcessAttributeSemantics";
+    public static final String SME_PROCESS_ATTRIBUTE_DESCRIPTION = "ProcessAttributeDescription";
     public static final String SME_PROCESS_ATTRIBUTE_VALUE = "ProcessAttributeValue";
     public static final String SME_PROCESS_ATTRIBUTE_TYPE = "ProcessAttributeType";
 
