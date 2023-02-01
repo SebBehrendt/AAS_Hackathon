@@ -18,8 +18,8 @@ public class Procedure extends AbstractProcess {
     public String processURI;
 
     public static final String SM_REFERENCE_ID_SHORT = "ReferenceSubmodel";
-    public static final String SME_PROCESS_REFERENCE_ID_SHORT = "ProcessReferenceSubmodel";
-    public static final String SME_RESOURCE_REFERENCE_ID_SHORT = "ResourceReferenceSubmodel";
+    public static final String SME_PROCESS_REFERENCE_ID_SHORT = "ProcessReferenceSubmodelElement";
+    public static final String SME_RESOURCE_REFERENCE_ID_SHORT = "ResourceReferenceSubmodelElement";
 
     public Procedure(String id, String description, List<ProcessAttribute> processAttributes, String resourceURI) {
         this.id = id;
