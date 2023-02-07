@@ -28,14 +28,6 @@ public class DesignInformation implements ISubmodel {
         this.designData.put(key, value);
     }
 
-    /**
-     * AAS Environment
-      */
-
-    private static final String SM_DESIGN_DATA_ID_SHORT = "Design_Data";
-    private static final IdentifierType SM_DESIGN_ID_TYPE = IdentifierType.CUSTOM;
-    private static final String SM_DESIGN_DATA_IDENTIFER = "Identifier_Design_Data_";
-
     @Override
     public Submodel createSubmodel(IAAS abstractShellObject) {
         Submodel submodelDesignData = new Submodel(SM_DESIGN_DATA_ID_SHORT, new Identifier(SM_DESIGN_ID_TYPE, SM_DESIGN_DATA_IDENTIFER ));
@@ -47,6 +39,8 @@ public class DesignInformation implements ISubmodel {
         return submodelDesignData;
     }
 
-
+    private static final String SM_DESIGN_DATA_ID_SHORT = "Design_Data";
+    private static final IdentifierType SM_DESIGN_ID_TYPE = IdentifierType.CUSTOM;
+    private static final String SM_DESIGN_DATA_IDENTIFER = "Identifier_Design_Data_";
 
 }

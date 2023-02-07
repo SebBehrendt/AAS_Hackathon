@@ -19,14 +19,6 @@ public class Machine extends Resource{
         listOfSubmodelClasses.add(this.resourceInterfaces);
     }
 
-    @Override
-    public void addSubmodelToList(Submodel basyxSubmodel) {
-       listOfSubmodels.add(basyxSubmodel);
-    }
 
-    @Override
-    public String getIdentification() {
-        return this.id;
-    }
 
 }

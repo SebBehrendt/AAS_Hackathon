@@ -35,7 +35,7 @@ public class BOM implements ISubmodel {
             //new smc and ref-Element to AAS of subComponent
             SubmodelElementCollection smcSubComponent = new SubmodelElementCollection(AASHelper.nameToIdShort(SUB_PRODUCT +entry.getKey()));
             ReferenceElement refElSubComponent = new ReferenceElement(AASHelper.nameToIdShort(entry.getKey()),
-                    new Reference((Identifier)entry.getValue().getIdentification(),
+                    new Reference(entry.getValue().getIdentification(),
                     KeyElements.ASSETADMINISTRATIONSHELL, false));
 
             smcSubComponent.addSubmodelElement(refElSubComponent);

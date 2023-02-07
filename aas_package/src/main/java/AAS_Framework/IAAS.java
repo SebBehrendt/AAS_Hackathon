@@ -5,6 +5,7 @@ import org.eclipse.basyx.aas.metamodel.api.parts.asset.AssetKind;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.aas.metamodel.map.parts.Asset;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
+import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public interface IAAS {
  List<Submodel> getSubmodels();
 void createSubmodels(AssetAdministrationShell aas) ;
 void createAndUploadAAStoServer();
+String createAASIdentifier();
 
 
 

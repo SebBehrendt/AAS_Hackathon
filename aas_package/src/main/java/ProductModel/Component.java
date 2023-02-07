@@ -20,12 +20,9 @@ public class Component extends Product_abstract{
         super(digitalNameplate);
     }
 
-
     @Override
     public void addSubmodelToList(Submodel basyxSubmodel) {
-
     }
-
 
 
     @Override

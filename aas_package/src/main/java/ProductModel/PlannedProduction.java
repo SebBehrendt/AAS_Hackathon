@@ -21,10 +21,10 @@ import java.util.List;
     protected SubmodelElementCollection createSMCPlannedProduction() {
         SubmodelElementCollection smcPlannedProduction = new SubmodelElementCollection(SMC_PLANNED_PRODUCTION_ID_SHORT );
         for (AssetAdministrationShell plannedProcessAAS : this.listOfPlannedProcedures) {
-            ReferenceElement refElementplannedProcess = new ReferenceElement(AASHelper.nameToIdShort(plannedProcessAAS.getIdShort()),
+            ReferenceElement refElementPlannedProcess = new ReferenceElement(AASHelper.nameToIdShort(plannedProcessAAS.getIdShort()),
                     new Reference((Identifier) plannedProcessAAS.getIdentification(),
                             KeyElements.ASSETADMINISTRATIONSHELL, false));
-            smcPlannedProduction.addSubmodelElement(refElementplannedProcess);
+            smcPlannedProduction.addSubmodelElement(refElementPlannedProcess);
         }
         return smcPlannedProduction;
     }

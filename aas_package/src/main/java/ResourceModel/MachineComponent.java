@@ -20,13 +20,23 @@ public class MachineComponent extends Resource{
 
     @Override
     public String getIdentification() {
-       return this.getId();
+       return this.getIdentification();
     }
 
     @Override
    public Asset createAsset() {
-        return new Asset(AASHelper.nameToIdShort(this.getId()),
+        return new Asset(AASHelper.nameToIdShort(this.getIdentification()),
                 new Identifier(IdentifierType.CUSTOM, ASSET_IDENTIFIER_PREFIX + this.getIdentification()), AssetKind.INSTANCE);
+    }
+
+    @Override
+    public Asset createAsset(AssetKind kind) {
+        return null;
+    }
+
+    @Override
+    public String createAASIdentifier() {
+        return null;
     }
 
 

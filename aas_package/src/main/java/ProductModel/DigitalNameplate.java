@@ -6,11 +6,10 @@ import AAS_Framework.ISubmodel;
 import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
 import org.eclipse.basyx.submodel.metamodel.map.Submodel;
 import org.eclipse.basyx.submodel.metamodel.map.identifier.Identifier;
-
+//NOTE: Note IDTA specification conform
 public class DigitalNameplate implements ISubmodel {
-    //DUMMY CLASS UNTIL NOW!
-    String ProductIdentifier;
 
+    String ProductIdentifier;
 
     public DigitalNameplate(String productIdentifier)
     {
