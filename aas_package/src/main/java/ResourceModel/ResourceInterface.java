@@ -1,6 +1,6 @@
 package ResourceModel;
 
-import ResourceModel_backup.InterfaceTypes;
+import ResourceModel.InterfaceTypes;
 
 import java.util.HashMap;
 import java.util.Map;
