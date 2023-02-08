@@ -18,11 +18,11 @@ public abstract class AAS_abstract implements IAAS{
         AssetAdministrationShell myAAS = new AssetAdministrationShell(AASHelper.nameToIdShort(this.getIdentification()),
                 new Identifier(IDENTIFIER_TYPE, createAASIdentifier()), createAsset(kind));
 
-        createSubmodels(myAAS );
+        createSubmodels(myAAS);
         return myAAS;
     }
     @Override
-    public void createSubmodels(AssetAdministrationShell shell ) {
+    public void createSubmodels(AssetAdministrationShell shell) {
         for(ISubmodel submodelObj : listOfSubmodelClasses)
         {
             Submodel createdSubmodel = submodelObj.createSubmodel(this);

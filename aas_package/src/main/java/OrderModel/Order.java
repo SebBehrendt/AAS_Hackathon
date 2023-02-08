@@ -60,8 +60,6 @@ public class Order extends AAS_abstract {
 
     private static final IdentifierType IDENTIFIER_TYPE = IdentifierType.CUSTOM;
     private static final String AAS_IDENTIFIER_PREFIX = "Order_AAS_";
-    private static final String PREFIX_ASSET = "Asset_";
-    private static final String PREFIX_ORDER_ASSET_IDENTIFIER= "Order_";
-    private static final AssetKind DEFAULT_ASSETKIND = AssetKind.INSTANCE;
+
 
 }
