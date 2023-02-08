@@ -320,9 +320,16 @@ public class ProcedureAASInstance {
                 "Milling roation speed attribute in rpm", 30.0, "Minimum");
         ProcessAttribute requiredDimensions = new ProcessAttribute(dimensionSemantics,
                 "Milling dimensions for x y z in mm", List.of(350.0, 50.0, 40.0), "Minimum");
+        
 
-        ProcessInstance millingProcess = new ProcessInstance(
-                List.of(requiredMillingTechnology, requiredMillRotationSpeed, requiredDimensions));
+        // Generate new Process Instance
+        String exampleID = "155730119"
+        String exampleDescription = "This is an example Process Instance description"
+        List<ProcessAttribute> processAttributes = List.of(requiredMillingTechnology, requiredMillRotationSpeed, requiredDimensions);
+        SequentialProcessModel SequentialProcessModel1 = new SequentialProcessModel("12354","Sequential PM for Milling", )
+        List<ProcessModel> processModels = List.of(SequentialProcessModel);
+
+        ProcessInstance millingProcess = new ProcessInstance(exampleID, exampleDescription, processAttributes, );
 
         ProcessAttribute actualMillingTechnology3 = new ProcessAttribute(millingTechnologySemantics,
                 "Milling technology", "3 Axes");
