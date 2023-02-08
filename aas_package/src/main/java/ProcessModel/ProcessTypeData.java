@@ -1,7 +1,7 @@
 package ProcessModel;
 
-import ResourceModel_backup.IResource;
-import ResourceModel_backup.Machine;
+
+import ResourceModel.Machine;
 import org.javatuples.Tuple;
 
 import java.io.File;
@@ -49,12 +49,15 @@ public class ProcessTypeData {
         listDUMMYStateTransitionDescriptions.add(gCodeExample);
     }
 
+    /*
     public double getExecutionTime(IResource resource, Process model)
     {
         //executionTime of Resource in this processcategory
         return 0;
     }
 
+
+     */
     void addProcessTypeDataToList () //Dummy!
 
     {

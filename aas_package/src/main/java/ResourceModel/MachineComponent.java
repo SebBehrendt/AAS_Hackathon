@@ -20,7 +20,7 @@ public class MachineComponent extends Resource{
 
     @Override
     public String getIdentification() {
-       return this.getIdentification();
+       return this.resourceIdentification.id;
     }
 
     @Override

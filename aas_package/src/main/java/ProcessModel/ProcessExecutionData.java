@@ -1,6 +1,6 @@
 package ProcessModel;
 
-import ResourceModel_backup.IResource;
+
 import org.javatuples.Pair;
 
 import java.io.File;
@@ -23,7 +23,7 @@ public class ProcessExecutionData {
 
 
 
-    IResource ResourceForProcess; //-> Machine plus Tools
+   // IResource ResourceForProcess; //-> Machine plus Tools
     String ResourceAASReference;
 
     /**

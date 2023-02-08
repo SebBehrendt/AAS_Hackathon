@@ -1,6 +1,6 @@
 package Helper;
 
-import ProductModel_Backup.IProduct;
+
 import org.eclipse.basyx.aas.manager.ConnectedAssetAdministrationShellManager;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 import org.eclipse.basyx.aas.registration.proxy.AASRegistryProxy;
@@ -27,15 +27,7 @@ public class Infrastructure {
     {
         startInMemoryRegistry();
     }
-    public static void uploadProductToServer (IProduct product, AssetAdministrationShell productAAS, ConnectedAssetAdministrationShellManager manager )
-    {
-        manager.createAAS(productAAS, AAS_SERVERPATH);
 
-        for (  Submodel machineAASSubmodel : product.getListOfSubmodels())
-        {
-            manager.createSubmodel(productAAS.getIdentification(), machineAASSubmodel);
-        }
-    }
     public static void startInMemoryRegistry()
     {
         BaSyxContextConfiguration contextConfig = new BaSyxContextConfiguration(REGISTRY_PORT, REGISTRY_CONTEXT_PATH);

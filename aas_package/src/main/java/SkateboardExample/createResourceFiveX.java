@@ -2,7 +2,7 @@ package SkateboardExample;
 
 import Helper.ServerAASX;
 import ResourceModel.*;
-import ResourceModel_backup.InterfaceTypes;
+import ResourceModel.InterfaceTypes;
 import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
 
 import java.util.HashMap;
