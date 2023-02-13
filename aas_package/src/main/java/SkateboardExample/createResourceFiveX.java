@@ -24,7 +24,6 @@ public class createResourceFiveX {
 
         fiveXHierarchy.put(ResourceType.TOOL, createTools.createMillingToolAAS());
 
-
         Hierarchy hierarchy = new Hierarchy(fiveXHierarchy);
 
         return hierarchy;
